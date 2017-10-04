@@ -1,0 +1,22 @@
+.view-contaier {
+    padding: 2px !important;
+}
+
+.trn-profile {
+    display: flex;
+    align-items: center;
+}
+
+.trn-profile_icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%; 
+}
+
+.trn-profile_name{
+    padding: 0 5px;
+    white-space: nowrap;
+}
+
+.trn-profile_exit{
+}
