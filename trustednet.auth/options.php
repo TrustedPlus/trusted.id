@@ -125,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
     ?>
     <h3 style="margin-bottom: 10px;">
         <?= GetMessage("TN_SET_EMAIL_UNIQ_CHECK_PREFIX") ?>
-        "<i><b><?= GetMessage("TN_MAIN_REGISTER_EMAIL_UNIQ_CHECK_RU") ?></b></i>"
+        </br>"<i><?= GetMessage("TN_MAIN_REGISTER_EMAIL_UNIQ_CHECK_RU") ?></i>"</br>
         <a href="/bitrix/admin/settings.php?lang=ru&mid=main&tabControl_active_tab=edit6#opt_new_user_registration_email_confirmation">
             <?= GetMessage("TN_SET_EMAIL_UNIQ_CHECK_POSTFIX") ?>
         </a>

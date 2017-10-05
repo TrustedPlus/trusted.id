@@ -16,7 +16,7 @@ $MESS ["TN_EMAIL_UNIQ_CHECK_TITLE"] = "Внимание";
 $MESS ["TN_EMAIL_UNIQ_CHECK_PREFIX"] = "Модуль проверяет поле";
 $MESS ["TN_EMAIL_UNIQ_CHECK_POSTFIX"] = "в настойках главного модуля. Для работы модуля проверка должна быть включена.";
 
-$MESS ["TN_SET_EMAIL_UNIQ_CHECK_PREFIX"] = "Для корректной работы модуля включите флаг";
+$MESS ["TN_SET_EMAIL_UNIQ_CHECK_PREFIX"] = "ВНИМАНИЕ!!! Для работы модуля требуется включить настройку";
 $MESS ["TN_SET_EMAIL_UNIQ_CHECK_POSTFIX"] = "в настойках главного модуля";
 
 $MESS ["TN_MAIN_REGISTER_EMAIL_UNIQ_CHECK_RU"] = "Проверять E-mail на уникальность при регистрации";
