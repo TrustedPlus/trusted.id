@@ -6,12 +6,12 @@ require_once TRUSTED_MODULE_AUTH_ROOT . "/custom.php";
 
 session_start();
 
-$DBASE = null;
-
-if (TRUSTED_DB) {
-    $DBASE = new TDataBase();
-    $r = $DBASE->Connect(TRUSTED_DB_HOST, TRUSTED_DB_NAME, TRUSTED_DB_LOGIN, TRUSTED_DB_PASSWORD);
-}
+//$DBASE = null;
+//
+//if (TRUSTED_DB) {
+//    $DBASE = new TDataBase();
+//    $r = $DBASE->Connect(TRUSTED_DB_HOST, TRUSTED_DB_NAME, TRUSTED_DB_LOGIN, TRUSTED_DB_PASSWORD);
+//}
 
 /**
  * Description of oath2
@@ -21,48 +21,48 @@ if (TRUSTED_DB) {
 class OAuth2 {
 
     /**
-     * Значение ключа доступа
+     * Р—РЅР°С‡РµРЅРёРµ РєР»СЋС‡Р° РґРѕСЃС‚СѓРїР°
      * @var type 
      */
     protected $access_token = null;
 
     /**
-     * Значение ключа востановления
+     * Р—РЅР°С‡РµРЅРёРµ РєР»СЋС‡Р° РІРѕСЃС‚Р°РЅРѕРІР»РµРЅРёСЏ
      * @var type 
      */
     protected $refresh_token = null;
 
     /**
-     * Тип ключа
+     * РўРёРї РєР»СЋС‡Р°
      * @var type 
      */
     protected $token_type = null;
 
     /**
-     * Время жизни ключа доступа (в секундах)
+     * Р’СЂРµРјСЏ Р¶РёР·РЅРё РєР»СЋС‡Р° РґРѕСЃС‚СѓРїР° (РІ СЃРµРєСѓРЅРґР°С…)
      */
     protected $expires_in = null;
 
     /**
-     * Назначение ключа
+     * РќР°Р·РЅР°С‡РµРЅРёРµ РєР»СЋС‡Р°
      * @var type 
      */
     protected $scope = null;
 
     /**
-     * Пользователь
+     * РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ
      * @var type 
      */
     protected $user = null;
 
     /**
-     * Возвращает пользователя ключа
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РєР»СЋС‡Р°
      * @return \TUser
      */
     function getUser() {
         if (!$this->user) {
             $array = TAuthCommand::getUserProfileByToken($this->access_token);
-            // TODO: Ошибка если пользователь данные о пользователе не получены
+            // TODO: РћС€РёР±РєР° РµСЃР»Рё РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РґР°РЅРЅС‹Рµ Рѕ РїРѕР»СЊР·РѕРІР°С‚РµР»Рµ РЅРµ РїРѕР»СѓС‡РµРЅС‹
             $user = TUser::fromArray($array);
             $this->setUser($user);
             $this->putToSession();
@@ -72,7 +72,7 @@ class OAuth2 {
     }
 
     /**
-     * Удаляет ключ из сесси
+     * РЈРґР°Р»СЏРµС‚ РєР»СЋС‡ РёР· СЃРµСЃСЃРё
      */
     static function remove() {
         if (isset($_SESSION['TRUSTEDNET']['OAUTH'])) {
@@ -81,7 +81,7 @@ class OAuth2 {
     }
 
     /**
-     * Задает данные о пользователе
+     * Р—Р°РґР°РµС‚ РґР°РЅРЅС‹Рµ Рѕ РїРѕР»СЊР·РѕРІР°С‚РµР»Рµ
      * @param type $user
      */
     function setUser($user) {
@@ -90,7 +90,7 @@ class OAuth2 {
     }
 
     /**
-     * Возвращает ключ доступа
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РєР»СЋС‡ РґРѕСЃС‚СѓРїР°
      * @return type
      */
     function getAccessToken() {
@@ -98,7 +98,7 @@ class OAuth2 {
     }
 
     /**
-     * Возвращает ключ восстановления
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РєР»СЋС‡ РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёСЏ
      * @return type
      */
     function getRefreshToken() {
@@ -106,7 +106,7 @@ class OAuth2 {
     }
 
     /**
-     * Возвращает тип
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ С‚РёРї
      * @return type
      */
     function getType() {
@@ -114,7 +114,7 @@ class OAuth2 {
     }
 
     /**
-     * Время жизни ключа доступа (в секундах)
+     * Р’СЂРµРјСЏ Р¶РёР·РЅРё РєР»СЋС‡Р° РґРѕСЃС‚СѓРїР° (РІ СЃРµРєСѓРЅРґР°С…)
      * @return type
      */
     function getExpiresIn() {
@@ -122,7 +122,7 @@ class OAuth2 {
     }
 
     /**
-     * Возвращает назначение ключа
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РЅР°Р·РЅР°С‡РµРЅРёРµ РєР»СЋС‡Р°
      * @return type
      */
     function getScope() {
@@ -150,7 +150,7 @@ class OAuth2 {
     }
 
     /**
-     * Проверят актуальность ключа доступа
+     * РџСЂРѕРІРµСЂСЏС‚ Р°РєС‚СѓР°Р»СЊРЅРѕСЃС‚СЊ РєР»СЋС‡Р° РґРѕСЃС‚СѓРїР°
      * @return type
      */
     function checkToken() {
@@ -158,7 +158,7 @@ class OAuth2 {
     }
 
     /**
-     * Получат новый ключ доступа по ключу восстановления
+     * РџРѕР»СѓС‡Р°С‚ РЅРѕРІС‹Р№ РєР»СЋС‡ РґРѕСЃС‚СѓРїР° РїРѕ РєР»СЋС‡Сѓ РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёСЏ
      * @return boolean
      */
     function refresh() {
@@ -182,7 +182,7 @@ class OAuth2 {
     }
 
     /**
-     * Возвращает OAuth2 из текущей сессии
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ OAuth2 РёР· С‚РµРєСѓС‰РµР№ СЃРµСЃСЃРёРё
      * @return \OAuth2
      */
     static function getFromSession() {
@@ -262,7 +262,7 @@ class AuthorizationGrant {
 class TDataBaseUser {
 
     /**
-     * Возвращает пользователя БД
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ Р‘Р”
      * @param type $user
      * @return type
      */
@@ -271,16 +271,16 @@ class TDataBaseUser {
     }
 
     /**
-     * Возвращает пользователя БД по id
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ Р‘Р” РїРѕ id
      * @global type $DBASE
      * @param type $id
      * @return type
      */
     static function getUserById($id) {
-        global $DBASE;
+        global $DB;
         $sql = "SELECT * FROM trn_user WHERE ID = " . $id;
         $res = null;
-        $rows = $DBASE->Query($sql);
+        $rows = $DB->Query($sql);
         if ($row = $rows->Fetch()) {
             $array = array(
                 "id" => $row['ID'],
@@ -292,10 +292,10 @@ class TDataBaseUser {
     }
 
     static function getUserByUserId($userId) {
-        global $DBASE;
+        global $DB;
         $sql = "SELECT * FROM trn_user WHERE USER_ID = " . $userId;
         $res = null;
-        $rows = $DBASE->Query($sql);
+        $rows = $DB->Query($sql);
         if ($row = $rows->Fetch()) {
             $array = array(
                 "id" => $row['ID'],
@@ -309,14 +309,14 @@ class TDataBaseUser {
     static function saveUser($user) {
         
         if (TDataBaseUser::getUser($user)) {
-            global $DBASE;
+            global $DB;
             //Save
             debug('Save User to DataBase');
             $userId = $user->getUserId()? : 'NULL';
             $sql = "UPDATE " . TRUSTEDNET_DB_TABLE_USER . " SET "
                     . "USER_ID = " . $userId . " "
                     . "WHERE ID = " . $user->getId();
-            $DBASE->Query($sql);
+            $DB->Query($sql);
         } else {
             //Insert
             TDataBaseUser::insertUser($user);
@@ -329,32 +329,32 @@ class TDataBaseUser {
      * @param \TUser $user
      */
     static function insertUser($user) {
-        global $DBASE;
+        global $DB;
         debug('Insert User to DataBase');
         $userId = $user->getUserId()? : 'NULL';
         $sql = "INSERT INTO " . TRUSTEDNET_DB_TABLE_USER . " (ID, USER_ID) VALUES ("
                 . $user->getId() . ", "
                 . $userId
                 . ")";
-        $DBASE->Query($sql);
+        $DB->Query($sql);
     }
 
     static function removeUserById($id) {
-        global $DBASE;
+        global $DB;
         debug('removeUserById');
         $sql = "DELETE FROM " . TRUSTEDNET_DB_TABLE_USER . " WHERE "
                 . "ID = " . $id;
         debug('SQL: ', $sql);
-        $DBASE->Query($sql);
+        $DB->Query($sql);
     }
 
     static function removeUserByUserId($userId) {
-        global $DBASE;
+        global $DB;
         debug('removeUserByUserId');
         $sql = "DELETE FROM " . TRUSTEDNET_DB_TABLE_USER . " WHERE "
                 . "USER_ID = " . $userId;
         debug('SQL: ', $sql);
-        $DBASE->Query($sql);
+        $DB->Query($sql);
     }
 
     static function removeUser($user) {
@@ -461,7 +461,7 @@ class TUser {
     }
 
     /**
-     * Возвращает данные о пользователе полученные с сервиса. 
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РґР°РЅРЅС‹Рµ Рѕ РїРѕР»СЊР·РѕРІР°С‚РµР»Рµ РїРѕР»СѓС‡РµРЅРЅС‹Рµ СЃ СЃРµСЂРІРёСЃР°. 
      * @return \ServiceUser
      * @throws OAuth2Exception
      */
@@ -471,7 +471,7 @@ class TUser {
             $token = OAuth2::getFromSession();
             if ($token) {
                 $arUser = TAuthCommand::getUserProfileByToken($token->getAccessToken());
-                //Проверка идентификаторов пользователей
+                //РџСЂРѕРІРµСЂРєР° РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂРѕРІ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№
                 //debug($arUser);
                 if ($arUser['id'] == $this->id) {
                     $res = ServiceUser::fromArray($arUser);
@@ -587,7 +587,7 @@ class TAuthCommand {
     }
 
     static function getUserProfileByToken($accessToken) {
-        /* Получить данные о пользователе с помощью токена */
+        /* РџРѕР»СѓС‡РёС‚СЊ РґР°РЅРЅС‹Рµ Рѕ РїРѕР»СЊР·РѕРІР°С‚РµР»Рµ СЃ РїРѕРјРѕС‰СЊСЋ С‚РѕРєРµРЅР° */
         $response = false;
         if ($accessToken) {
             $curl = curl_init();
