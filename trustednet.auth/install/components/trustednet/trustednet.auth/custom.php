@@ -119,6 +119,6 @@ function onUserAuthorized($user) {
         }
     }
     if (!TRUSTED_DEBUG) {
-        header("Location: "");
+        header("Location: ".TRUSTED_URI_HOST."/personal/");
     }
 }
