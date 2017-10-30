@@ -43,14 +43,14 @@ try {
                 $user = TDataBaseUser::getUserById($user_array['id']);
                 debug("TDataBaseUser::getUserById:", $user);
                 if ($user) {
-                    //Пользователь уже зарегистрирован
+                    //РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ СѓР¶Рµ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅ
                     debug('Old user');
                     if (onRegUserFound) {
                         debug('Event onRegUserFound');
                         onRegUserFound($user);
                     }
                 } else {
-                    //Пользователь не найден
+                    //РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ РЅР°Р№РґРµРЅ
                     debug('New user');
                     $user_service = ServiceUser::fromArray($user_array);
                     $user = new TUser();

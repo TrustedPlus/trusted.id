@@ -3,7 +3,7 @@
 $arComponentParameters = array(
   "GROUPS" => array(
 		"SOCIAL_LIST" => array(
-			"NAME" => "Ñîöèàëüíûå ñåòè",
+			"NAME" => "Ğ¡Ğ¾Ñ†Ğ¸Ğ°Ğ»ÑŒĞ½Ñ‹Ğµ ÑĞµÑ‚Ğ¸",
 		),
 	),
 	"PARAMETERS" => array(

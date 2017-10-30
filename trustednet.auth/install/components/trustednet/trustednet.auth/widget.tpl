@@ -37,7 +37,7 @@
                 var code = $_GET("code");
                 console.log(window.opener);
                 if (window.opener) {
-                    // Edge не имеет свойство opener
+                    // Edge РЅРµ РёРјРµРµС‚ СЃРІРѕР№СЃС‚РІРѕ opener
                     window.opener.location.href = "<?php echo TRUSTED_AUTH_REDIRECT_URI?>?final=true&code=" + code;
                 }
                 window.close();
