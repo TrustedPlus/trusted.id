@@ -63,6 +63,7 @@ Class trustednet_auth extends CModule
     function DoUninstall()
     {
         global $DB, $APPLICATION, $step;
+        $this->LogOutTrustedNetUser();
         $this->UnInstallFiles();
         $this->UnInstallDB();
         $this->UnRegisterEventHandlers();
@@ -101,5 +102,11 @@ Class trustednet_auth extends CModule
         DeleteDirFilesEx("/bitrix/components/trustednet/" . $this->MODULE_ID);
 //        DeleteDirFiles($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/" . $this->MODULE_ID . "/install/admin/", $_SERVER["DOCUMENT_ROOT"] . "/bitrix/admin");
         return true;
+    }
+
+    function LogOutTrustedNetUser()
+    {
+        require_once (__DIR__ . '/components/trustednet/trustednet.auth/oauth2.php');
+        OAuth2::remove();
     }
 }
