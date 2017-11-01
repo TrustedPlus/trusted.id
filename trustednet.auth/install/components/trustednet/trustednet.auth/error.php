@@ -1,4 +1,4 @@
-<?
+<?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/urlrewrite.php');
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
 
@@ -15,23 +15,23 @@ switch ($code) {
     case "4":
     case "5":
     case "6":
-        ?> 
-        <b class="message"> 
+        ?>
+        <b class="message">
             <? echo GetMessage("TN_AUTH_ERROR"); ?>
             </br>
-            <? echo GetMessage("TN_AUTH_ERROR_" . $code); ?> 
+            <? echo GetMessage("TN_AUTH_ERROR_" . $code); ?>
         </b>
         <?
         break;
     default:
-        ?> 
-        <b class="message"> 
+        ?>
+        <b class="message">
             <? echo GetMessage("TN_REG_ERROR"); ?>
             </br>
-            <? echo $_GET['e'] ?> 
+            <? echo $_GET['e'] ?>
         </b>
     <?
 }
 
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php");
-?>
+

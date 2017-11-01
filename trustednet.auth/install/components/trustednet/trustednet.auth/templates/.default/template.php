@@ -9,6 +9,7 @@ LOC
 
 
 <!--<link rel="stylesheet" type="text/css" href="https://net.trusted.ru/static/css/tlogin.css">-->
+
 <?php
 require_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/components/trustednet/trustednet.auth/config.php");
 require_once(TRUSTED_MODULE_AUTH_ROOT . "/oauth2.php");
@@ -28,4 +29,3 @@ if ($token) {
     ?>
     <div class='trusted-btn' onClick='TrustedNet.login("<?= TRUSTED_LOGIN_CLIENT_ID ?>", "<?= TRUSTED_URI_HOST ?>/bitrix/components/trustednet/trustednet.auth/authorize.php")'>Авторизация TN</div>
 
-<?php } 

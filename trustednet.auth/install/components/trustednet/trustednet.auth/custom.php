@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ *
  * @global type $USER
  * @param \TUser $user
  */
@@ -14,7 +14,7 @@ function onRegUserFound($user) {
 }
 
 /**
- * 
+ *
  * @param \OAuth2Exception $e
  */
 function onOAuth2Exception($e) {
@@ -30,7 +30,7 @@ function onOAuth2Exception($e) {
 }
 
 /**
- * 
+ *
  * @param \Exception $e
  */
 function onException($e) {
@@ -38,7 +38,7 @@ function onException($e) {
 }
 
 /**
- * 
+ *
  * @global type $USER
  * @param \TUser $user
  * @throws OAuth2Exception
@@ -62,7 +62,7 @@ function onBeforeUserInsert(&$user) {
         $user->setUserId($USER->GetID());
     } else if ($bxUser = bitrixGetUserByEmail($email)) {
         /*
-         * ������������ �� �����������, � BITRIX ������������ � ����� �� email 
+         * ������������ �� �����������, � BITRIX ������������ � ����� �� email
          * ��� ����������
          */
         // ��������� ������������ BITRIX � ������������� Trusted.NET
@@ -122,3 +122,4 @@ function onUserAuthorized($user) {
         header("Location: ".TRUSTED_URI_HOST."/personal/");
     }
 }
+

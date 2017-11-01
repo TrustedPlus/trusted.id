@@ -55,7 +55,7 @@ try {
                     $user_service = ServiceUser::fromArray($user_array);
                     $user = new TUser();
                     $user->setServiceUser($user_service);
-                    
+
                     if (onBeforeUserInsert) {
                         debug('Event onBeforeUserInsert');
                         onBeforeUserInsert($user);
@@ -97,3 +97,4 @@ try {
     debug($e->getTrace());
 }
 debug("END");
+

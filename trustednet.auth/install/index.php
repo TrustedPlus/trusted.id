@@ -110,3 +110,4 @@ Class trustednet_auth extends CModule
         OAuth2::remove();
     }
 }
+

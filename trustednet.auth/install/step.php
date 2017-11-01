@@ -19,3 +19,4 @@ if (COption::GetOptionString("main", "new_user_email_uniq_check") === "N") {
     <input type="hidden" name="lang" value="<? echo LANG ?>">
     <input type="submit" name="" value="<? echo GetMessage("MOD_BACK") ?>">
     <form>
+

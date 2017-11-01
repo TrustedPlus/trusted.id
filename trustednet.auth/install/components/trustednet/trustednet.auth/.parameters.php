@@ -1,4 +1,7 @@
-<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?><?
+<?php
+
+if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)
+    die();
 
 $arComponentParameters = array(
   "GROUPS" => array(
@@ -9,34 +12,34 @@ $arComponentParameters = array(
 	"PARAMETERS" => array(
     "TRUSTEDNET" => array(
       "PARENT" => "SOCIAL_LIST",
-			"NAME" => "TrustedNet", 
+			"NAME" => "TrustedNet",
 			"TYPE" => "CHECKBOX",
       "DEFAULT" => "Y",
 		),
     "VK" => array(
       "PARENT" => "SOCIAL_LIST",
-			"NAME" => "VK", 
+			"NAME" => "VK",
 			"TYPE" => "CHECKBOX",
       "DEFAULT" => "Y",
 		),
     "FACEBOOK" => array(
       "PARENT" => "SOCIAL_LIST",
-			"NAME" => "FaceBook", 
+			"NAME" => "FaceBook",
 			"TYPE" => "CHECKBOX",
       "DEFAULT" => "Y",
 		),
     "GOOGLE" => array(
       "PARENT" => "SOCIAL_LIST",
-			"NAME" => "Google+", 
+			"NAME" => "Google+",
 			"TYPE" => "CHECKBOX",
       "DEFAULT" => "Y",
 		),
     "MAIL" => array(
       "PARENT" => "SOCIAL_LIST",
-			"NAME" => "Mail.ru", 
+			"NAME" => "Mail.ru",
 			"TYPE" => "CHECKBOX",
       "DEFAULT" => "Y",
 		)
 	),
 );
-?>
+

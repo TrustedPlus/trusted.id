@@ -6,3 +6,4 @@ $arComponentDescription = array(
     "NAME" => GetMessage("Текущая дата"),
     "DESCRIPTION" => GetMessage("Выводим текущую дату"),
 );
+

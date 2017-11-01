@@ -22,19 +22,19 @@ class OAuth2 {
 
     /**
      * Значение ключа доступа
-     * @var type 
+     * @var type
      */
     protected $access_token = null;
 
     /**
      * Значение ключа востановления
-     * @var type 
+     * @var type
      */
     protected $refresh_token = null;
 
     /**
      * Тип ключа
-     * @var type 
+     * @var type
      */
     protected $token_type = null;
 
@@ -45,13 +45,13 @@ class OAuth2 {
 
     /**
      * Назначение ключа
-     * @var type 
+     * @var type
      */
     protected $scope = null;
 
     /**
      * Пользователь
-     * @var type 
+     * @var type
      */
     protected $user = null;
 
@@ -307,7 +307,6 @@ class TDataBaseUser {
     }
 
     static function saveUser($user) {
-        
         if (TDataBaseUser::getUser($user)) {
             global $DB;
             //Save
@@ -324,7 +323,7 @@ class TDataBaseUser {
     }
 
     /**
-     * 
+     *
      * @global type $DBASE
      * @param \TUser $user
      */
@@ -461,7 +460,7 @@ class TUser {
     }
 
     /**
-     * Возвращает данные о пользователе полученные с сервиса. 
+     * Возвращает данные о пользователе полученные с сервиса.
      * @return \ServiceUser
      * @throws OAuth2Exception
      */
@@ -554,9 +553,9 @@ class TAuthCommand {
         debug("CURL post fields:", $post_fields);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HEADER, 0);
-        curl_setopt($curl, CURLOPT_SSLVERSION, TRUSTED_SSL_VERSION); 
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false); 
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); 
+        curl_setopt($curl, CURLOPT_SSLVERSION, TRUSTED_SSL_VERSION);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         $response = curl_exec($curl);
         $res = TAuthCommand::getToken($curl, $response);
         return $res;
@@ -577,7 +576,7 @@ class TAuthCommand {
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl, CURLOPT_POSTFIELDS, urldecode(http_build_query($params)));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_SSLVERSION, TRUSTED_SSL_VERSION); 
+        curl_setopt($curl, CURLOPT_SSLVERSION, TRUSTED_SSL_VERSION);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         $response = curl_exec($curl);
@@ -595,7 +594,7 @@ class TAuthCommand {
             curl_setopt($curl, CURLOPT_URL, TRUSTED_COMMAND_URI_USERPROFILE);
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl, CURLOPT_SSLVERSION, TRUSTED_SSL_VERSION); 
+            curl_setopt($curl, CURLOPT_SSLVERSION, TRUSTED_SSL_VERSION);
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
             $result = curl_exec($curl);
@@ -642,7 +641,7 @@ class TAuthCommand {
             curl_setopt($curl, CURLOPT_URL, TRUSTED_COMMAND_URI_CHECK_TOKEN . "?token=" . $accessToken);
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl, CURLOPT_SSLVERSION, TRUSTED_SSL_VERSION); 
+            curl_setopt($curl, CURLOPT_SSLVERSION, TRUSTED_SSL_VERSION);
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
             $result = curl_exec($curl);
@@ -677,5 +676,5 @@ class TAuthCommand {
 }
 
 class OAuth2Exception extends Exception {
-    
 }
+
