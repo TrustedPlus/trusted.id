@@ -47,31 +47,18 @@ function onBeforeUserInsert(&$user) {
     global $USER;
     $email = $user->getServiceUser()->getEmail();
     if (!$email) {
-        //������������ �� ����� email
         throw new OAuth2Exception(TRUSTEDNET_ERROR_MSG_ACCOUNT_NO_EMAIL, TRUSTEDNET_ERROR_CODE_ACCOUNT_NO_EMAIL, null);
     }
     $bxUser = NULL;
     if ($USER && $USER->IsAuthorized()) {
-        //������������ ��� �����������
         $savedUser = TDataBaseUser::getUserByUserId($USER->GetID());
         if ($savedUser) {
-            //������� ������ �����
             TDataBaseUser::removeUser($savedUser);
         }
-        //��������� �������������
         $user->setUserId($USER->GetID());
     } else if ($bxUser = bitrixGetUserByEmail($email)) {
-        /*
-         * ������������ �� �����������, � BITRIX ������������ � ����� �� email
-         * ��� ����������
-         */
-        // ��������� ������������ BITRIX � ������������� Trusted.NET
         $user->setUserId($bxUser["ID"]);
     } else {
-        /*
-         * ����������� �� �������������, ��� ������������ � ����� �� email
-         * ������������ ������ ������������
-         */
         $bxUser = new CUser();
         $srvUser = $user->getServiceUser();
         $psw = randomPassword();
