@@ -43,7 +43,7 @@
                 window.close();
             }
             catch (e) {
-                window.document.writeln("<h3>Trusted ligin frame: " + e.message + "</h3>");
+                window.document.writeln("<h3>Trusted login frame: " + e.message + "</h3>");
                 window.document.writeln("<pre>");
                 window.document.writeln(e.stack);
                 window.document.writeln("</pre>");

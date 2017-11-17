@@ -154,7 +154,7 @@ class OAuth2 {
      * @return type
      */
     function checkToken() {
-        return TAuthCommand::checkTockenExpiration($this->access_token);
+        return TAuthCommand::checkTokenExpiration($this->access_token);
     }
 
     /**
@@ -428,7 +428,7 @@ class ServiceUser {
                 break;
             }
         }
-        if (!$res->avatarUrl){
+        if (!$res->avatarUrl) {
             $res->avatarUrl = TRUSTED_COMMAND_URI_HOST . "/static/new/img/ava.jpg";
         }
         return $res;
@@ -631,7 +631,7 @@ class TAuthCommand {
         return $res;
     }
 
-    static function checkTockenExpiration($accessToken) {
+    static function checkTokenExpiration($accessToken) {
         debug("access token", $accessToken);
         $res = false;
         if ($accessToken) {

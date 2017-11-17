@@ -17,7 +17,7 @@ $MESS ["TN_EMAIL_UNIQ_CHECK_PREFIX"] = "Модуль проверяет поле
 $MESS ["TN_EMAIL_UNIQ_CHECK_POSTFIX"] = "в настойках главного модуля. Для работы модуля проверка должна быть включена.";
 
 $MESS ["TN_SET_EMAIL_UNIQ_CHECK_PREFIX"] = "ВНИМАНИЕ!!! Для работы модуля требуется включить настройку";
-$MESS ["TN_SET_EMAIL_UNIQ_CHECK_POSTFIX"] = "в настойках главного модуля";
+$MESS ["TN_SET_EMAIL_UNIQ_CHECK_POSTFIX"] = "в настройках главного модуля";
 
 $MESS ["TN_MAIN_REGISTER_EMAIL_UNIQ_CHECK_RU"] = "Проверять E-mail на уникальность при регистрации";
 $MESS ["TN_MAIN_REGISTER_EMAIL_UNIQ_CHECK_EN"] = "Check e-mail uniqueness";
@@ -25,3 +25,4 @@ $MESS ["TN_MAIN_REGISTER_EMAIL_UNIQ_CHECK_EN"] = "Check e-mail uniqueness";
 
 $MESS ["TN_SETTINGS_SAVE"] = "Сохранить";
 $MESS ["TN_SERVICE_LINK"] = "Сервис единой авторизации TrustedNet";
+
