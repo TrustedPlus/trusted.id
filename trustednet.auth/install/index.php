@@ -7,7 +7,7 @@ Class trustednet_auth extends CModule
     var $MODULE_NAME = "TrustedNet Auth";
     var $MODULE_DESCRIPTION = "Модуль аутентификации и авторизации пользователей TrustedNet Auth";
     var $MODULE_VERSION = "1.2.4";
-    var $MODULE_VERSION_DATE = "2017-07-25 9:00:00";
+    var $MODULE_VERSION_DATE = "2017-12-13 9:00:00";
     var $PARTNER_NAME = 'ООО "Цифровые технологии"';
     var $PARTNER_URI = "http://www.digt.ru";
 
