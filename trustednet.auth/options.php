@@ -19,6 +19,17 @@ $CLIENT_SECRET = COption::GetOptionString($module_id, "CLIENT_SECRET", "");
 $REGISTER_ENABLED = COption::GetOptionString($module_id, "REGISTER_ENABLED", "");
 $USER_INFO_TEMPLATE_ID = COption::GetOptionString($module_id, "USER_INFO_TEMPLATE_ID", "");
 $SEND_MAIL_ENABLED = TN_DEFAULT_SHOULD_SEND_MAIL;
+$REDIRECT_URL = COption::GetOptionString($module_id, "REDIRECT_URL", "personal");
+
+function checkRedirectUrl($url) {
+    if ($url == "")
+        return GetMessage("TN_AUTH_EMPTY_REDIRECT_URL_FIELD");
+    if (preg_match("/\S* \S*/", $url))
+        return GetMessage("TN_AUTH_REDIRECT_URL_INVALID_CHARS_SPACES");
+    if (strlen($url) > strlen(trim($url, "\\/")))
+        return GetMessage("TN_AUTH_REDIRECT_URL_INVALID_CHARS_SLASHES");
+    return true;
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
     if (isset($_POST['Update'])) {
@@ -27,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
         if ($CLIENT_ID != '') {
             COption::SetOptionString($module_id, "CLIENT_ID", $CLIENT_ID);
         }
+
         if (isset($_POST['CLIENT_SECRET']))
             $CLIENT_SECRET = (string)$_POST['CLIENT_SECRET'];
         if ($CLIENT_SECRET != '') {
@@ -40,6 +52,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
                 $USER_INFO_TEMPLATE_ID = $_POST['USER_INFO_TEMPLATE_ID'];
             }
             $SEND_MAIL_ENABLED = isset($_POST['SEND_MAIL_ENABLED']) && (string)$_POST['SEND_MAIL_ENABLED'] == 'on';
+        }
+
+        if (isset($_POST['REDIRECT_URL'])) {
+            $REDIRECT_URL_POST = (string)$_POST['REDIRECT_URL'];
+            $checkRes = checkRedirectUrl($REDIRECT_URL_POST);
+            if ($checkRes === true) {
+                $REDIRECT_URL = $REDIRECT_URL_POST;
+                COption::SetOptionString($module_id, "REDIRECT_URL", $REDIRECT_URL_POST);
+            } else {
+                CAdminMessage::ShowMessage($checkRes);
+            }
         }
 
         COption::SetOptionString($module_id, "REGISTER_ENABLED", $REGISTER_ENABLED);
@@ -114,6 +137,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
                        min="1"
                        max="999"
                        value="<?= $USER_INFO_TEMPLATE_ID ?>"/></td>
+        </tr>
+        <tr>
+            <td width="40%" class="adm-detail-content-cell-l"><?= GetMessage("TN_AUTH_REDIRECT_URL") ?></td>
+            <td width="60%"><input name="REDIRECT_URL" value="<?= $REDIRECT_URL ?>"/></td>
         </tr>
         <? $tabControl->Buttons(); ?>
 
