@@ -24,8 +24,7 @@ $MESS ["TN_MAIN_REGISTER_EMAIL_UNIQ_CHECK_RU"] = "Проверять E-mail на
 $MESS ["TN_MAIN_REGISTER_EMAIL_UNIQ_CHECK_EN"] = "Check e-mail uniqueness";
 
 $MESS ["TN_AUTH_EMPTY_REDIRECT_URL_FIELD"] = "Нельзя оставлять поле адреса перенаправления пустым";
-$MESS ["TN_AUTH_REDIRECT_URL_INVALID_CHARS_SPACES"] = "Недопустимые символы в поле адреса перенаправления: пробелы";
-$MESS ["TN_AUTH_REDIRECT_URL_INVALID_CHARS_SLASHES"] = "Недопустимые символы в поле адреса перенаправления: косая черта в начале или конце строки";
+$MESS ["TN_AUTH_REDIRECT_URL_INVALID"] = "Неправильная ссылка в поле перенаправления";
 
 $MESS ["TN_SETTINGS_SAVE"] = "Сохранить";
 $MESS ["TN_SERVICE_LINK"] = "Сервис единой авторизации TrustedNet";

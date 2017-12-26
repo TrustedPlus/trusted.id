@@ -105,11 +105,12 @@ function onUserAuthorized($user) {
             debug("Authorized");
         }
     }
-    $REDIRECT_URL = COption::GetOptionString("trustednet.auth", "REDIRECT_URL", "personal");
-    $REDIRECT_URL = "/" . $REDIRECT_URL . "/";
-    print_r($REDIRECT_URL);
+    $REDIRECT_URL = COption::GetOptionString("trustednet.auth", "REDIRECT_URL", TRUSTED_URI_HOST);
+    if ($REDIRECT_URL == "") {
+        $REDIRECT_URL = TRUSTED_URI_HOST;
+    }
     if (!TRUSTED_DEBUG) {
-        header("Location: " . TRUSTED_URI_HOST . $REDIRECT_URL);
+        header("Location: " . $REDIRECT_URL);
     }
 }
 
