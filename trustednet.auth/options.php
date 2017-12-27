@@ -21,6 +21,18 @@ $USER_INFO_TEMPLATE_ID = COption::GetOptionString($module_id, "USER_INFO_TEMPLAT
 $SEND_MAIL_ENABLED = TN_DEFAULT_SHOULD_SEND_MAIL;
 $REDIRECT_URL = COption::GetOptionString($module_id, "REDIRECT_URL", "");
 
+function CheckRedirectUrl($url)
+{
+    $res = true;
+    if ($url == "")
+        return true;
+    if (!filter_var($url, FILTER_VALIDATE_URL))
+        $res = false;
+    if (!preg_match("/^(http:\/\/|https:\/\/).*/", $url))
+        $res = false;
+    return $res;
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
     if (isset($_POST['Update'])) {
         if (isset($_POST['CLIENT_ID']))
@@ -46,12 +58,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
 
         if (isset($_POST['REDIRECT_URL'])) {
             $REDIRECT_URL_POST = (string)$_POST['REDIRECT_URL'];
-            if (filter_var($REDIRECT_URL_POST, FILTER_VALIDATE_URL) || $REDIRECT_URL_POST == "") {
+            if (CheckRedirectUrl($REDIRECT_URL_POST)) {
                 $REDIRECT_URL = $REDIRECT_URL_POST;
                 COption::SetOptionString($module_id, "REDIRECT_URL", $REDIRECT_URL_POST);
             } else {
                 CAdminMessage::ShowMessage(GetMessage("TN_AUTH_REDIRECT_URL_INVALID"));
-                COption::RemoveOption($module_id, "REDIRECT_URL");
             }
         }
 

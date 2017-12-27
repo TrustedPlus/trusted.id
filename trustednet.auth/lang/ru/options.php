@@ -23,8 +23,7 @@ $MESS ["TN_SET_EMAIL_UNIQ_CHECK_POSTFIX"] = "в настройках главн�
 $MESS ["TN_MAIN_REGISTER_EMAIL_UNIQ_CHECK_RU"] = "Проверять E-mail на уникальность при регистрации";
 $MESS ["TN_MAIN_REGISTER_EMAIL_UNIQ_CHECK_EN"] = "Check e-mail uniqueness";
 
-$MESS ["TN_AUTH_EMPTY_REDIRECT_URL_FIELD"] = "Нельзя оставлять поле адреса перенаправления пустым";
-$MESS ["TN_AUTH_REDIRECT_URL_INVALID"] = "Неправильная ссылка в поле перенаправления";
+$MESS ["TN_AUTH_REDIRECT_URL_INVALID"] = "Неправильная ссылка в поле перенаправления.";
 
 $MESS ["TN_SETTINGS_SAVE"] = "Сохранить";
 $MESS ["TN_SERVICE_LINK"] = "Сервис единой авторизации TrustedNet";
