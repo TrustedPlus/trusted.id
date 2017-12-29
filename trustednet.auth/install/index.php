@@ -33,6 +33,8 @@ Class trustednet_auth extends CModule
     function RegisterEventHandlers()
     {
         RegisterModuleDependences('main', 'OnAfterUserAdd', $this->MODULE_ID, 'TrustedAuth', 'OnAfterUserAddHandler');
+        RegisterModuleDependences('main', 'OnAfterUserRegister', $this->MODULE_ID, 'TrustedAuth', 'OnAfterUserRegisterHandler');
+        RegisterModuleDependences('main', 'OnAfterUserSimpleRegister', $this->MODULE_ID, 'TrustedAuth', 'OnAfterUserSimpleRegisterHandler');
         RegisterModuleDependences('main', 'OnBeforeUserAdd', $this->MODULE_ID, 'TrustedAuth', 'OnBeforeUserAddHandler');
         RegisterModuleDependences('main', 'OnBeforeEventSend', $this->MODULE_ID, 'TrustedAuth', 'OnBeforeEventSendHandler');
         RegisterModuleDependences('main', 'OnUserLogin', $this->MODULE_ID, 'TrustedAuth', 'OnUserLoginHandler');
@@ -43,6 +45,8 @@ Class trustednet_auth extends CModule
     function UnRegisterEventHandlers()
     {
         UnRegisterModuleDependences('main', 'OnAfterUserAdd', $this->MODULE_ID, 'TrustedAuth');
+        UnRegisterModuleDependences('main', 'OnAfterUserRegister', $this->MODULE_ID, 'TrustedAuth');
+        UnRegisterModuleDependences('main', 'OnAfterUserSimpleRegister', $this->MODULE_ID, 'TrustedAuth');
         UnRegisterModuleDependences('main', 'OnBeforeUserAdd', $this->MODULE_ID, 'TrustedAuth');
         UnRegisterModuleDependences('main', 'OnBeforeEventSend', $this->MODULE_ID, 'TrustedAuth');
         UnRegisterModuleDependences('main', 'OnUserLogin', $this->MODULE_ID, 'TrustedAuth');
@@ -92,15 +96,17 @@ Class trustednet_auth extends CModule
 
     function InstallFiles()
     {
-        CopyDirFiles($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/" . $this->MODULE_ID . "/install/components/", $_SERVER["DOCUMENT_ROOT"] . "/bitrix/components/", true, true);
-//        CopyDirFiles($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/" . $this->MODULE_ID . "/install/admin", $_SERVER["DOCUMENT_ROOT"] . "/bitrix/admin", true, false);
+        CopyDirFiles(
+            $_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/" . $this->MODULE_ID . "/install/components/",
+            $_SERVER["DOCUMENT_ROOT"] . "/bitrix/components/",
+            true, true
+        );
         return true;
     }
 
     function UnInstallFiles()
     {
         DeleteDirFilesEx("/bitrix/components/trustednet/" . $this->MODULE_ID);
-//        DeleteDirFiles($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/" . $this->MODULE_ID . "/install/admin/", $_SERVER["DOCUMENT_ROOT"] . "/bitrix/admin");
         return true;
     }
 

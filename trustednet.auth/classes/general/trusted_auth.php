@@ -117,6 +117,14 @@ class TrustedAuth
             $FIELD_NAME_NAME = "NAME";
             $FIELD_LAST_NAME_NAME = "LAST_NAME";
 
+            // Protection against empty fields
+            if ($data[$FIELD_LAST_NAME_NAME] == "") {
+                $data[$FIELD_LAST_NAME_NAME] = $data[$FIELD_EMAIL_NAME];
+            }
+            if ($data[$FIELD_NAME_NAME] == "") {
+                $data[$FIELD_NAME_NAME] = $data[$FIELD_LAST_NAME_NAME];
+            }
+
             $QUERY_FIELDS = array(
                 "login" => $data[$FIELD_EMAIL_NAME],
                 "fName" => $data[$FIELD_NAME_NAME],
@@ -293,6 +301,16 @@ class TrustedAuth
         $t_auth->log('OnAfterUserSimpleRegisterHandler', LOG_LEVEL_INFO);
         $t_auth->registerUser($arFields);
         return $arFields;
+    }
+
+    public function OnBeforeUserAddHandler($arFields)
+    {
+        return $arFields;
+    }
+
+    public function OnUserLoginHandler()
+    {
+        return true;
     }
 
     public function OnBeforeEventSendHandler($arFields, $arTemplate)
