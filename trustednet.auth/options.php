@@ -101,13 +101,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
         </tr>
         <tr>
             <td width="40%" class="adm-detail-content-cell-l"><?= GetMessage("TN_AUTH_CLIENT_SECRET") ?></td>
-            <td width="60%"><input name="CLIENT_SECRET" value="<?= $CLIENT_SECRET ?>"/></td>
+            <td width="60%"><input name="CLIENT_SECRET" value="<?= $CLIENT_SECRET ?>" type="password"/></td>
         </tr>
         <tr>
             <td class="adm-detail-content-cell-l">
                 <input type="checkbox" <? echo($REGISTER_ENABLED ? "checked='checked'" : "") ?>
                        id="autoRegister"
-                       name="REGISTER_ENABLED"/>
+                       name="REGISTER_ENABLED"
+                       onchange="document.getElementById('templateId').disabled = !this.checked"/>
             </td>
             <td>
                 <label for="autoRegister"><?= GetMessage("TN_AUTH_ENABLE_AUTO_REGISTRATION") ?></label>
@@ -133,7 +134,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
         <tr>
             <td class="adm-detail-content-cell-l"><?= GetMessage("TN_AUTH_USER_INFO_TEMPLATE_ID") ?></td>
             <td><input name="USER_INFO_TEMPLATE_ID"
-                    <?= $REGISTER_ENABLED ? "" : "disabled='disabled'" ?>
+                       id="templateId"
+                       <?= $REGISTER_ENABLED ? "" : "disabled='disabled'" ?>
                        type="number"
                        min="1"
                        max="999"
