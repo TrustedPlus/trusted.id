@@ -17,7 +17,7 @@ $tabControl = new CAdminTabControl("trustedTabControl", $aTabs, true, true);
 $CLIENT_ID = COption::GetOptionString($module_id, "CLIENT_ID", "");
 $CLIENT_SECRET = COption::GetOptionString($module_id, "CLIENT_SECRET", "");
 $REGISTER_ENABLED = COption::GetOptionString($module_id, "REGISTER_ENABLED", "");
-$USER_INFO_TEMPLATE_ID = COption::GetOptionString($module_id, "USER_INFO_TEMPLATE_ID", "");
+$USER_INFO_TEMPLATE_ID = COption::GetOptionString($module_id, "USER_INFO_TEMPLATE_ID", "2");
 $SEND_MAIL_ENABLED = TN_DEFAULT_SHOULD_SEND_MAIL;
 $REDIRECT_URL = COption::GetOptionString($module_id, "REDIRECT_URL", "");
 
@@ -132,7 +132,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
         }
         ?>
         <tr>
-            <td class="adm-detail-content-cell-l"><?= GetMessage("TN_AUTH_USER_INFO_TEMPLATE_ID") ?></td>
+            <td class="adm-detail-content-cell-l">
+                <?= GetMessage("TN_AUTH_USER_INFO_TEMPLATE_ID") ?>
+                <span class="required"><sup>1</sup></span>
+            </td>
             <td><input name="USER_INFO_TEMPLATE_ID"
                        id="templateId"
                        <?= $REGISTER_ENABLED ? "" : "disabled='disabled'" ?>
@@ -164,4 +167,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
     </h3>
     <?
 }
+?>
+
+<?echo BeginNote();?>
+<span class="required"><sup>1</sup></span><?echo GetMessage("TN_AUTH_USER_INFO_TEMPLATE_ID_NOTE")?><br>
+<?echo EndNote();?>
 

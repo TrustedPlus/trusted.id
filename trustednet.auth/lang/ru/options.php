@@ -10,7 +10,8 @@ $MESS ["TN_AUTH_CLIENT_ID"] = "ID клиента сервиса TrustedNet";
 $MESS ["TN_AUTH_CLIENT_SECRET"] = "Secret клиента сервиса TrustedNet";
 $MESS ["TN_AUTH_ENABLE_AUTO_REGISTRATION"] = "Регистрировать пользователей в сервисе TrustedNet автоматически";
 $MESS ["TN_AUTH_ENABLE_SEND_MAIL"] = "Отправлять письмо о регистрации на сайте";
-$MESS ["TN_AUTH_USER_INFO_TEMPLATE_ID"] = "ID шаблона регистрации";
+$MESS ["TN_AUTH_USER_INFO_TEMPLATE_ID"] = "ID почтового шаблона регистрации";
+$MESS ["TN_AUTH_USER_INFO_TEMPLATE_ID_NOTE"] = " Укажите ID почтового шаблона, отвечающего за отправку письма с регистрационными данными. Модуль будет блокировать это письмо, вместо него новые пользователи будут получать письма с сервиса TrustedNet с логином и паролем для авторизации через виджет TrustedNet.";
 $MESS ["TN_AUTH_REDIRECT_URL"] = "Адрес перенаправления после авторизации";
 
 $MESS ["TN_EMAIL_UNIQ_CHECK_TITLE"] = "Внимание";
