@@ -1,9 +1,11 @@
 <?php
 // Tabs
 $MESS ["TN_AUTH_OPTIONS_TAB_SETTINGS"] = "Настройка";
+$MESS ["TN_AUTH_OPTIONS_TAB_INFO"] = "Подробнее";
 
 // Tabs title
 $MESS ["TN_AUTH_OPTIONS_TAB_SETTINGS_TITLE"] = "Настройки модуля TrustedNet.Auth";
+$MESS ["TN_AUTH_OPTIONS_TAB_INFO_TITLE"] = "Подробная информация об аккаунте TrustedNet";
 
 // Messages
 $MESS ["TN_AUTH_CLIENT_ID"] = "ID клиента сервиса TrustedNet";
@@ -28,4 +30,6 @@ $MESS ["TN_AUTH_REDIRECT_URL_INVALID"] = "Неправильная ссылка 
 
 $MESS ["TN_SETTINGS_SAVE"] = "Сохранить";
 $MESS ["TN_SERVICE_LINK"] = "Сервис единой авторизации TrustedNet";
+
+$MESS ["TN_AUTH_INFO_AUTH_REQ"] = "Авторизуйтесь чтобы увидеть подробную информацию.";
 

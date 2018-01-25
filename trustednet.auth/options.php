@@ -1,14 +1,18 @@
 <?php
-IncludeModuleLangFile(__FILE__);
 require_once(__DIR__ . "/classes/config.php");
-
 $module_id = TN_AUTH_MODULE_ID;
+IncludeModuleLangFile(__FILE__);
 
 $aTabs = array(
     array(
-        "DIV" => "edit0",
+        "DIV" => "tab_settings",
         "TAB" => GetMessage("TN_AUTH_OPTIONS_TAB_SETTINGS"),
         "TITLE" => GetMessage("TN_AUTH_OPTIONS_TAB_SETTINGS_TITLE")
+    ),
+    array(
+        "DIV" => "tab_info",
+        "TAB" => GetMessage("TN_AUTH_OPTIONS_TAB_INFO"),
+        "TITLE" => GetMessage("TN_AUTH_OPTIONS_TAB_INFO_TITLE")
     ),
 );
 
@@ -71,12 +75,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
         COption::SetOptionString($module_id, 'SEND_MAIL_ENABLED', $SEND_MAIL_ENABLED);
     }
 }
-
 ?>
-<? if (COption::GetOptionString("main", "new_user_email_uniq_check") === "Y") {
+
+<?
+if (COption::GetOptionString("main", "new_user_email_uniq_check") === "Y") {
     $tabControl->Begin();
     $tabControl->BeginNextTab();
-    ?>
+?>
 
     <div style="margin-bottom: 40px; position:relative">
         <h3>
@@ -97,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
         <? echo bitrix_sessid_post(); ?>
         <tr>
             <td width="40%" class="adm-detail-content-cell-l"><?= GetMessage("TN_AUTH_CLIENT_ID") ?></td>
-            <td width="60%"><input name="CLIENT_ID" value="<?= $CLIENT_ID ?>"/></td>
+            <td width="60%"><input name="CLIENT_ID" style="width: 300px;" value="<?= $CLIENT_ID ?>"/></td>
         </tr>
         <tr>
             <td width="40%" class="adm-detail-content-cell-l"><?= GetMessage("TN_AUTH_CLIENT_SECRET") ?></td>
@@ -116,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
         </tr>
         <?php
         if (TN_USE_SEND_MAIL_SETTINGS) {
-            ?>
+        ?>
             <tr>
                 <td class="adm-detail-content-cell-l">
                     <input type="checkbox"
@@ -128,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
                     <label for="autoRegister"><?= GetMessage("TN_AUTH_ENABLE_SEND_MAIL") ?></label>
                 </td>
             </tr>
-            <?
+        <?
         }
         ?>
         <tr>
@@ -150,14 +155,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
                 <input name="REDIRECT_URL" style="width: 400px;" value="<?= $REDIRECT_URL ?>"/>
             </td>
         </tr>
-        <? $tabControl->Buttons(); ?>
+
+    <? $tabControl->BeginNextTab(); ?>
+        <?
+        $APPLICATION->IncludeComponent("trustednet:trustednet.auth", "")
+        ?>
+
+    <? $tabControl->Buttons(); ?>
 
         <input type="submit" name="Update" value="<?= GetMessage("TN_SETTINGS_SAVE") ?>"/>
+
+    <?$tabControl->End();?>
+
     </form>
 
-    <?
+<?
 } else {
-    ?>
+?>
     <h3 style="margin-bottom: 10px;">
         <?= GetMessage("TN_SET_EMAIL_UNIQ_CHECK_PREFIX") ?>
         </br>"<i><?= GetMessage("TN_MAIN_REGISTER_EMAIL_UNIQ_CHECK_RU") ?></i>"</br>
