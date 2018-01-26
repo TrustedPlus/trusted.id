@@ -721,6 +721,41 @@ class TAuthCommand {
         return $res;
     }
 
+    static function getAppList($accessToken) {
+        $res = false;
+        if ($accessToken) {
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Bearer ' . $accessToken));
+            curl_setopt($curl, CURLOPT_URL, TRUSTED_COMMAND_REST_APP_LIST);
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($curl);
+            if (!curl_errno($curl)) {
+                $info = curl_getinfo($curl);
+                if ($info['http_code'] == 200) {
+                    $res = json_decode($response, true);
+                    $res = $res["list"];
+                } else {
+                    $message = "Wrong HTTP response status " . $info['http_code'];
+                    if ($response) {
+                        $error = json_decode($response, true);
+                        if ($error) {
+                            $message .= PHP_EOL . $error["error"] . " - " . $error["error_description"];
+                        }
+                    }
+                    debug("OAuth request error", $message);
+                    throw new OAuth2Exception($message, 0, null);
+                }
+            } else {
+                $error = curl_error($curl);
+                curl_close($curl);
+                debug("CURL error", $error);
+                throw new OAuth2Exception(TRUSTEDNET_ERROR_MSG_CURL, TRUSTEDNET_ERROR_CODE_CURL, null);
+            }
+        }
+        return $res;
+    }
+
 }
 
 class OAuth2Exception extends Exception {

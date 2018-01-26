@@ -33,6 +33,7 @@ define("TRUSTEDNET_DB_TABLE_USER", "trn_user");
 define('TRUSTED_COMMAND_URI_HOST', 'https://net.trusted.ru');
 define('TRUSTED_COMMAND_REST', TRUSTED_COMMAND_URI_HOST . '/trustedapp/rest');
 define('TRUSTED_COMMAND_APP', TRUSTED_COMMAND_URI_HOST . '/trustedapp/app');
+define('TRUSTED_COMMAND_REST_APP_LIST', TRUSTED_COMMAND_REST . '/application/list');
 define('TRUSTED_COMMAND_REST_LOGIN', TRUSTED_COMMAND_REST . '/application/auth/login');
 define('TRUSTED_COMMAND_REST_SOCIAL', TRUSTED_COMMAND_REST . '/application/auth/social');
 define('TRUSTED_COMMAND_REST_CERTIFICATE', TRUSTED_COMMAND_REST . '/application/auth/certificate');
@@ -40,7 +41,7 @@ define('TRUSTED_COMMAND_URI_OAUTH', TRUSTED_COMMAND_URI_HOST . '/idp/sso/oauth')
 define('TRUSTED_COMMAND_URI_TOKEN', TRUSTED_COMMAND_URI_OAUTH . "/token");
 define('TRUSTED_COMMAND_URI_CHECK_TOKEN', TRUSTED_COMMAND_URI_OAUTH . "/check_token");
 define('TRUSTED_COMMAND_URI_LOGOUT', TRUSTED_COMMAND_URI_OAUTH . '/authorize/logout');
-define('TRUSTED_COMMAND_URI_USERPROFILE', TRUSTED_COMMAND_URI_HOST . '/trustedapp/rest/person/profile/get');
+define('TRUSTED_COMMAND_URI_USERPROFILE', TRUSTED_COMMAND_URI_HOST . '/trustedapp/rest/user/profile/get');
 
 //Module URI
 define('TRUSTED_URI_HOST', 'https://' . $_SERVER["HTTP_HOST"]);
