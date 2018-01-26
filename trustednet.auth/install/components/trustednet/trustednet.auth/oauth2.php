@@ -673,6 +673,54 @@ class TAuthCommand {
         return $res;
     }
 
+    static function getAppParameters($accessToken, $controller) {
+        $res = false;
+        switch ($controller) {
+            case "login":
+                $url = TRUSTED_COMMAND_REST_LOGIN;
+                break;
+            case "social":
+                $url = TRUSTED_COMMAND_REST_SOCIAL;
+                break;
+            case "certificate":
+                $url = TRUSTED_COMMAND_REST_CERTIFICATE;
+                break;
+            default:
+                return $res;
+        }
+        if ($accessToken) {
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Bearer ' . $accessToken));
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($curl, CURLOPT_POSTFIELDS, "clientId=" . TRUSTED_LOGIN_CLIENT_ID);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($curl);
+            if (!curl_errno($curl)) {
+                $info = curl_getinfo($curl);
+                if ($info['http_code'] == 200) {
+                    $res = json_decode($response, true);
+                } else {
+                    $message = "Wrong HTTP response status " . $info['http_code'];
+                    if ($response) {
+                        $error = json_decode($response, true);
+                        if ($error) {
+                            $message .= PHP_EOL . $error["error"] . " - " . $error["error_description"];
+                        }
+                    }
+                    debug("OAuth request error", $message);
+                    throw new OAuth2Exception($message, 0, null);
+                }
+            } else {
+                $error = curl_error($curl);
+                curl_close($curl);
+                debug("CURL error", $error);
+                throw new OAuth2Exception(TRUSTEDNET_ERROR_MSG_CURL, TRUSTEDNET_ERROR_CODE_CURL, null);
+            }
+        }
+        return $res;
+    }
+
 }
 
 class OAuth2Exception extends Exception {

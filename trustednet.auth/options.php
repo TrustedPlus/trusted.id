@@ -158,7 +158,149 @@ if (COption::GetOptionString("main", "new_user_email_uniq_check") === "Y") {
 
     <? $tabControl->BeginNextTab(); ?>
         <?
-        $APPLICATION->IncludeComponent("trustednet:trustednet.auth", "")
+        $APPLICATION->IncludeComponent("trustednet:trustednet.auth", "");
+        ?>
+        <?
+        $token = OAuth2::getFromSession();
+        if ($token) {
+        ?>
+            <?
+            $yes = GetMessage("TN_AUTH_YES");
+            $no = GetMessage("TN_AUTH_NO");
+            $accessToken = $token->getAccessToken();
+            $login = TAuthCommand::getAppParameters($accessToken, "login");
+            $login = $login["data"];
+            if ($login["limit"] == -1) {
+                $loginLimit = GetMessage("TN_AUTH_NO_LIMIT");
+            } else {
+                $loginLimit = $login["limit"];
+            }
+            ?>
+            <tr class="heading">
+                <td colspan="2"><?= GetMessage("TN_AUTH_INFO_LOGIN") ?></td>
+            </tr>
+            <tr>
+                <td width="50%"><?= GetMessage("TN_AUTH_INFO_LOGIN_AUTH") ?></td>
+                <td width="50%"><?= $login["isActive"] ? $yes : $no ?></td>
+            </tr>
+            <tr>
+                <td><?= GetMessage("TN_AUTH_INFO_ALLOW_OPEN_ACCESS") ?></td>
+                <td><?= $login["allowRegistration"] ? $yes : $no ?></td>
+            </tr>
+            <tr>
+                <td><?= GetMessage("TN_AUTH_INFO_ACTIVE_USERS") ?></td>
+                <td><?= $login["usersNumber"] ?></td>
+            </tr>
+            <tr>
+                <td><?= GetMessage("TN_AUTH_INFO_BLOCKED_USERS") ?></td>
+                <td><?= $login["blockedUsersNumber"] ?></td>
+            </tr>
+            <tr>
+                <td><?= GetMessage("TN_AUTH_INFO_USERS_SUMMARY") ?></td>
+                <td><?= (string)$login["usersNumber"] . " / " . (string)$loginLimit ?></td>
+            </tr>
+
+            <?
+            $social = TAuthCommand::getAppParameters($accessToken, "social");
+            $social = $social["data"];
+            if ($social["limit"] == -1) {
+                $socialLimit = GetMessage("TN_AUTH_NO_LIMIT");
+            } else {
+                $socialLimit = $social["limit"];
+            }
+            ?>
+            <tr class="heading">
+                <td colspan="2"><?= GetMessage("TN_AUTH_INFO_SOCIAL") ?></td>
+            </tr>
+            <tr>
+                <td><?= GetMessage("TN_AUTH_INFO_SOCIAL_AUTH") ?></td>
+                <td><?= $social["isActive"] ? $yes : $no ?></td>
+            </tr>
+            <tr>
+                <td><?= GetMessage("TN_AUTH_INFO_ALLOW_OPEN_ACCESS") ?></td>
+                <td><?= $social["allowRegistration"] ? $yes : $no ?></td>
+            </tr>
+            <tr>
+                <td><?= GetMessage("TN_AUTH_INFO_SOCIAL_VK") ?></td>
+                <td><?= $social["vk"] ? $yes : $no ?></td>
+            </tr>
+            <tr>
+                <td><?= GetMessage("TN_AUTH_INFO_SOCIAL_FACEBOOK") ?></td>
+                <td><?= $social["fbook"] ? $yes : $no ?></td>
+            </tr>
+            <tr>
+                <td><?= GetMessage("TN_AUTH_INFO_SOCIAL_GOOGLE") ?></td>
+                <td><?= $social["google"] ? $yes : $no ?></td>
+            </tr>
+            <tr>
+                <td><?= GetMessage("TN_AUTH_INFO_SOCIAL_TWITTER") ?></td>
+                <td><?= $social["twitter"] ? $yes : $no ?></td>
+            </tr>
+            <tr>
+                <td><?= GetMessage("TN_AUTH_INFO_SOCIAL_MAILRU") ?></td>
+                <td><?= $social["mailru"] ? $yes : $no ?></td>
+            </tr>
+            <tr>
+                <td><?= GetMessage("TN_AUTH_INFO_ACTIVE_USERS") ?></td>
+                <td><?= $social["usersNumber"] ?></td>
+            </tr>
+            <tr>
+                <td><?= GetMessage("TN_AUTH_INFO_BLOCKED_USERS") ?></td>
+                <td><?= $social["blockedUsersNumber"] ?></td>
+            </tr>
+            <tr>
+                <td><?= GetMessage("TN_AUTH_INFO_USERS_SUMMARY") ?></td>
+                <td><?= (string)$social["usersNumber"] . " / " . (string)$socialLimit ?></td>
+            </tr>
+
+            <?
+            $cert = TAuthCommand::getAppParameters($accessToken, "certificate");
+            $cert = $cert["data"];
+            if ($cert["limit"] == -1) {
+                $certLimit = GetMessage("TN_AUTH_NO_LIMIT");
+            } else {
+                $certLimit = $cert["limit"];
+            }
+            ?>
+            <tr class="heading">
+                <td colspan="2"><?= GetMessage("TN_AUTH_INFO_CERTIFICATE") ?></td>
+            </tr>
+            <tr>
+                <td><?= GetMessage("TN_AUTH_INFO_CERTIFICATE_AUTH") ?></td>
+                <td><?= $cert["isActive"] ? $yes : $no ?></td>
+            </tr>
+            <tr>
+                <td><?= GetMessage("TN_AUTH_INFO_ALLOW_OPEN_ACCESS") ?></td>
+                <td><?= $cert["allowRegistration"] ? $yes : $no ?></td>
+            </tr>
+            <tr>
+                <td><?= GetMessage("TN_AUTH_INFO_CERT_VALID_CHECK") ?></td>
+                <td><?= $cert["isValid"] ? $yes : $no ?></td>
+            </tr>
+            <tr>
+                <td><?= GetMessage("TN_AUTH_INFO_CERT_QUALITY_CHECK") ?></td>
+                <td><?= $cert["isQuality"] ? $yes : $no ?></td>
+            </tr>
+            <tr>
+                <td><?= GetMessage("TN_AUTH_INFO_ACTIVE_USERS") ?></td>
+                <td><?= $cert["usersNumber"] ?></td>
+            </tr>
+            <tr>
+                <td><?= GetMessage("TN_AUTH_INFO_BLOCKED_USERS") ?></td>
+                <td><?= $cert["blockedUsersNumber"] ?></td>
+            </tr>
+            <tr>
+                <td><?= GetMessage("TN_AUTH_INFO_USERS_SUMMARY") ?></td>
+                <td><?= (string)$cert["usersNumber"] . " / " . (string)$certLimit ?></td>
+            </tr>
+        <?
+        } else {
+        ?>
+            <div>
+                <?= CAdminMessage::ShowMessage(GetMessage("TN_AUTH_INFO_AUTH_REQ")) ?>
+            </div>
+        <?
+        }
         ?>
 
     <? $tabControl->Buttons(); ?>
