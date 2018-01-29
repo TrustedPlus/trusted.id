@@ -40,9 +40,11 @@ function CheckRedirectUrl($url)
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
     if (isset($_POST['Update'])) {
         if (isset($_POST['CLIENT_ID'])) {
-            $CLIENT_ID = (string)$_POST['CLIENT_ID'];
-            if (isset($_SESSION['TRUSTEDNET']['OAUTH'])) {
-                unset($_SESSION['TRUSTEDNET']['OAUTH']);
+            if ($_POST['CLIENT_ID'] != $CLIENT_ID) {
+                $CLIENT_ID = (string)$_POST['CLIENT_ID'];
+                if (isset($_SESSION['TRUSTEDNET']['OAUTH'])) {
+                    unset($_SESSION['TRUSTEDNET']['OAUTH']);
+                }
             }
         }
         if ($CLIENT_ID != '') {
@@ -50,9 +52,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
         }
 
         if (isset($_POST['CLIENT_SECRET'])) {
-            $CLIENT_SECRET = (string)$_POST['CLIENT_SECRET'];
-            if (isset($_SESSION['TRUSTEDNET']['OAUTH'])) {
-                unset($_SESSION['TRUSTEDNET']['OAUTH']);
+            if ($_POST['CLIENT_SECRET'] != $CLIENT_SECRET) {
+                $CLIENT_SECRET = (string)$_POST['CLIENT_SECRET'];
+                if (isset($_SESSION['TRUSTEDNET']['OAUTH'])) {
+                    unset($_SESSION['TRUSTEDNET']['OAUTH']);
+                }
             }
         }
         if ($CLIENT_SECRET != '') {
