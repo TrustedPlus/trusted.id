@@ -173,8 +173,8 @@ if (COption::GetOptionString("main", "new_user_email_uniq_check") === "Y") {
             }
             if (in_array($CLIENT_ID, $appList)) {
 
-                $yes = GetMessage("TN_AUTH_YES");
-                $no = GetMessage("TN_AUTH_NO");
+                $yes = "<span style='color:green;'>" . GetMessage("TN_AUTH_YES") . "</span>";
+                $no = "<span style='color:red;'>" . GetMessage("TN_AUTH_NO") . "</span>";
                 $login = TAuthCommand::getAppParameters($accessToken, "login");
                 $login = $login["data"];
                 if ($login["limit"] == -1) {
