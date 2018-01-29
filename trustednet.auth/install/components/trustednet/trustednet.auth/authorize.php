@@ -1,10 +1,10 @@
 <?php
 //BITRIX
-require_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/bx_root.php");
-require_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_before.php");
+require_once $_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/bx_root.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_before.php";
 
-require_once (__DIR__ . '/config.php');
-require_once(TRUSTED_MODULE_AUTH);
+require_once __DIR__ . '/config.php';
+require_once TRUSTED_MODULE_AUTH;
 
 //Debuging
 if (TRUSTED_DEBUG) {
@@ -70,7 +70,7 @@ try {
                 onUserAuthorized($user);
             }
         } else {
-            include_once(__DIR__ . "/widget.tpl");
+            include_once __DIR__ . "/widget.tpl";
         }
     } else {
         $token = OAuth2::getFromSession();

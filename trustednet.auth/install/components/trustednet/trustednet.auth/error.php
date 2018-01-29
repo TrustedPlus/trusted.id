@@ -1,6 +1,6 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/urlrewrite.php');
-require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
+include_once $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/urlrewrite.php';
+require $_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php";
 
 $APPLICATION->SetPageProperty("show_catalog_nemu", "N");
 $APPLICATION->SetTitle("<span class=\"b-big-title\">Внимание</span> - произошла ошибка!");
@@ -33,5 +33,5 @@ switch ($code) {
     <?
 }
 
-require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php");
+require $_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php";
 

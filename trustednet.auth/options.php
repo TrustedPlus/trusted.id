@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "/classes/config.php");
+require_once __DIR__ . "/classes/config.php";
 $module_id = TN_AUTH_MODULE_ID;
 IncludeModuleLangFile(__FILE__);
 

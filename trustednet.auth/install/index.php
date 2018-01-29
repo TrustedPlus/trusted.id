@@ -20,7 +20,7 @@ Class trustednet_auth extends CModule
     {
         $arModuleVersion = array();
 
-        include(substr(__FILE__, 0, -10) . "/version.php");
+        include substr(__FILE__, 0, -10) . "/version.php";
 
         $this->MODULE_VERSION = $arModuleVersion["VERSION"];
         $this->MODULE_VERSION_DATE = $this->MODULE_VERSION_DATE;
