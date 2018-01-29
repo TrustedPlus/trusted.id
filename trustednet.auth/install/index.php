@@ -112,8 +112,9 @@ Class trustednet_auth extends CModule
 
     function LogOutTrustedNetUser()
     {
-        require_once (__DIR__ . '/components/trustednet/trustednet.auth/oauth2.php');
-        OAuth2::remove();
+        if (isset($_SESSION['TRUSTEDNET']['OAUTH'])) {
+            unset($_SESSION['TRUSTEDNET']['OAUTH']);
+        }
     }
 }
 

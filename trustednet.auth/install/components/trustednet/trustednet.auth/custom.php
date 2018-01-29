@@ -23,7 +23,7 @@ function onOAuth2Exception($e) {
     OAuth2::remove();
     if (!TRUSTED_DEBUG) {
         if ($USER) {
-            $USER->Logout();
+            //$USER->Logout();
             header("Location: ".TRUSTED_URI_MODULE_AUTH.'/error.php?c='.$e->getCode().'&e='.  urlencode($e->getMessage()));
         }
     }
