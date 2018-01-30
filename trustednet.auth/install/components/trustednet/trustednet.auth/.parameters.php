@@ -6,7 +6,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)
 $arComponentParameters = array(
   "GROUPS" => array(
 		"SOCIAL_LIST" => array(
-			"NAME" => "Социальные сети",
+			"NAME" => GetMessage("SOCIAL_LIST"),
 		),
 	),
 	"PARAMETERS" => array(
