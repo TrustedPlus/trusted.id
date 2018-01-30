@@ -26,9 +26,15 @@ switch ($code) {
     default:
         ?>
         <b class="message">
-            <? echo GetMessage("TN_REG_ERROR"); ?>
+            <? echo GetMessage("TN_AUTH_ERROR"); ?>
             </br>
-            <? echo $_GET['e'] ?>
+            <?
+            if (strpos($_GET['e'], "Bad credentials") !== false) {
+                echo GetMessage("TN_AUTH_BAD_CREDENTIALS");
+            } else {
+                echo $_GET['e'];
+            }
+            ?>
         </b>
     <?
 }
