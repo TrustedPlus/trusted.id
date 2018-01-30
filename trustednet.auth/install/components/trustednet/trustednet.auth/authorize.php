@@ -43,14 +43,14 @@ try {
                 $user = TDataBaseUser::getUserById($user_array['id']);
                 debug("TDataBaseUser::getUserById:", $user);
                 if ($user) {
-                    //Пользователь уже зарегистрирован
+                    //User already registered
                     debug('Old user');
                     if (onRegUserFound) {
                         debug('Event onRegUserFound');
                         onRegUserFound($user);
                     }
                 } else {
-                    //Пользователь не найден
+                    //User not found
                     debug('New user');
                     $user_service = ServiceUser::fromArray($user_array);
                     $user = new TUser();

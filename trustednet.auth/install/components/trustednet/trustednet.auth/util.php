@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Вывод отладочной информации
- * @param type $text Текст сообщения
- * @param type $val Дополнительное значение
- * Для вывода дополнительного значение используется функция print_r
+ * Debug info output
+ * @param type $text Message
+ * @param type $val Value
+ * Value is printed using print_r
  */
 function debug($text, $val = null) {
     if (TRUSTED_DEBUG) {
@@ -25,10 +25,10 @@ function debug($text, $val = null) {
 }
 
 /**
- * Генерирует случайный пароль по заданному значению длины и набору символов
- * @param number $len Длина пароля
- * @param string $alphabet Набор символов для генерируемго пароля.
- * @return string Пароль
+ * Random string with specified length and alphabet
+ * @param number $len Length
+ * @param string $alphabet Set of characters to generate from
+ * @return string Password
  */
 function randomPassword($len = 8, $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789") {
     $pass = array(); //remember to declare $pass as an array

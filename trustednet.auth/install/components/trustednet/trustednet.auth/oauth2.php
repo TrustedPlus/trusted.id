@@ -21,48 +21,48 @@ session_start();
 class OAuth2 {
 
     /**
-     * Значение ключа доступа
+     * Access token value
      * @var type
      */
     protected $access_token = null;
 
     /**
-     * Значение ключа востановления
+     * Refresh token value
      * @var type
      */
     protected $refresh_token = null;
 
     /**
-     * Тип ключа
+     * Token type
      * @var type
      */
     protected $token_type = null;
 
     /**
-     * Время жизни ключа доступа (в секундах)
+     * Token lifetime in seconds
      */
     protected $expires_in = null;
 
     /**
-     * Назначение ключа
+     * Token scope
      * @var type
      */
     protected $scope = null;
 
     /**
-     * Пользователь
+     * User
      * @var type
      */
     protected $user = null;
 
     /**
-     * Возвращает пользователя ключа
+     * Returns token user
      * @return \TUser
      */
     function getUser() {
         if (!$this->user) {
             $array = TAuthCommand::getUserProfileByToken($this->access_token);
-            // TODO: Ошибка если пользователь данные о пользователе не получены
+            // TODO: Error when user is not found
             $user = TUser::fromArray($array);
             $this->setUser($user);
             $this->putToSession();
@@ -72,7 +72,7 @@ class OAuth2 {
     }
 
     /**
-     * Удаляет ключ из сесси
+     * Drops token from session
      */
     static function remove() {
         if (isset($_SESSION['TRUSTEDNET']['OAUTH'])) {
@@ -81,7 +81,7 @@ class OAuth2 {
     }
 
     /**
-     * Задает данные о пользователе
+     * Sets user data
      * @param type $user
      */
     function setUser($user) {
@@ -90,7 +90,7 @@ class OAuth2 {
     }
 
     /**
-     * Возвращает ключ доступа
+     * Returns access token
      * @return type
      */
     function getAccessToken() {
@@ -98,7 +98,7 @@ class OAuth2 {
     }
 
     /**
-     * Возвращает ключ восстановления
+     * Returns Refresh token
      * @return type
      */
     function getRefreshToken() {
@@ -106,7 +106,7 @@ class OAuth2 {
     }
 
     /**
-     * Возвращает тип
+     * Returns token type
      * @return type
      */
     function getType() {
@@ -114,7 +114,7 @@ class OAuth2 {
     }
 
     /**
-     * Время жизни ключа доступа (в секундах)
+     * Token lifetime in seconds
      * @return type
      */
     function getExpiresIn() {
@@ -122,7 +122,7 @@ class OAuth2 {
     }
 
     /**
-     * Возвращает назначение ключа
+     * Return token scope
      * @return type
      */
     function getScope() {
@@ -149,16 +149,12 @@ class OAuth2 {
         return $res;
     }
 
-    /**
-     * Проверят актуальность ключа доступа
-     * @return type
-     */
     function checkToken() {
         return TAuthCommand::checkTokenExpiration($this->access_token);
     }
 
     /**
-     * Получат новый ключ доступа по ключу восстановления
+     * Receives new access token by refresh token
      * @return boolean
      */
     function refresh() {
@@ -182,7 +178,7 @@ class OAuth2 {
     }
 
     /**
-     * Возвращает OAuth2 из текущей сессии
+     * Returns OAuth2 from current session
      * @return \OAuth2
      */
     static function getFromSession() {
@@ -262,7 +258,7 @@ class AuthorizationGrant {
 class TDataBaseUser {
 
     /**
-     * Возвращает пользователя БД
+     * Returns DB user
      * @param type $user
      * @return type
      */
@@ -271,7 +267,7 @@ class TDataBaseUser {
     }
 
     /**
-     * Возвращает пользователя БД по id
+     * Returns DB user by id
      * @global type $DBASE
      * @param type $id
      * @return type
@@ -460,7 +456,7 @@ class TUser {
     }
 
     /**
-     * Возвращает данные о пользователе полученные с сервиса.
+     * Returns user parameters received from service
      * @return \ServiceUser
      * @throws OAuth2Exception
      */
@@ -470,7 +466,7 @@ class TUser {
             $token = OAuth2::getFromSession();
             if ($token) {
                 $arUser = TAuthCommand::getUserProfileByToken($token->getAccessToken());
-                //Проверка идентификаторов пользователей
+                //Check users ids
                 //debug($arUser);
                 if ($arUser['id'] == $this->id) {
                     $res = ServiceUser::fromArray($arUser);
@@ -586,7 +582,6 @@ class TAuthCommand {
     }
 
     static function getUserProfileByToken($accessToken) {
-        /* Получить данные о пользователе с помощью токена */
         $response = false;
         if ($accessToken) {
             $curl = curl_init();

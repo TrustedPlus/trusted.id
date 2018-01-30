@@ -3,7 +3,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/urlrewrit
 require $_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php";
 
 $APPLICATION->SetPageProperty("show_catalog_nemu", "N");
-$APPLICATION->SetTitle("<span class=\"b-big-title\">Внимание</span> - произошла ошибка!");
+$APPLICATION->SetTitle("<span class=\"b-big-title\">" . GetMessage("TN_ERROR_TITLE") . "</span>");
 
 IncludeModuleLangFile(__FILE__);
 
