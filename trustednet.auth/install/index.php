@@ -3,13 +3,13 @@
 Class trustednet_auth extends CModule
 {
 
-    var $MODULE_ID = "trustednet.auth";
-    var $MODULE_NAME = GetMessage("TN_AUTH_MODULE_NAME");
-    var $MODULE_DESCRIPTION = GetMessage("TN_AUTH_MODULE_DESCRIPTION");
-    var $MODULE_VERSION = "1.2.5";
-    var $MODULE_VERSION_DATE = "2017-12-13 9:00:00";
-    var $PARTNER_NAME = GetMessage("TN_AUTH_PARTNER_NAME");
-    var $PARTNER_URI = "http://www.digt.ru";
+    var $MODULE_ID;
+    var $MODULE_NAME;
+    var $MODULE_DESCRIPTION;
+    var $MODULE_VERSION;
+    var $MODULE_VERSION_DATE;
+    var $PARTNER_NAME;
+    var $PARTNER_URI;
 
     function trustednet_auth()
     {
@@ -22,10 +22,11 @@ Class trustednet_auth extends CModule
 
         include substr(__FILE__, 0, -10) . "/version.php";
 
-        $this->MODULE_VERSION = $arModuleVersion["VERSION"];
-        $this->MODULE_VERSION_DATE = $this->MODULE_VERSION_DATE;
-        $this->MODULE_NAME = $this->MODULE_NAME;
-        $this->MODULE_DESCRIPTION = $this->MODULE_DESCRIPTION;
+        $this->MODULE_ID = "trustednet.auth";
+        $this->MODULE_NAME = GetMessage("TN_AUTH_MODULE_NAME");
+        $this->MODULE_DESCRIPTION = GetMessage("TN_AUTH_MODULE_DESCRIPTION");
+        $this->MODULE_VERSION = "1.2.5";
+        $this->MODULE_VERSION_DATE = "2017-12-13 9:00:00";
         $this->PARTNER_NAME = GetMessage("TN_AUTH_PARTNER_NAME");
         $this->PARTNER_URI = "http://www.digt.ru";
     }
