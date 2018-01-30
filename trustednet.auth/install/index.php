@@ -3,7 +3,7 @@
 Class trustednet_auth extends CModule
 {
 
-    var $MODULE_ID;
+    var $MODULE_ID = "trustednet.auth";
     var $MODULE_NAME;
     var $MODULE_DESCRIPTION;
     var $MODULE_VERSION;
@@ -25,8 +25,8 @@ Class trustednet_auth extends CModule
         $this->MODULE_ID = "trustednet.auth";
         $this->MODULE_NAME = GetMessage("TN_AUTH_MODULE_NAME");
         $this->MODULE_DESCRIPTION = GetMessage("TN_AUTH_MODULE_DESCRIPTION");
-        $this->MODULE_VERSION = "1.2.5";
-        $this->MODULE_VERSION_DATE = "2017-12-13 9:00:00";
+        $this->MODULE_VERSION = "1.2.6";
+        $this->MODULE_VERSION_DATE = "2018-02-01 9:00:00";
         $this->PARTNER_NAME = GetMessage("TN_AUTH_PARTNER_NAME");
         $this->PARTNER_URI = "http://www.digt.ru";
     }

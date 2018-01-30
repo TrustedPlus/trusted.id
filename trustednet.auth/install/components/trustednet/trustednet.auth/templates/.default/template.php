@@ -26,7 +26,7 @@ if ($token) {
     echo '</div>';
 } else {
     ?>
-    <div class='trusted-btn' onClick='TrustedNet.login("<?= TRUSTED_LOGIN_CLIENT_ID ?>", "<?= TRUSTED_URI_HOST ?>/bitrix/components/trustednet/trustednet.auth/authorize.php")'>Авторизация TN</div>
+    <div class='trusted-btn' onClick='TrustedNet.login("<?= TRUSTED_LOGIN_CLIENT_ID ?>", "<?= TRUSTED_URI_HOST ?>/bitrix/components/trustednet/trustednet.auth/authorize.php")'> <?= GetMessage("AUTH") ?></div>
 
 <?php }
 
