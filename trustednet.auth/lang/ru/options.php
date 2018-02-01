@@ -38,15 +38,20 @@ $MESS ["TN_AUTH_YES"] = "Да";
 $MESS ["TN_AUTH_NO"] = "Нет";
 $MESS ["TN_AUTH_NO_LIMIT"] = "Неограниченно";
 
+$MESS ["TN_AUTH_INFO_TARIFF"] = "Тариф";
 $MESS ["TN_AUTH_INFO_LOGIN"] = "Логин/Пароль";
 $MESS ["TN_AUTH_INFO_SOCIAL"] = "Социальные сети";
 $MESS ["TN_AUTH_INFO_CERTIFICATE"] = "Сертификаты";
+
+$MESS ["TN_AUTH_INFO_TARIFF_NAME"] = "Название тарифа";
+$MESS ["TN_AUTH_INFO_TARIFF_ACTIVE"] = "Тариф активен";
+$MESS ["TN_AUTH_INFO_TARIFF_END"] = "Тариф активен до";
 
 $MESS ["TN_AUTH_INFO_LOGIN_AUTH"] = "Разрешить авторизацию пользователей используя логин/пароль";
 $MESS ["TN_AUTH_INFO_SOCIAL_AUTH"] = "Разрешить авторизацию пользователей используя социальные сети";
 $MESS ["TN_AUTH_INFO_CERTIFICATE_AUTH"] = "Разрешить авторизацию пользователей используя сертификат";
 
-$MESS ["TN_AUTH_INFO_ALLOW_OPEN_ACCESS"] = "Разрешить пользователям вне настроенной группы авторизоваться в приложении";
+$MESS ["TN_AUTH_INFO_ALLOW_OPEN_ACCESS"] = "Разрешить регистрацию новых пользователей через виджет\n(Разрешить пользователям вне настроенной группы авторизоваться в приложении)";
 
 $MESS ["TN_AUTH_INFO_ACTIVE_USERS"] = "Активные пользователи";
 $MESS ["TN_AUTH_INFO_BLOCKED_USERS"] = "Заблокированные пользователи";

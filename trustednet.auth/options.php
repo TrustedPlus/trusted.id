@@ -187,6 +187,7 @@ if (COption::GetOptionString("main", "new_user_email_uniq_check") === "Y") {
 
                 $yes = "<span style='color:green;'>" . GetMessage("TN_AUTH_YES") . "</span>";
                 $no = "<span style='color:red;'>" . GetMessage("TN_AUTH_NO") . "</span>";
+
                 $login = TAuthCommand::getAppParameters($accessToken, "login");
                 $login = $login["data"];
                 if ($login["limit"] == -1) {
@@ -194,7 +195,40 @@ if (COption::GetOptionString("main", "new_user_email_uniq_check") === "Y") {
                 } else {
                     $loginLimit = $login["limit"];
                 }
+
+                $social = TAuthCommand::getAppParameters($accessToken, "social");
+                $social = $social["data"];
+                if ($social["limit"] == -1) {
+                    $socialLimit = GetMessage("TN_AUTH_NO_LIMIT");
+                } else {
+                    $socialLimit = $social["limit"];
+                }
+
+                $cert = TAuthCommand::getAppParameters($accessToken, "certificate");
+                $cert = $cert["data"];
+                if ($cert["limit"] == -1) {
+                    $certLimit = GetMessage("TN_AUTH_NO_LIMIT");
+                } else {
+                    $certLimit = $cert["limit"];
+                }
+                $tariffEnd = gmdate("d.m.Y", substr($cert["tariffEnd"], 0, -3));
             ?>
+                <tr class="heading">
+                    <td colspan="2"><?= GetMessage("TN_AUTH_INFO_TARIFF") ?></td>
+                </tr>
+                <tr>
+                    <td width="50%"><?= GetMessage("TN_AUTH_INFO_TARIFF_NAME") ?></td>
+                    <td width="50%"><?= $cert["tariff"]["name"] ?></td>
+                </tr>
+                <tr>
+                    <td width="50%"><?= GetMessage("TN_AUTH_INFO_TARIFF_ACTIVE") ?></td>
+                    <td width="50%"><?= $cert["tariff"]["enabled"] ? $yes : $no ?></td>
+                </tr>
+                <tr>
+                    <td width="50%"><?= GetMessage("TN_AUTH_INFO_TARIFF_END") ?></td>
+                    <td width="50%"><?= $tariffEnd ?></td>
+                </tr>
+
                 <tr class="heading">
                     <td colspan="2"><?= GetMessage("TN_AUTH_INFO_LOGIN") ?></td>
                 </tr>
@@ -203,7 +237,7 @@ if (COption::GetOptionString("main", "new_user_email_uniq_check") === "Y") {
                     <td width="50%"><?= $login["isActive"] ? $yes : $no ?></td>
                 </tr>
                 <tr>
-                    <td><?= GetMessage("TN_AUTH_INFO_ALLOW_OPEN_ACCESS") ?></td>
+                    <td><?= nl2br(GetMessage("TN_AUTH_INFO_ALLOW_OPEN_ACCESS")) ?></td>
                     <td><?= $login["allowRegistration"] ? $yes : $no ?></td>
                 </tr>
                 <tr>
@@ -219,15 +253,6 @@ if (COption::GetOptionString("main", "new_user_email_uniq_check") === "Y") {
                     <td><?= (string)$login["usersNumber"] . " / " . (string)$loginLimit ?></td>
                 </tr>
 
-                <?
-                $social = TAuthCommand::getAppParameters($accessToken, "social");
-                $social = $social["data"];
-                if ($social["limit"] == -1) {
-                    $socialLimit = GetMessage("TN_AUTH_NO_LIMIT");
-                } else {
-                    $socialLimit = $social["limit"];
-                }
-                ?>
                 <tr class="heading">
                     <td colspan="2"><?= GetMessage("TN_AUTH_INFO_SOCIAL") ?></td>
                 </tr>
@@ -236,7 +261,7 @@ if (COption::GetOptionString("main", "new_user_email_uniq_check") === "Y") {
                     <td><?= $social["isActive"] ? $yes : $no ?></td>
                 </tr>
                 <tr>
-                    <td><?= GetMessage("TN_AUTH_INFO_ALLOW_OPEN_ACCESS") ?></td>
+                    <td><?= nl2br(GetMessage("TN_AUTH_INFO_ALLOW_OPEN_ACCESS")) ?></td>
                     <td><?= $social["allowRegistration"] ? $yes : $no ?></td>
                 </tr>
                 <tr>
@@ -272,15 +297,6 @@ if (COption::GetOptionString("main", "new_user_email_uniq_check") === "Y") {
                     <td><?= (string)$social["usersNumber"] . " / " . (string)$socialLimit ?></td>
                 </tr>
 
-                <?
-                $cert = TAuthCommand::getAppParameters($accessToken, "certificate");
-                $cert = $cert["data"];
-                if ($cert["limit"] == -1) {
-                    $certLimit = GetMessage("TN_AUTH_NO_LIMIT");
-                } else {
-                    $certLimit = $cert["limit"];
-                }
-                ?>
                 <tr class="heading">
                     <td colspan="2"><?= GetMessage("TN_AUTH_INFO_CERTIFICATE") ?></td>
                 </tr>
@@ -289,7 +305,7 @@ if (COption::GetOptionString("main", "new_user_email_uniq_check") === "Y") {
                     <td><?= $cert["isActive"] ? $yes : $no ?></td>
                 </tr>
                 <tr>
-                    <td><?= GetMessage("TN_AUTH_INFO_ALLOW_OPEN_ACCESS") ?></td>
+                    <td><?= nl2br(GetMessage("TN_AUTH_INFO_ALLOW_OPEN_ACCESS")) ?></td>
                     <td><?= $cert["allowRegistration"] ? $yes : $no ?></td>
                 </tr>
                 <tr>
