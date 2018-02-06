@@ -147,7 +147,7 @@ class TrustedAuth
         try {
             global $DB;
             $res = null;
-            $sql = "SELECT * FROM trn_user WHERE ID = " . $userId;
+            $sql = "SELECT * FROM trn_user WHERE USER_ID = " . $userId;
             $rows = $DB->Query($sql);
             $row = $rows->Fetch();
             return $this->returnResultWithStatus(true, $row);
@@ -166,10 +166,10 @@ class TrustedAuth
             }
             global $DB;
 
-            $bxUserId = $bxUser['ID'] || $bxUser['USER_ID'];
+            $bxUserId = $bxUser['ID'];
             $userRow = $this->getUserRowByUserId($bxUserId);
 
-            if (!$userRow) {
+            if (!$userRow["data"]) {
                 $timeStamp = (new DateTime())->getTimestamp();
                 $tnUserId = $tnUser['userID'];
                 $sql = "INSERT INTO trn_user (`ID`, `USER_ID`, `TIMESTAMP_X`) VALUES ('" . $bxUserId . "', '" . $tnUserId . "', " . $timeStamp . ")";
