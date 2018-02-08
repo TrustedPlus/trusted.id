@@ -138,11 +138,19 @@ class TrustedAuth
         }
     }
 
-    private function getUserRowByUserId($userId)
+    // TODO: maybe make this func private again
+    // and create new public one?
+    public function getUserRowByUserId($userId)
     {
-        $this->log('getUserRowByUserId', LOG_LEVEL_INFO);
-        if ($this->ERROR_OCCURRED) {
-            return $this->returnResultWithStatus(false, $userId);
+        $t_auth = null;
+        if (isset($this)) {
+            $t_auth = $this;
+        } else {
+            $t_auth = new TrustedAuth();
+        }
+        $t_auth->log('getUserRowByUserId', LOG_LEVEL_INFO);
+        if ($t_auth->ERROR_OCCURRED) {
+            return $t_auth->returnResultWithStatus(false, $userId);
         }
         try {
             global $DB;
@@ -150,10 +158,10 @@ class TrustedAuth
             $sql = "SELECT * FROM trn_user WHERE USER_ID = " . $userId;
             $rows = $DB->Query($sql);
             $row = $rows->Fetch();
-            return $this->returnResultWithStatus(true, $row);
+            return $t_auth->returnResultWithStatus(true, $row);
         } catch (ErrorException $errorException) {
-            $this->setError($errorException->getMessage());
-            $this->returnResultWithStatus(false, $userId);
+            $t_auth->setError($errorException->getMessage());
+            $t_auth->returnResultWithStatus(false, $userId);
         }
     }
 
