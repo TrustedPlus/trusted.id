@@ -70,7 +70,7 @@ Class trustednet_auth extends CModule
         global $DB, $APPLICATION, $step;
         $this->LogOutTrustedNetUser();
         $this->UnInstallFiles();
-        $this->UnInstallDB();
+        //$this->UnInstallDB();
         $this->UnRegisterEventHandlers();
         UnRegisterModule($this->MODULE_ID);
         $APPLICATION->IncludeAdminFile(GetMessage("MOD_INSTALL_TITLE"), $_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/" . $this->MODULE_ID . "/install/unstep.php");
