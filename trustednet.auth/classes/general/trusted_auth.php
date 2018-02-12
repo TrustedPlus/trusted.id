@@ -178,9 +178,12 @@ class TrustedAuth
             $userRow = $this->getUserRowByUserId($bxUserId);
 
             if (!$userRow["data"]) {
-                $timeStamp = (new DateTime())->getTimestamp();
+                $timeStamp = date('Y-m-d G:i:s');
                 $tnUserId = $tnUser['userID'];
-                $sql = "INSERT INTO trn_user (`ID`, `USER_ID`, `TIMESTAMP_X`) VALUES ('" . $tnUserId . "', '" . $bxUserId . "', " . $timeStamp . ")";
+                $sql = "INSERT INTO trn_user
+                            (`ID`, `USER_ID`, `TIMESTAMP_X`)
+                        VALUES
+                            ('" . $tnUserId . "', '" . $bxUserId . "', '" . $timeStamp . "')";
                 $DB->Query($sql);
             }
         } catch (ErrorException $errorException) {
