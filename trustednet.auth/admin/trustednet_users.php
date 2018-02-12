@@ -11,7 +11,7 @@ if ($POST_RIGHT == "D") {
 }
 
 $sTableID = "bindingTable";
-$oSort = new CAdminSorting($sTableID, "ID", "desc");
+$oSort = new CAdminSorting($sTableID, "ID", "asc");
 $lAdmin = new CAdminList($sTableID, $oSort);
 
 // Filter elements ids
@@ -33,7 +33,7 @@ $arFilter = Array(
     "NAME" => $find_name,
     "LAST_NAME" => $find_last_name,
     "EMAIL" => $find_email,
-    "TN_ID" => $find_tn_id, // TODO: no tn_id in CUser""GetList!
+    "TN_ID" => $find_tn_id,
 );
 
 // Saves edited elements
@@ -109,10 +109,36 @@ $rsData = CUser::GetList($by, $order, $arFilter);
 $TrustedAuth = new TrustedAuth;
 $arData = array();
 while ($elem = $rsData->Fetch()) {
+    // Add TN_ID column to the results
     $tn_id = $TrustedAuth->getUserRowByUserId($elem["ID"]);
-    $elem["TN_ID"] = $tn_id["data"]["ID"];
-    $arData[] = $elem;
+    $tn_id = $tn_id["data"]["ID"];
+    $tn_id ? $elem["TN_ID"] = $tn_id : $elem["TN_ID"] = "Отсутствует";
+    // Manually apply filter for inserted values
+    if ($find_tn_id) {
+        if (strstr($tn_id, $find_tn_id) !== false) {
+            $arData[] = $elem;
+        }
+    } else {
+        $arData[] = $elem;
+    }
 }
+
+// Manually apply sorting for inserted values
+if ($_GET["by"] == "tn_id") {
+    $tn_id_multisort = array();
+    foreach ($arData as $elem) {
+        $tn_id_multisort[] = $elem["TN_ID"];
+    }
+    if ($_GET["order"] == "asc") {
+        array_multisort($tn_id_multisort, SORT_ASC, $arData);
+    }
+    if ($_GET["order"] == "desc") {
+        array_multisort($tn_id_multisort, SORT_DESC, $arData);
+    }
+}
+
+// Assemble query result back again with the new values,
+// filter and sorting
 $rsData = new CDBResult;
 $rsData->InitFromArray($arData);
 
