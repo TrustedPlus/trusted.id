@@ -22,6 +22,9 @@ $FilterArr = Array(
     "find_last_name",
     "find_email",
     "find_tn_id",
+    "find_tn_giv_name",
+    "find_tn_fam_name",
+    "find_tn_email",
 );
 
 $lAdmin->InitFilter($FilterArr);
@@ -34,6 +37,9 @@ $arFilter = Array(
     "LAST_NAME" => $find_last_name,
     "EMAIL" => $find_email,
     "TN_ID" => $find_tn_id,
+    "TN_GIV_NAME" => $find_tn_giv_name,
+    "TN_FAM_NAME" => $find_tn_fam_name,
+    "TN_EMAIL" => $find_tn_email,
 );
 
 // Saves edited elements
@@ -109,32 +115,87 @@ $rsData = CUser::GetList($by, $order, $arFilter);
 $TrustedAuth = new TrustedAuth;
 $arData = array();
 while ($elem = $rsData->Fetch()) {
-    // Add TN_ID column to the results
     // TODO: use TDataBaseUser->getUserByUserId instead
-    $tn_id = $TrustedAuth->getUserRowByUserId($elem["ID"]);
-    $tn_id = $tn_id["data"]["ID"];
-    $tn_id ? $elem["TN_ID"] = $tn_id : $elem["TN_ID"] = "Отсутствует";
+    $userRow = $TrustedAuth->getUserRowByUserId($elem["ID"]);
+    $userRow = $userRow["data"];
+
+    // Add trn_user columns to the results
+    $tn_id = $userRow["ID"];
+    if ($tn_id) {
+        $elem["TN_ID"] = $tn_id;
+    }
+    $tn_giv_name = $userRow["TN_GIV_NAME"];
+    if ($tn_giv_name) {
+        $elem["TN_GIV_NAME"] = $tn_giv_name;
+    }
+    $tn_fam_name = $userRow["TN_FAM_NAME"];
+    if ($tn_fam_name) {
+        $elem["TN_FAM_NAME"] = $tn_fam_name;
+    }
+    $tn_email = $userRow["TN_EMAIL"];
+    if ($tn_email) {
+        $elem["TN_EMAIL"] = $tn_email;
+    }
+
     // Manually apply filter for inserted values
+    $filterAddFlag = true;
+
     if ($find_tn_id) {
+        $filterAddFlag = false;
         if (strstr($tn_id, $find_tn_id) !== false) {
-            $arData[] = $elem;
+            $filterAddFlag = true;
         }
-    } else {
+    }
+    if ($find_tn_giv_name) {
+        $filterAddFlag = false;
+        if (strstr($tn_giv_name, $find_tn_giv_name) !== false) {
+            $filterAddFlag = true;
+        }
+    }
+    if ($find_tn_fam_name) {
+        $filterAddFlag = false;
+        if (strstr($tn_fam_name, $find_tn_fam_name) !== false) {
+            $filterAddFlag = true;
+        }
+    }
+    if ($find_tn_email) {
+        $filterAddFlag = false;
+        if (strstr($tn_email, $find_tn_email) !== false) {
+            $filterAddFlag = true;
+        }
+    }
+
+    if ($filterAddFlag) {
         $arData[] = $elem;
     }
 }
 
-// Manually apply sorting for inserted values
+// Manually apply sorting by inserted values
+$multisortArrayHelper = array();
 if ($_GET["by"] == "tn_id") {
-    $tn_id_multisort = array();
     foreach ($arData as $elem) {
-        $tn_id_multisort[] = $elem["TN_ID"];
+        $multisortArrayHelper[] = $elem["TN_ID"];
     }
+} elseif ($_GET["by"] == "tn_giv_name") {
+    foreach ($arData as $elem) {
+        $multisortArrayHelper[] = $elem["TN_GIV_NAME"];
+    }
+} elseif ($_GET["by"] == "tn_fam_name") {
+    foreach ($arData as $elem) {
+        $multisortArrayHelper[] = $elem["TN_FAM_NAME"];
+    }
+} elseif ($_GET["by"] == "tn_email") {
+    foreach ($arData as $elem) {
+        $multisortArrayHelper[] = $elem["TN_EMAIL"];
+    }
+}
+
+if ($multisortArrayHelper) {
     if ($_GET["order"] == "asc") {
-        array_multisort($tn_id_multisort, SORT_ASC, $arData);
+        array_multisort($multisortArrayHelper, SORT_ASC, $arData);
     }
     if ($_GET["order"] == "desc") {
-        array_multisort($tn_id_multisort, SORT_DESC, $arData);
+        array_multisort($multisortArrayHelper, SORT_DESC, $arData);
     }
 }
 
@@ -188,6 +249,24 @@ $lAdmin->AddHeaders(
             "id" => "TN_ID",
             "content" => GetMessage("TRUSTEDNET_USERS_COL_TN_ID"),
             "sort" => "tn_id",
+            "default" => true,
+        ),
+        array(
+            "id" => "TN_GIV_NAME",
+            "content" => GetMessage("TRUSTEDNET_USERS_COL_TN_GIV_NAME"),
+            "sort" => "tn_giv_name",
+            "default" => true,
+        ),
+        array(
+            "id" => "TN_FAM_NAME",
+            "content" => GetMessage("TRUSTEDNET_USERS_COL_TN_FAM_NAME"),
+            "sort" => "tn_fam_name",
+            "default" => true,
+        ),
+        array(
+            "id" => "TN_EMAIL",
+            "content" => GetMessage("TRUSTEDNET_USERS_COL_TN_EMAIL"),
+            "sort" => "tn_email",
             "default" => true,
         ),
     )
@@ -268,6 +347,9 @@ $oFilter = new CAdminFilter(
         GetMessage("TRUSTEDNET_USERS_COL_LAST_NAME"),
         GetMessage("TRUSTEDNET_USERS_COL_EMAIL"),
         GetMessage("TRUSTEDNET_USERS_COL_TN_ID"),
+        GetMessage("TRUSTEDNET_USERS_COL_TN_GIV_NAME"),
+        GetMessage("TRUSTEDNET_USERS_COL_TN_FAM_NAME"),
+        GetMessage("TRUSTEDNET_USERS_COL_TN_EMAIL"),
     )
 );
 
@@ -315,6 +397,27 @@ if ($auth) {
         <td><?= GetMessage("TRUSTEDNET_USERS_COL_TN_ID") ?></td>
         <td>
             <input type="text" name="find_tn_id" size="47" value="<?echo htmlspecialchars($find_tn_id)?>">
+        </td>
+    </tr>
+
+    <tr>
+        <td><?= GetMessage("TRUSTEDNET_USERS_COL_TN_GIV_NAME") ?></td>
+        <td>
+            <input type="text" name="find_tn_giv_name" size="47" value="<?echo htmlspecialchars($find_tn_giv_name)?>">
+        </td>
+    </tr>
+
+    <tr>
+        <td><?= GetMessage("TRUSTEDNET_USERS_COL_TN_FAM_NAME") ?></td>
+        <td>
+            <input type="text" name="find_tn_fam_name" size="47" value="<?echo htmlspecialchars($find_tn_fam_name)?>">
+        </td>
+    </tr>
+
+    <tr>
+        <td><?= GetMessage("TRUSTEDNET_USERS_COL_TN_EMAIL") ?></td>
+        <td>
+            <input type="text" name="find_tn_email" size="47" value="<?echo htmlspecialchars($find_tn_email)?>">
         </td>
     </tr>
 
