@@ -110,6 +110,7 @@ $TrustedAuth = new TrustedAuth;
 $arData = array();
 while ($elem = $rsData->Fetch()) {
     // Add TN_ID column to the results
+    // TODO: use TDataBaseUser->getUserByUserId instead
     $tn_id = $TrustedAuth->getUserRowByUserId($elem["ID"]);
     $tn_id = $tn_id["data"]["ID"];
     $tn_id ? $elem["TN_ID"] = $tn_id : $elem["TN_ID"] = "Отсутствует";

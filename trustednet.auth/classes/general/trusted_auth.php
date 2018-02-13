@@ -139,7 +139,7 @@ class TrustedAuth
     }
 
     // TODO: maybe make this func private again
-    // and create new public one?
+    // and use TDataBaseUser->getUserByUserId instead?
     public function getUserRowByUserId($userId)
     {
         $t_auth = null;
