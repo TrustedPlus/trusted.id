@@ -36,6 +36,7 @@ Class trustednet_auth extends CModule
         RegisterModuleDependences('main', 'OnAfterUserAdd', $this->MODULE_ID, 'TrustedAuth', 'OnAfterUserAddHandler');
         RegisterModuleDependences('main', 'OnAfterUserRegister', $this->MODULE_ID, 'TrustedAuth', 'OnAfterUserRegisterHandler');
         RegisterModuleDependences('main', 'OnAfterUserSimpleRegister', $this->MODULE_ID, 'TrustedAuth', 'OnAfterUserSimpleRegisterHandler');
+        RegisterModuleDependences('main', 'OnBeforeUserUpdate', $this->MODULE_ID, 'TrustedAuth', 'OnBeforeUserUpdateHandler');
         RegisterModuleDependences('main', 'OnBeforeUserAdd', $this->MODULE_ID, 'TrustedAuth', 'OnBeforeUserAddHandler');
         RegisterModuleDependences('main', 'OnBeforeEventSend', $this->MODULE_ID, 'TrustedAuth', 'OnBeforeEventSendHandler');
         RegisterModuleDependences('main', 'OnUserLogin', $this->MODULE_ID, 'TrustedAuth', 'OnUserLoginHandler');
@@ -48,6 +49,7 @@ Class trustednet_auth extends CModule
         UnRegisterModuleDependences('main', 'OnAfterUserAdd', $this->MODULE_ID, 'TrustedAuth');
         UnRegisterModuleDependences('main', 'OnAfterUserRegister', $this->MODULE_ID, 'TrustedAuth');
         UnRegisterModuleDependences('main', 'OnAfterUserSimpleRegister', $this->MODULE_ID, 'TrustedAuth');
+        UnRegisterModuleDependences('main', 'OnBeforeUserUpdate', $this->MODULE_ID, 'TrustedAuth');
         UnRegisterModuleDependences('main', 'OnBeforeUserAdd', $this->MODULE_ID, 'TrustedAuth');
         UnRegisterModuleDependences('main', 'OnBeforeEventSend', $this->MODULE_ID, 'TrustedAuth');
         UnRegisterModuleDependences('main', 'OnUserLogin', $this->MODULE_ID, 'TrustedAuth');

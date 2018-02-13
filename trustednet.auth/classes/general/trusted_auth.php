@@ -8,7 +8,7 @@ class TrustedAuth
 
     private $SERVICE_URL = "https://net.trusted.ru";
     private $SERVICE_REGISTER_URL;
-    private $SERVICE_CODE_USER_EXISTS = 1502;
+    private $SERVICE_CODE_USER_EXISTS = 1501;
 
     private $CLIENT_ID = null;
     private $CLIENT_SECRET = null;
@@ -177,13 +177,19 @@ class TrustedAuth
             $bxUserId = $bxUser['ID'];
             $userRow = $this->getUserRowByUserId($bxUserId);
 
+            $timeStamp = date('Y-m-d G:i:s');
+            $tnUserId = $tnUser['userID'];
             if (!$userRow["data"]) {
-                $timeStamp = date('Y-m-d G:i:s');
-                $tnUserId = $tnUser['userID'];
                 $sql = "INSERT INTO trn_user
                             (`ID`, `USER_ID`, `TIMESTAMP_X`)
                         VALUES
                             ('" . $tnUserId . "', '" . $bxUserId . "', '" . $timeStamp . "')";
+                $DB->Query($sql);
+            } else {
+                $sql = "UPDATE trn_user
+                            SET ID = '" . $tnUserId . "', TIMESTAMP_X = '" . $timeStamp . "'
+                        WHERE
+                            USER_ID = '" . $bxUserId . "'";
                 $DB->Query($sql);
             }
         } catch (ErrorException $errorException) {
@@ -317,6 +323,31 @@ class TrustedAuth
     public function OnBeforeUserAddHandler($arFields)
     {
         return $arFields;
+    }
+
+    public function OnBeforeUserUpdateHandler($arParams)
+    {
+        $t_auth = null;
+        if (isset($this)) {
+            $t_auth = $this;
+        } else {
+            $t_auth = new TrustedAuth();
+        }
+        $t_auth->log('OnBeforeUserUpdateHandler', LOG_LEVEL_INFO);
+        $userId = $arParams["ID"];
+        $newEmail = $arParams["EMAIL"];
+        $rsUser = CUser::GetByID($userId);
+        $arUser = $rsUser->Fetch();
+        if ($arUser) {
+            $oldEmail = $arUser["EMAIL"];
+        }
+        if ($newEmail != $oldEmail) {
+            // E-mail was changed and is correct
+            if (filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+                $t_auth->sendRegisterRequest($arParams);
+            }
+        }
+        return $arParams;
     }
 
     public function OnUserLoginHandler()
