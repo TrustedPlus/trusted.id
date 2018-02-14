@@ -152,25 +152,25 @@ while ($elem = $rsData->Fetch()) {
 
     if ($find_tn_id) {
         $filterAddFlag = false;
-        if (strstr($tn_id, $find_tn_id) !== false) {
+        if (stristr($tn_id, $find_tn_id) !== false) {
             $filterAddFlag = true;
         }
     }
     if ($find_tn_giv_name) {
         $filterAddFlag = false;
-        if (strstr($tn_giv_name, $find_tn_giv_name) !== false) {
+        if (stristr($tn_giv_name, $find_tn_giv_name) !== false) {
             $filterAddFlag = true;
         }
     }
     if ($find_tn_fam_name) {
         $filterAddFlag = false;
-        if (strstr($tn_fam_name, $find_tn_fam_name) !== false) {
+        if (stristr($tn_fam_name, $find_tn_fam_name) !== false) {
             $filterAddFlag = true;
         }
     }
     if ($find_tn_email) {
         $filterAddFlag = false;
-        if (strstr($tn_email, $find_tn_email) !== false) {
+        if (stristr($tn_email, $find_tn_email) !== false) {
             $filterAddFlag = true;
         }
     }
