@@ -42,38 +42,37 @@ $arFilter = array(
 
 // Saves edited elements
 if($lAdmin->EditAction() && $POST_RIGHT=="W") {
-    foreach($FIELDS as $ID=>$arFields) {
-        if(!$lAdmin->IsUpdated($ID))
-            continue;
+    //foreach($FIELDS as $ID=>$arFields) {
+    //    if(!$lAdmin->IsUpdated($ID))
+    //        continue;
 
-        $DB->StartTransaction();
-        $ID = IntVal($ID);
-        $cData = new CRubric;
-        if (($rsData = $cData->GetByID($ID)) && ($arData = $rsData->Fetch())) {
-            foreach($arFields as $key=>$value) {
-                $arData[$key]=$value;
-            }
-            if(!$cData->Update($ID, $arData)) {
-                $lAdmin->AddGroupError(GetMessage("rub_save_error")." ".$cData->LAST_ERROR, $ID);
-                $DB->Rollback();
-            }
-        } else {
-            $lAdmin->AddGroupError(GetMessage("rub_save_error")." ".GetMessage("rub_no_rubric"), $ID);
-            $DB->Rollback();
-        }
-        $DB->Commit();
-    }
+    //    $DB->StartTransaction();
+    //    $ID = IntVal($ID);
+    //    $cData = new CRubric;
+    //    if (($rsData = $cData->GetByID($ID)) && ($arData = $rsData->Fetch())) {
+    //        foreach($arFields as $key=>$value) {
+    //            $arData[$key]=$value;
+    //        }
+    //        if(!$cData->Update($ID, $arData)) {
+    //            $lAdmin->AddGroupError(GetMessage("rub_save_error")." ".$cData->LAST_ERROR, $ID);
+    //            $DB->Rollback();
+    //        }
+    //    } else {
+    //        $lAdmin->AddGroupError(GetMessage("rub_save_error")." ".GetMessage("rub_no_rubric"), $ID);
+    //        $DB->Rollback();
+    //    }
+    //    $DB->Commit();
+    //}
 }
 
 // Handle actions
 if(($arID = $lAdmin->GroupAction()) && $POST_RIGHT=="W") {
     // selected = for all
-    if($_REQUEST['action_target']=='selected')
-    {
-        $cData = new CRubric;
-        $rsData = $cData->GetList(array($by=>$order), $arFilter);
-        while($arRes = $rsData->Fetch())
+    if($_REQUEST['action_target']=='selected') {
+        $rsData = CUser::GetList($by, $order, $arFilter);
+        while($arRes = $rsData->Fetch()) {
             $arID[] = $arRes['ID'];
+        }
     }
 
     foreach($arID as $ID) {
@@ -82,26 +81,30 @@ if(($arID = $lAdmin->GroupAction()) && $POST_RIGHT=="W") {
         $ID = IntVal($ID);
 
         switch($_REQUEST['action']) {
-            case "delete":
-                @set_time_limit(0);
-                $DB->StartTransaction();
-                if(!CRubric::Delete($ID)) {
-                    $DB->Rollback();
-                    $lAdmin->AddGroupError(GetMessage("rub_del_err"), $ID);
-                }
-                $DB->Commit();
+            case "pull_tn_info":
+                $userRow = $TrustedAuth->getUserRowByUserId($ID);
+                // Handle each ID one-by-one
                 break;
-            case "activate":
-            case "deactivate":
-                $cData = new CRubric;
-                if(($rsData = $cData->GetByID($ID)) && ($arFields = $rsData->Fetch())) {
-                    $arFields["ACTIVE"]=($_REQUEST['action']=="activate"?"Y":"N");
-                    if(!$cData->Update($ID, $arFields))
-                        $lAdmin->AddGroupError(GetMessage("rub_save_error").$cData->LAST_ERROR, $ID);
-                } else {
-                    $lAdmin->AddGroupError(GetMessage("rub_save_error")." ".GetMessage("rub_no_rubric"), $ID);
-                }
-                break;
+            //case "delete":
+            //    @set_time_limit(0);
+            //    $DB->StartTransaction();
+            //    if(!CRubric::Delete($ID)) {
+            //        $DB->Rollback();
+            //        $lAdmin->AddGroupError(GetMessage("rub_del_err"), $ID);
+            //    }
+            //    $DB->Commit();
+            //    break;
+            //case "activate":
+            //case "deactivate":
+            //    $cData = new CRubric;
+            //    if(($rsData = $cData->GetByID($ID)) && ($arFields = $rsData->Fetch())) {
+            //        $arFields["ACTIVE"]=($_REQUEST['action']=="activate"?"Y":"N");
+            //        if(!$cData->Update($ID, $arFields))
+            //            $lAdmin->AddGroupError(GetMessage("rub_save_error").$cData->LAST_ERROR, $ID);
+            //    } else {
+            //        $lAdmin->AddGroupError(GetMessage("rub_save_error")." ".GetMessage("rub_no_rubric"), $ID);
+            //    }
+            //    break;
         }
     }
 }
@@ -295,17 +298,17 @@ while($arRes = $rsData->NavNext(true, "f_")) {
     $arActions[] = array(
         "ICON" => "edit",
         "DEFAULT" => true,
-        "TEXT" => "EDIT BITRIX USER",
-        "ACTION" => $lAdmin->ActionRedirect("user_edit.php?ID=".$f_ID),
+        "TEXT" => GetMessage("TRUSTEDNET_USERS_ACT_PULL_TN_INFO"),
+        "ACTION" => $lAdmin->ActionDoGroup($f_ID, "pull_tn_info"),
     );
 
-    $arActions[] = array("SEPARATOR" => true);
+    //$arActions[] = array("SEPARATOR" => true);
 
-    $arActions[] = array(
-        "ICON" => "delete",
-        "TEXT" => "DELETE",
-        "ACTION" =>"if(confirm('CONFIRM')) " . $lAdmin->ActionDoGroup($f_ID, "delete")
-    );
+    //$arActions[] = array(
+    //    "ICON" => "delete",
+    //    "TEXT" => "DELETE",
+    //    "ACTION" =>"if(confirm('CONFIRM')) " . $lAdmin->ActionDoGroup($f_ID, "delete")
+    //);
 
     // Apply context menu to the row
     $row->AddActions($arActions);
@@ -325,11 +328,11 @@ while($arRes = $rsData->NavNext(true, "f_")) {
 //    )
 //);
 
-$lAdmin->AddGroupActionTable(Array(
-    "delete"=>GetMessage("MAIN_ADMIN_LIST_DELETE"),
-    "activate"=>GetMessage("MAIN_ADMIN_LIST_ACTIVATE"),
-    "deactivate"=>GetMessage("MAIN_ADMIN_LIST_DEACTIVATE"),
-));
+$lAdmin->AddGroupActionTable(
+    array(
+        "pull_tn_info" => GetMessage("TRUSTEDNET_USERS_ACT_PULL_TN_INFO"),
+    )
+);
 
 // Buttons
 //$aContext = array(
