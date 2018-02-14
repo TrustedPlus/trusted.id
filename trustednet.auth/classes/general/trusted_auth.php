@@ -341,9 +341,18 @@ class TrustedAuth
         if ($arUser) {
             $oldEmail = $arUser["EMAIL"];
         }
+        // Check if email was changed
         if ($newEmail != $oldEmail) {
-            // E-mail was changed and is correct
             if (filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+                // Check if other user has the same email
+                $filter = array("EMAIL" => $newEmail);
+                $arUsersByEmail = CUser::GetList(($by = "id"), ($order = "asc"), $filter);
+                while($userByEmail = $arUsersByEmail->GetNext()) {
+                    if ($userByEmail["EMAIL"] == $newEmail) {
+                        // Duplicate email found
+                        return $arParams;
+                    }
+                }
                 $t_auth->sendRegisterRequest($arParams);
             }
         }
