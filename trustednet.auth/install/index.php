@@ -86,9 +86,9 @@ Class trustednet_auth extends CModule
         $sql = "CREATE TABLE IF NOT EXISTS `trn_user` (
                     `ID` int(11) NOT NULL,
                     `USER_ID` int(18) DEFAULT NULL,
-                    `TN_GIV_NAME` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-                    `TN_FAM_NAME` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-                    `TN_EMAIL` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+                    `GIVEN_NAME` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+                    `FAMILY_NAME` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+                    `EMAIL` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
                     `TIMESTAMP_X` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
                     PRIMARY KEY (`ID`)
                     ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";

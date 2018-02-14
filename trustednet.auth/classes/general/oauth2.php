@@ -307,9 +307,27 @@ class TDataBaseUser {
             global $DB;
             //Save
             debug('Save User to DataBase');
-            $userId = $user->getUserId()? : 'NULL';
+            $userId = "NULL";
+            if ($user->getUserId()) {
+                $userId = "'" . $user->getUserId() . "'";
+            }
+            $familyName = "NULL";
+            if ($user->getFamilyName()) {
+                $familyName = "'" . $user->getFamilyName() . "'";
+            }
+            $givenName = "NULL";
+            if ($user->getGivenName()) {
+                $givenName = "'" . $user->getGivenName() . "'";
+            }
+            $email = "NULL";
+            if ($user->getEmail()) {
+                $email = "'" . $user->getEmail() . "'";
+            }
             $sql = "UPDATE " . TRUSTEDNET_DB_TABLE_USER . " SET "
-                    . "USER_ID = " . $userId . " "
+                    . "USER_ID = " . $userId . ", "
+                    . "FAMILY_NAME = " . $familyName . ", "
+                    . "GIVEN_NAME = " . $givenName . ", "
+                    . "EMAIL = " . $email . " "
                     . "WHERE ID = " . $user->getId();
             $DB->Query($sql);
         } else {
@@ -326,11 +344,31 @@ class TDataBaseUser {
     static function insertUser($user) {
         global $DB;
         debug('Insert User to DataBase');
-        $userId = $user->getUserId()? : 'NULL';
-        $sql = "INSERT INTO " . TRUSTEDNET_DB_TABLE_USER . " (ID, USER_ID) VALUES ("
-                . $user->getId() . ", "
-                . $userId
-                . ")";
+        $userId = "NULL";
+        if ($user->getUserId()) {
+            $userId = "'" . $user->getUserId() . "'";
+        }
+        $familyName = "NULL";
+        if ($user->getFamilyName()) {
+            $familyName = "'" . $user->getFamilyName() . "'";
+        }
+        $givenName = "NULL";
+        if ($user->getGivenName()) {
+            $givenName = "'" . $user->getGivenName() . "'";
+        }
+        $email = "NULL";
+        if ($user->getEmail()) {
+            $email = "'" . $user->getEmail() . "'";
+        }
+        $sql = "INSERT INTO " .
+                    TRUSTEDNET_DB_TABLE_USER . " (ID, USER_ID, FAMILY_NAME, GIVEN_NAME, EMAIL)
+                VALUES ("
+                    . $user->getId() . ", "
+                    . $userId . ", "
+                    . $familyName . ", "
+                    . $givenName . ", "
+                    . $email
+                    . ")";
         $DB->Query($sql);
     }
 
@@ -377,6 +415,10 @@ class ServiceUser {
 
     function getId() {
         return $this->id;
+    }
+
+    function getUserId() {
+        return $this->userId;
     }
 
     function getUsername() {
@@ -436,6 +478,9 @@ class TUser {
 
     protected $id;
     protected $userId;
+    protected $familyName;
+    protected $givenName;
+    protected $email;
     protected $serviceUser = null;
 
     function getId() {
@@ -447,12 +492,36 @@ class TUser {
         $this->serviceUser = null;
     }
 
+    function getUserId() {
+        return $this->userId;
+    }
+
     function setUserId($userId) {
         $this->userId = $userId;
     }
 
-    function getUserId() {
-        return $this->userId;
+    function getFamilyName() {
+        return $this->familyName;
+    }
+
+    function setFamilyName($familyName) {
+        $this->familyName = $familyName;
+    }
+
+    function getGivenName() {
+        return $this->givenName;
+    }
+
+    function setGivenName($givenName) {
+        $this->givenName = $givenName;
+    }
+
+    function getEmail() {
+        return $this->email;
+    }
+
+    function setEmail($email) {
+        $this->email = $email;
     }
 
     /**
@@ -483,6 +552,10 @@ class TUser {
     function setServiceUser($serviceUser) {
         $this->serviceUser = $serviceUser;
         $this->id = $serviceUser->getId();
+        $this->userId = $serviceUser->getUserId();
+        $this->familyName = $serviceUser->getFamilyName();
+        $this->givenName = $serviceUser->getGivenName();
+        $this->email = $serviceUser->getEmail();
     }
 
     static function fromArray($array) {
@@ -751,6 +824,51 @@ class TAuthCommand {
         return $res;
     }
 
+    // SearchField can be:
+    // entitityId, username, email, displayName, familyName, givenName, login, id
+    static function pullTnInfo($accessToken, $searchField, $searchTerm) {
+        $res = false;
+        if ($accessToken) {
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+                'Authorization: Bearer ' . $accessToken,
+                'Content-Type: application/x-www-form-urlencoded',
+            ));
+            curl_setopt($curl, CURLOPT_URL, "https://net.trusted.ru/trustedapp/rest/user/find");
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($curl, CURLOPT_POSTFIELDS, "t=" . $searchTerm);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($curl);
+            if (!curl_errno($curl)) {
+                $info = curl_getinfo($curl);
+                if ($info['http_code'] == 200) {
+                    $responseList = json_decode($response, true);
+                    $responseList = $responseList["users"]["list"];
+                    foreach ($responseList as $user) {
+                        if ($user[$searchField] == $searchTerm) {
+                            $res = $user;
+                        }
+                    }
+                } else {
+                    $message = "Wrong HTTP response status " . $info['http_code'];
+                    if ($response) {
+                        $error = json_decode($response, true);
+                        if ($error) {
+                            $message .= PHP_EOL . $error["error"] . " - " . $error["error_description"];
+                        }
+                    }
+                    debug("OAuth request error", $message);
+                    throw new OAuth2Exception($message, 0, null);
+                }
+            } else {
+                $error = curl_error($curl);
+                curl_close($curl);
+                debug("CURL error", $error);
+                throw new OAuth2Exception(TRUSTEDNET_ERROR_MSG_CURL, TRUSTEDNET_ERROR_CODE_CURL, null);
+            }
+        }
+        return $res;
+    }
 }
 
 class OAuth2Exception extends Exception {

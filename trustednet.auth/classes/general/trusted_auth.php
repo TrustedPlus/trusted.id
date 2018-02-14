@@ -243,7 +243,7 @@ class TrustedAuth
                 }
             }
         } catch (ErrorException $errorException) {
-            $this->setError($errorException);
+            $this->setError($errorException->getMessage());
         }
 
         return $data;

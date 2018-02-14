@@ -82,8 +82,18 @@ if(($arID = $lAdmin->GroupAction()) && $POST_RIGHT=="W") {
 
         switch($_REQUEST['action']) {
             case "pull_tn_info":
-                $userRow = $TrustedAuth->getUserRowByUserId($ID);
-                // Handle each ID one-by-one
+                $token = OAuth2::getFromSession();
+                $token = $token->getAccessToken();
+                $bxUser = CUser::GetById($ID);
+                $bxUser = $bxUser->Fetch();
+                $tnUserInfo = TAuthCommand::pullTnInfo($token, "email", $bxUser["EMAIL"]);
+                if ($tnUserInfo) {
+                    $serviceUser = ServiceUser::fromArray($tnUserInfo);
+                    $user = new TUser();
+                    $user->setServiceUser($serviceUser);
+                    $user->setUserId($ID);
+                    $user->save();
+                }
                 break;
             //case "delete":
             //    @set_time_limit(0);
@@ -131,19 +141,19 @@ while ($elem = $rsData->Fetch()) {
     } else {
         $elem["TN_ID"] = null;
     }
-    $tn_giv_name = $userRow["TN_GIV_NAME"];
+    $tn_giv_name = $userRow["GIVEN_NAME"];
     if ($tn_giv_name) {
         $elem["TN_GIV_NAME"] = $tn_giv_name;
     } else {
         $elem["TN_GIV_NAME"] = null;
     }
-    $tn_fam_name = $userRow["TN_FAM_NAME"];
+    $tn_fam_name = $userRow["FAMILY_NAME"];
     if ($tn_fam_name) {
         $elem["TN_FAM_NAME"] = $tn_fam_name;
     } else {
         $elem["TN_FAM_NAME"] = null;
     }
-    $tn_email = $userRow["TN_EMAIL"];
+    $tn_email = $userRow["EMAIL"];
     if ($tn_email) {
         $elem["TN_EMAIL"] = $tn_email;
     } else {
