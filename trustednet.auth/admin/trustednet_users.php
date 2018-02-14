@@ -14,12 +14,13 @@ $sTableID = "bindingTable";
 $oSort = new CAdminSorting($sTableID, "ID", "asc");
 $lAdmin = new CAdminList($sTableID, $oSort);
 
+$TrustedAuth = new TrustedAuth;
+
 // Filter elements ids
-$FilterArr = Array(
+$FilterArr = array(
     "find_id",
     "find_login",
     "find_name",
-    "find_last_name",
     "find_email",
     "find_tn_id",
     "find_tn_giv_name",
@@ -30,16 +31,13 @@ $FilterArr = Array(
 $lAdmin->InitFilter($FilterArr);
 
 // Filtration array for GetList
-$arFilter = Array(
+$arFilter = array(
     "ID" => $find_id,
     "LOGIN" => $find_login,
+    // In CUser::GetList NAME filter automatically searches
+    // for both NAME and LAST_NAME
     "NAME" => $find_name,
-    "LAST_NAME" => $find_last_name,
     "EMAIL" => $find_email,
-    "TN_ID" => $find_tn_id,
-    "TN_GIV_NAME" => $find_tn_giv_name,
-    "TN_FAM_NAME" => $find_tn_fam_name,
-    "TN_EMAIL" => $find_tn_email,
 );
 
 // Saves edited elements
@@ -67,7 +65,7 @@ if($lAdmin->EditAction() && $POST_RIGHT=="W") {
     }
 }
 
-// Hadnle actions
+// Handle actions
 if(($arID = $lAdmin->GroupAction()) && $POST_RIGHT=="W") {
     // selected = for all
     if($_REQUEST['action_target']=='selected')
@@ -112,29 +110,41 @@ if(($arID = $lAdmin->GroupAction()) && $POST_RIGHT=="W") {
 $rsData = CUser::GetList($by, $order, $arFilter);
 
 // Take apart GetList result to insert new values
-$TrustedAuth = new TrustedAuth;
 $arData = array();
 while ($elem = $rsData->Fetch()) {
     // TODO: use TDataBaseUser->getUserByUserId instead
     $userRow = $TrustedAuth->getUserRowByUserId($elem["ID"]);
     $userRow = $userRow["data"];
 
+    // Combine NAME and LAST_NAME in one column
+    if ($elem["LAST_NAME"]) {
+        $elem["NAME"] = $elem["NAME"] . " " . $elem["LAST_NAME"];
+    }
+
     // Add trn_user columns to the results
     $tn_id = $userRow["ID"];
     if ($tn_id) {
         $elem["TN_ID"] = $tn_id;
+    } else {
+        $elem["TN_ID"] = null;
     }
     $tn_giv_name = $userRow["TN_GIV_NAME"];
     if ($tn_giv_name) {
         $elem["TN_GIV_NAME"] = $tn_giv_name;
+    } else {
+        $elem["TN_GIV_NAME"] = null;
     }
     $tn_fam_name = $userRow["TN_FAM_NAME"];
     if ($tn_fam_name) {
         $elem["TN_FAM_NAME"] = $tn_fam_name;
+    } else {
+        $elem["TN_FAM_NAME"] = null;
     }
     $tn_email = $userRow["TN_EMAIL"];
     if ($tn_email) {
         $elem["TN_EMAIL"] = $tn_email;
+    } else {
+        $elem["TN_EMAIL"] = null;
     }
 
     // Manually apply filter for inserted values
@@ -172,29 +182,35 @@ while ($elem = $rsData->Fetch()) {
 
 // Manually apply sorting by inserted values
 $multisortArrayHelper = array();
-if ($_GET["by"] == "tn_id") {
+$getSortPar = $_GET["by"];
+$getOrderPar = $_GET["order"];
+if ($getSortPar == "name") {
+    foreach($arData as $elem) {
+        $multisortArrayHelper[] = $elem["NAME"];
+    }
+} elseif ($getSortPar == "tn_id") {
     foreach ($arData as $elem) {
         $multisortArrayHelper[] = $elem["TN_ID"];
     }
-} elseif ($_GET["by"] == "tn_giv_name") {
-    foreach ($arData as $elem) {
+} elseif ($getSortPar == "tn_giv_name") {
+    foreach($arData as $elem) {
         $multisortArrayHelper[] = $elem["TN_GIV_NAME"];
     }
-} elseif ($_GET["by"] == "tn_fam_name") {
-    foreach ($arData as $elem) {
+} elseif ($getSortPar == "tn_fam_name") {
+    foreach($arData as $elem) {
         $multisortArrayHelper[] = $elem["TN_FAM_NAME"];
     }
-} elseif ($_GET["by"] == "tn_email") {
-    foreach ($arData as $elem) {
+} elseif ($getSortPar == "tn_email") {
+    foreach($arData as $elem) {
         $multisortArrayHelper[] = $elem["TN_EMAIL"];
     }
 }
 
 if ($multisortArrayHelper) {
-    if ($_GET["order"] == "asc") {
+    if ($getOrderPar == "asc") {
         array_multisort($multisortArrayHelper, SORT_ASC, $arData);
     }
-    if ($_GET["order"] == "desc") {
+    if ($getOrderPar == "desc") {
         array_multisort($multisortArrayHelper, SORT_DESC, $arData);
     }
 }
@@ -231,12 +247,6 @@ $lAdmin->AddHeaders(
             "id" => "NAME",
             "content" => GetMessage("TRUSTEDNET_USERS_COL_NAME"),
             "sort" => "name",
-            "default" => true,
-        ),
-        array(
-            "id" => "LAST_NAME",
-            "content" => GetMessage("TRUSTEDNET_USERS_COL_LAST_NAME"),
-            "sort" => "last_name",
             "default" => true,
         ),
         array(
@@ -342,9 +352,9 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_aft
 $oFilter = new CAdminFilter(
     $sTableID."_filter",
     array(
+        GetMessage("TRUSTEDNET_USERS_COL_ID"),
         GetMessage("TRUSTEDNET_USERS_COL_LOGIN"),
         GetMessage("TRUSTEDNET_USERS_COL_NAME"),
-        GetMessage("TRUSTEDNET_USERS_COL_LAST_NAME"),
         GetMessage("TRUSTEDNET_USERS_COL_EMAIL"),
         GetMessage("TRUSTEDNET_USERS_COL_TN_ID"),
         GetMessage("TRUSTEDNET_USERS_COL_TN_GIV_NAME"),
@@ -382,13 +392,6 @@ if ($auth) {
         <td><?= GetMessage("TRUSTEDNET_USERS_COL_NAME") ?></td>
         <td>
             <input type="text" name="find_name" size="47" value="<?echo htmlspecialchars($find_name)?>">
-        </td>
-    </tr>
-
-    <tr>
-        <td><?= GetMessage("TRUSTEDNET_USERS_COL_LAST_NAME") ?></td>
-        <td>
-            <input type="text" name="find_last_name" size="47" value="<?echo htmlspecialchars($find_last_name)?>">
         </td>
     </tr>
 

@@ -4,8 +4,7 @@ $MESS ['TRUSTEDNET_USERS_PAGE_TITLE'] = "Редактирование связе
 // Table columns
 $MESS ['TRUSTEDNET_USERS_COL_ID'] = "ID в Битрикс";
 $MESS ['TRUSTEDNET_USERS_COL_LOGIN'] = "Логин в Битрикс";
-$MESS ['TRUSTEDNET_USERS_COL_NAME'] = "Имя в Битрикс";
-$MESS ['TRUSTEDNET_USERS_COL_LAST_NAME'] = "Фамилия в Битрикс";
+$MESS ['TRUSTEDNET_USERS_COL_NAME'] = "Имя и фамилия в Битрикс";
 $MESS ['TRUSTEDNET_USERS_COL_EMAIL'] = "E-Mail в Битрикс";
 $MESS ['TRUSTEDNET_USERS_COL_TN_ID'] = "ID в TrustedNet";
 $MESS ['TRUSTEDNET_USERS_COL_TN_GIV_NAME'] = "Имя в TrustedNet";
