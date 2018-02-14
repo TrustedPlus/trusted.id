@@ -364,7 +364,13 @@ if ($auth) {
 
     <?$oFilter->Begin();?>
 
-    <? //TODO: add id filter form ?>
+    <tr>
+        <td><?= GetMessage("TRUSTEDNET_USERS_COL_ID") ?></td>
+        <td>
+            <input type="text" size="25" name="find_id" value="<?echo htmlspecialchars($find_id)?>">
+        </td>
+    </tr>
+
     <tr>
         <td><?= GetMessage("TRUSTEDNET_USERS_COL_LOGIN") ?></td>
         <td>
