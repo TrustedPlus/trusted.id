@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__ . '/config.php';
-require_once TRUSTED_MODULE_AUTH_ROOT . "/custom.php";
-require_once TRUSTED_MODULE_AUTH_ROOT . "/util.php";
+require_once __DIR__ . '/../config.php';
+require_once TRUSTED_MODULE_PATH . "/classes/custom.php";
+require_once TRUSTED_MODULE_PATH . "/classes/util.php";
 
 session_start();
 

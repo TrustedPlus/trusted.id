@@ -10,8 +10,8 @@ LOC
 
 <!--<link rel="stylesheet" type="text/css" href="https://net.trusted.ru/static/css/tlogin.css">-->
 <?php
-require_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/components/trustednet/trustednet.auth/config.php");
-require_once(TRUSTED_MODULE_AUTH_ROOT . "/oauth2.php");
+require_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/trustednet.auth/classes/config.php");
+require_once(TRUSTED_MODULE_PATH . "/classes/general/oauth2.php");
 $token = OAuth2::getFromSession();
 if (!($USER && $USER->IsAuthorized())) {
     // Remove accesss token from session

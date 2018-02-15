@@ -363,7 +363,6 @@ $oFilter = new CAdminFilter(
 );
 
 //require_once $_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/trustednet.auth/install/components/trustednet/trustednet.auth/oauth2.php";
-$APPLICATION->IncludeComponent("trustednet:trustednet.auth", array());
 
 $auth = OAuth2::getFromSession();
 if ($auth) {
@@ -437,6 +436,8 @@ if ($auth) {
 
     <? $lAdmin->DisplayList(); ?>
 <?
+} else {
+    $APPLICATION->IncludeComponent("trustednet:trustednet.auth", array());
 }
 ?>
 
