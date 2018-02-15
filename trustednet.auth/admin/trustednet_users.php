@@ -153,28 +153,24 @@ while ($elem = $rsData->Fetch()) {
     // Manually apply filter for inserted values
     $filterAddFlag = true;
 
-    if ($find_tn_id) {
-        $filterAddFlag = false;
-        if (stristr($tn_id, $find_tn_id) !== false) {
-            $filterAddFlag = true;
+    if ($find_tn_id && $filterAddFlag) {
+        if (stristr($tn_id, $find_tn_id) == false) {
+            $filterAddFlag = false;
         }
     }
-    if ($find_tn_giv_name) {
-        $filterAddFlag = false;
-        if (stristr($tn_giv_name, $find_tn_giv_name) !== false) {
-            $filterAddFlag = true;
+    if ($find_tn_giv_name && $filterAddFlag) {
+        if (stristr($tn_giv_name, $find_tn_giv_name) == false) {
+            $filterAddFlag = false;
         }
     }
-    if ($find_tn_fam_name) {
-        $filterAddFlag = false;
-        if (stristr($tn_fam_name, $find_tn_fam_name) !== false) {
-            $filterAddFlag = true;
+    if ($find_tn_fam_name && $filterAddFlag) {
+        if (stristr($tn_fam_name, $find_tn_fam_name) == false) {
+            $filterAddFlag = false;
         }
     }
-    if ($find_tn_email) {
-        $filterAddFlag = false;
-        if (stristr($tn_email, $find_tn_email) !== false) {
-            $filterAddFlag = true;
+    if ($find_tn_email && $filterAddFlag) {
+        if (stristr($tn_email, $find_tn_email) == false) {
+            $filterAddFlag = false;
         }
     }
 
