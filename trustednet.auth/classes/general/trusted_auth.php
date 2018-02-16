@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . "/../config.php";
+require_once __DIR__ . "/oauth2.php";
 
 class TrustedAuth
 {
@@ -191,6 +192,16 @@ class TrustedAuth
                         WHERE
                             USER_ID = '" . $bxUserId . "'";
                 $DB->Query($sql);
+            }
+            $token = OAuth2::getFromSession();
+            $token = $token->getAccessToken();
+            $tnUserInfo = TAuthCommand::pullTnInfo($token, "id", $tnUserId);
+            if ($tnUserInfo) {
+                $serviceUser = ServiceUser::fromArray($tnUserInfo);
+                $user = new TUser();
+                $user->setServiceUser($serviceUser);
+                $user->setUserId($bxUserId);
+                $user->save();
             }
         } catch (ErrorException $errorException) {
             $this->setError($errorException->getMessage());
