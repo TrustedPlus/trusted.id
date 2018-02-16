@@ -260,7 +260,7 @@ class TrustedAuth
         return $data;
     }
 
-    private function registerUser($arFields)
+    public function registerUser($arFields)
     {
         $this->log('registerUser', LOG_LEVEL_INFO);
         if (!$arFields['RESULT']) {
