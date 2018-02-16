@@ -76,6 +76,9 @@ if(($arID = $lAdmin->GroupAction()) && $POST_RIGHT=="W") {
                 $bxUser["RESULT"] = true;
                 $TrustedAuth->registerUser($bxUser);
                 break;
+            case "remove":
+                TDataBaseUser::removeUserByUserId($ID);
+                break;
         }
     }
 }
@@ -278,6 +281,17 @@ while($arRes = $rsData->NavNext(true, "f_")) {
         "ACTION" => $lAdmin->ActionDoGroup($f_ID, "register"),
     );
 
+    if ($f_TN_ID) {
+        $arActions[] = array("SEPARATOR" => true);
+
+        $arActions[] = array(
+            "ICON" => "delete",
+            "DEFAULT" => true,
+            "TEXT" => GetMessage("TRUSTEDNET_USERS_ACT_REMOVE"),
+            "ACTION" => $lAdmin->ActionDoGroup($f_ID, "remove"),
+        );
+    }
+
     // Apply context menu to the row
     $row->AddActions($arActions);
 }
@@ -300,6 +314,7 @@ $lAdmin->AddGroupActionTable(
     array(
         "pull_tn_info" => GetMessage("TRUSTEDNET_USERS_ACT_PULL_TN_INFO"),
         "register" => GetMessage("TRUSTEDNET_USERS_ACT_REGISTER"),
+        "remove" => GetMessage("TRUSTEDNET_USERS_ACT_REMOVE"),
     )
 );
 
