@@ -63,6 +63,7 @@ if(($arID = $lAdmin->GroupAction()) && $POST_RIGHT=="W") {
                 $bxUser = $bxUser->Fetch();
                 $tnUserInfo = TAuthCommand::pullTnInfo($token, "email", $bxUser["EMAIL"]);
                 if ($tnUserInfo) {
+                    TDataBaseUser::removeUserByUserId($ID);
                     $serviceUser = ServiceUser::fromArray($tnUserInfo);
                     $user = new TUser();
                     $user->setServiceUser($serviceUser);
