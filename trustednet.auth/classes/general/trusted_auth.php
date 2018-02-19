@@ -260,15 +260,17 @@ class TrustedAuth
         return $data;
     }
 
-    public function registerUser($arFields)
+    public function registerUser($arFields, $force = false)
     {
         $this->log('registerUser', LOG_LEVEL_INFO);
         if (!$arFields['RESULT']) {
             $this->setError($arFields['RESULT_MESSAGE']);
         }
         $this->log($this->shouldRegister());
-        if (!$this->ERROR_OCCURRED && $this->shouldRegister()) {
-            $this->sendRegisterRequest($arFields);
+        if (!$this->ERROR_OCCURRED) {
+            if ($this->shouldRegister() || $force) {
+                $this->sendRegisterRequest($arFields);
+            }
         }
         return $arFields;
     }

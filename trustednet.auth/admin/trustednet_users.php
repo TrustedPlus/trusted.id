@@ -75,7 +75,7 @@ if(($arID = $lAdmin->GroupAction()) && $POST_RIGHT=="W") {
                 $bxUser = CUser::GetById($ID);
                 $bxUser = $bxUser->Fetch();
                 $bxUser["RESULT"] = true;
-                $TrustedAuth->registerUser($bxUser);
+                $TrustedAuth->registerUser($bxUser, true);
                 break;
             case "remove":
                 TDataBaseUser::removeUserByUserId($ID);
