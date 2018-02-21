@@ -194,8 +194,8 @@ class TrustedAuth
                 $DB->Query($sql);
             }
             $token = OAuth2::getFromSession();
-            $token = $token->getAccessToken();
             if ($token) {
+                $token = $token->getAccessToken();
                 $tnUserInfo = TAuthCommand::pullTnInfo($token, "id", $tnUserId);
                 if ($tnUserInfo) {
                     $serviceUser = ServiceUser::fromArray($tnUserInfo);
