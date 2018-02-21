@@ -195,13 +195,15 @@ class TrustedAuth
             }
             $token = OAuth2::getFromSession();
             $token = $token->getAccessToken();
-            $tnUserInfo = TAuthCommand::pullTnInfo($token, "id", $tnUserId);
-            if ($tnUserInfo) {
-                $serviceUser = ServiceUser::fromArray($tnUserInfo);
-                $user = new TUser();
-                $user->setServiceUser($serviceUser);
-                $user->setUserId($bxUserId);
-                $user->save();
+            if ($token) {
+                $tnUserInfo = TAuthCommand::pullTnInfo($token, "id", $tnUserId);
+                if ($tnUserInfo) {
+                    $serviceUser = ServiceUser::fromArray($tnUserInfo);
+                    $user = new TUser();
+                    $user->setServiceUser($serviceUser);
+                    $user->setUserId($bxUserId);
+                    $user->save();
+                }
             }
         } catch (ErrorException $errorException) {
             $this->setError($errorException->getMessage());
