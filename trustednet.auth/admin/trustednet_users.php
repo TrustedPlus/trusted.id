@@ -91,13 +91,8 @@ if(($arID = $lAdmin->GroupAction()) && $POST_RIGHT=="W") {
 
 // Get list of users with filter applied
 $TDataBaseUser = new TDataBaseUser;
-$rsData = $TDataBaseUser->getBitrixAndTnUsers($by, $order, $arFilter);
-
-// $rsData = new CDBResult;
-// $rsData->InitFromArray($arData);
-
-// Convert to table data
-// $rsData = new CAdminResult($rsData, $sTableID);
+$users = $TDataBaseUser->getBitrixAndTnUsers($by, $order, $arFilter);
+$rsData = new CAdminResult($users, $sTableID);
 
 // Enable pagination
 $rsData->NavStart();
