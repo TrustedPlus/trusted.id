@@ -257,6 +257,82 @@ class AuthorizationGrant {
 
 class TDataBaseUser {
 
+    static function getBitrixAndTnUsers ($by, $order, $filter) {
+        $find_id = (string)$filter["ID"];
+        $find_login = (string)$filter["LOGIN"];
+        $find_name = (string)$filter["NAME"];
+        $find_email = (string)$filter["EMAIL"];
+        $find_tn_id = (string)$filter["TN_ID"];
+        $find_tn_giv_name = (string)$filter["TN_GIV_NAME"];
+        $find_tn_fam_name = (string)$filter["TN_FAM_NAME"];
+        $find_tn_email = (string)$filter["TN_EMAIL"];
+
+        $sqlWhere = array();
+        if ($find_id !== "") {
+            $sqlWhere[] = "BU.ID = '" . $find_id . "'";
+        }
+        if ($find_login !== "") {
+            $sqlWhere[] = "BU.LOGIN LIKE '%" . $find_login . "%'";
+        }
+        if ($find_name !== "") {
+            $sqlWhere[] = "BU.NAME LIKE '%" . $find_login . "%'";
+        }
+        if ($find_email !== "") {
+            $sqlWhere[] = "BU.EMAIL LIKE '%" . $find_email . "%'";
+        }
+        if ($find_tn_id !== "") {
+            $sqlWhere[] = "TU.ID = '" . $find_tn_id . "'";
+        }
+        if ($find_tn_giv_name !== "") {
+            $sqlWhere[] = "TU.GIVEN_NAME LIKE '%" . $find_tn_giv_name . "%'";
+        }
+        if ($find_tn_fam_name !== "") {
+            $sqlWhere[] = "TU.FAMILY_NAME LIKE '%" . $find_tn_fam_name . "%'";
+        }
+        if ($find_tn_email !== "") {
+            $sqlWhere[] = "TU.EMAIL LIKE '%" . $find_tn_email . "%'";
+        }
+
+        global $DB;
+        $sql = "
+            SELECT
+                BU.ID, BU.LOGIN, CONCAT(BU.NAME, ' ', BU.LAST_NAME) AS NAME, BU.EMAIL,
+                TU.ID as TN_ID, TU.GIVEN_NAME as TN_GIV_NAME, TU.FAMILY_NAME as TN_FAM_NAME, TU.EMAIL as TN_EMAIL
+            FROM
+                b_user as BU
+            LEFT JOIN
+                trn_user as TU
+            ON
+                BU.ID=TU.USER_ID";
+
+        // Filtering
+        if (count($sqlWhere)) {
+            $sql .= " WHERE " . implode(" AND ", $sqlWhere);
+        }
+
+        // Ordering
+        $fields = array(
+            "ID" => "BU.ID",
+            "LOGIN" => "BU.ID",
+            "NAME" => "BU.NAME",
+            "EMAIL" => "BU.EMAIL",
+            "TN_ID" => "TU.ID",
+            "TN_GIV_NAME" => "TU.GIVEN_NAME",
+            "TN_FAM_NAME" => "TU.FAMILY_NAME",
+            "TN_EMAIL" => "TU.EMAIL",
+        );
+        $by = strtoupper($by);
+        $order = strtoupper($order);
+        if (array_key_exists($by, $fields)) {
+            if ($order != "DESC") {
+                $order = "ASC";
+            }
+            $sql .= " ORDER BY " . $fields[$by] . " " . $order . ";";
+        }
+        $rows = $DB->Query($sql);
+        return $rows;
+    }
+
     /**
      * Returns DB user
      * @param type $user

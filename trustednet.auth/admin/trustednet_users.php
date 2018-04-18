@@ -34,10 +34,12 @@ $lAdmin->InitFilter($FilterArr);
 $arFilter = array(
     "ID" => $find_id,
     "LOGIN" => $find_login,
-    // In CUser::GetList NAME filter automatically searches
-    // for both NAME and LAST_NAME
     "NAME" => $find_name,
     "EMAIL" => $find_email,
+    "TN_ID" => $find_tn_id,
+    "TN_GIV_NAME" => $find_tn_giv_name,
+    "TN_FAM_NAME" => $find_tn_fam_name,
+    "TN_EMAIL" => $find_tn_email,
 );
 
 // Handle actions
@@ -58,6 +60,9 @@ if(($arID = $lAdmin->GroupAction()) && $POST_RIGHT=="W") {
         switch($_REQUEST['action']) {
             case "pull_tn_info":
                 $token = OAuth2::getFromSession();
+                if (!$token) {
+                    break;
+                }
                 $token = $token->getAccessToken();
                 $bxUser = CUser::GetById($ID);
                 $bxUser = $bxUser->Fetch();
@@ -85,117 +90,14 @@ if(($arID = $lAdmin->GroupAction()) && $POST_RIGHT=="W") {
 }
 
 // Get list of users with filter applied
-$rsData = CUser::GetList($by, $order, $arFilter);
+$TDataBaseUser = new TDataBaseUser;
+$rsData = $TDataBaseUser->getBitrixAndTnUsers($by, $order, $arFilter);
 
-// Take apart GetList result to insert new values
-$arData = array();
-while ($elem = $rsData->Fetch()) {
-    // TODO: use TDataBaseUser->getUserByUserId instead
-    $userRow = $TrustedAuth->getUserRowByUserId($elem["ID"]);
-    $userRow = $userRow["data"];
-
-    // Combine NAME and LAST_NAME in one column
-    if ($elem["LAST_NAME"]) {
-        $elem["NAME"] = $elem["NAME"] . " " . $elem["LAST_NAME"];
-    }
-
-    // Add trn_user columns to the results
-    $tn_id = $userRow["ID"];
-    if ($tn_id) {
-        $elem["TN_ID"] = $tn_id;
-    } else {
-        $elem["TN_ID"] = null;
-    }
-    $tn_giv_name = $userRow["GIVEN_NAME"];
-    if ($tn_giv_name) {
-        $elem["TN_GIV_NAME"] = $tn_giv_name;
-    } else {
-        $elem["TN_GIV_NAME"] = null;
-    }
-    $tn_fam_name = $userRow["FAMILY_NAME"];
-    if ($tn_fam_name) {
-        $elem["TN_FAM_NAME"] = $tn_fam_name;
-    } else {
-        $elem["TN_FAM_NAME"] = null;
-    }
-    $tn_email = $userRow["EMAIL"];
-    if ($tn_email) {
-        $elem["TN_EMAIL"] = $tn_email;
-    } else {
-        $elem["TN_EMAIL"] = null;
-    }
-
-    // Manually apply filter for inserted values
-    $filterAddFlag = true;
-
-    if ($find_tn_id && $filterAddFlag) {
-        if (stristr($tn_id, $find_tn_id) == false) {
-            $filterAddFlag = false;
-        }
-    }
-    if ($find_tn_giv_name && $filterAddFlag) {
-        if (stristr($tn_giv_name, $find_tn_giv_name) == false) {
-            $filterAddFlag = false;
-        }
-    }
-    if ($find_tn_fam_name && $filterAddFlag) {
-        if (stristr($tn_fam_name, $find_tn_fam_name) == false) {
-            $filterAddFlag = false;
-        }
-    }
-    if ($find_tn_email && $filterAddFlag) {
-        if (stristr($tn_email, $find_tn_email) == false) {
-            $filterAddFlag = false;
-        }
-    }
-
-    if ($filterAddFlag) {
-        $arData[] = $elem;
-    }
-}
-
-// Manually apply sorting by inserted values
-$multisortArrayHelper = array();
-$getSortPar = $_GET["by"];
-$getOrderPar = $_GET["order"];
-if ($getSortPar == "name") {
-    foreach($arData as $elem) {
-        $multisortArrayHelper[] = $elem["NAME"];
-    }
-} elseif ($getSortPar == "tn_id") {
-    foreach ($arData as $elem) {
-        $multisortArrayHelper[] = $elem["TN_ID"];
-    }
-} elseif ($getSortPar == "tn_giv_name") {
-    foreach($arData as $elem) {
-        $multisortArrayHelper[] = $elem["TN_GIV_NAME"];
-    }
-} elseif ($getSortPar == "tn_fam_name") {
-    foreach($arData as $elem) {
-        $multisortArrayHelper[] = $elem["TN_FAM_NAME"];
-    }
-} elseif ($getSortPar == "tn_email") {
-    foreach($arData as $elem) {
-        $multisortArrayHelper[] = $elem["TN_EMAIL"];
-    }
-}
-
-if ($multisortArrayHelper) {
-    if ($getOrderPar == "asc") {
-        array_multisort($multisortArrayHelper, SORT_ASC, $arData);
-    }
-    if ($getOrderPar == "desc") {
-        array_multisort($multisortArrayHelper, SORT_DESC, $arData);
-    }
-}
-
-// Assemble query result back again with the new values,
-// filter and sorting
-$rsData = new CDBResult;
-$rsData->InitFromArray($arData);
+// $rsData = new CDBResult;
+// $rsData->InitFromArray($arData);
 
 // Convert to table data
-$rsData = new CAdminResult($rsData, $sTableID);
+// $rsData = new CAdminResult($rsData, $sTableID);
 
 // Enable pagination
 $rsData->NavStart();
