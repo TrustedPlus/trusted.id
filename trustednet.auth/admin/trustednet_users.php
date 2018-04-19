@@ -96,6 +96,8 @@ $rsData = new CAdminResult($users, $sTableID);
 
 // Enable pagination
 $rsData->NavStart();
+// Hide "Show all on one page" in pagination footer
+$rsData->bShowAll = 0;
 
 // Add page switcher to the main object
 $lAdmin->NavText($rsData->GetNavPrint(GetMessage("TRUSTEDNET_USERS_NAV_TEXT")));
