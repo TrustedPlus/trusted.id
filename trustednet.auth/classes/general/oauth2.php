@@ -313,8 +313,8 @@ class TDataBaseUser {
         // Ordering
         $fields = array(
             "ID" => "BU.ID",
-            "LOGIN" => "BU.ID",
-            "NAME" => "BU.NAME",
+            "LOGIN" => "BU.LOGIN",
+            "NAME" => "CONCAT(BU.NAME, ' ', BU.LAST_NAME)",
             "EMAIL" => "BU.EMAIL",
             "TN_ID" => "TU.ID",
             "TN_GIV_NAME" => "TU.GIVEN_NAME",
