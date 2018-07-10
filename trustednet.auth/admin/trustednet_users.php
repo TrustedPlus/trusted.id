@@ -254,7 +254,6 @@ if (!isSecure()) {
     echo BeginNote(), GetMessage("TRUSTEDNET_HTTP_WARNING"), EndNote();
 }
 
-$auth = OAuth2::getFromSession();
 if (!checkCurl()) {
     echo BeginNote(), GetMessage("TRUSTEDNET_CURL_WARNING"), EndNote();
 } elseif (COption::GetOptionString("main", "new_user_email_uniq_check") !== "Y") {
@@ -268,9 +267,10 @@ if (!checkCurl()) {
     </h3>
 <?
 
-} elseif (!$auth) {
+} elseif (!OAuth2::getFromSession()) {
     $APPLICATION->IncludeComponent("trustednet:trustednet.auth", array());
 } else {
+    $auth = OAuth2::getFromSession();
 ?>
 
     <form name="find_form" method="get" action="<?echo $APPLICATION->GetCurPage();?>">
