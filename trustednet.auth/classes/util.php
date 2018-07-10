@@ -25,6 +25,24 @@ function debug($text, $val = null) {
 }
 
 /**
+ * Check if curl extension is available.
+ * @return bool
+ */
+function checkCurl() {
+    return in_array('curl', get_loaded_extensions());
+}
+
+/**
+ * Checks whether or not site runs on https.
+ *
+ * @return bool
+ */
+function isSecure() {
+    return ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        || $_SERVER['SERVER_PORT'] == 443);
+}
+
+/**
  * Random string with specified length and alphabet
  * @param number $len Length
  * @param string $alphabet Set of characters to generate from

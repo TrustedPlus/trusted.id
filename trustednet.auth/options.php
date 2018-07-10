@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/classes/config.php";
+require_once __DIR__ . "/classes/util.php";
 $module_id = TN_AUTH_MODULE_ID;
 IncludeModuleLangFile(__FILE__);
 
@@ -87,10 +88,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
         COption::SetOptionString($module_id, 'SEND_MAIL_ENABLED', $SEND_MAIL_ENABLED);
     }
 }
-?>
 
+if (!isSecure()) {
+    echo BeginNote(), GetMessage("TN_HTTP_WARNING"), EndNote();
+}
+
+if (COption::GetOptionString("main", "new_user_email_uniq_check") !== "Y") {
+?>
+    <h3 style="margin-bottom: 10px;">
+        <?= GetMessage("TN_SET_EMAIL_UNIQ_CHECK_PREFIX") ?>
+        </br>"<i><?= GetMessage("TN_MAIN_REGISTER_EMAIL_UNIQ_CHECK_RU") ?></i>"</br>
+        <a href="/bitrix/admin/settings.php?lang=ru&mid=main&tabControl_active_tab=edit6#opt_new_user_registration_email_confirmation">
+            <?= GetMessage("TN_SET_EMAIL_UNIQ_CHECK_POSTFIX") ?>
+        </a>
+    </h3>
 <?
-if (COption::GetOptionString("main", "new_user_email_uniq_check") === "Y") {
+
+} elseif (!checkCurl()) {
+?>
+    <h3>
+        <? echo BeginNote(), GetMessage("TN_CURL_WARNING"), EndNote();?>
+    </h3>
+<?
+} else {
     $tabControl->Begin();
     $tabControl->BeginNextTab();
 ?>
@@ -151,7 +171,6 @@ if (COption::GetOptionString("main", "new_user_email_uniq_check") === "Y") {
         <tr>
             <td class="adm-detail-content-cell-l">
                 <?= GetMessage("TN_AUTH_USER_INFO_TEMPLATE_ID") ?>
-                <span class="required"><sup>1</sup></span>
             </td>
             <td><input name="USER_INFO_TEMPLATE_ID"
                        id="templateId"
@@ -160,6 +179,14 @@ if (COption::GetOptionString("main", "new_user_email_uniq_check") === "Y") {
                        min="1"
                        max="999"
                        value="<?= $USER_INFO_TEMPLATE_ID ?>"/></td>
+
+        </tr>
+        <tr>
+            <td colspan="2">
+                <?echo BeginNote();?>
+                <?echo GetMessage("TN_AUTH_USER_INFO_TEMPLATE_ID_NOTE")?><br>
+                <?echo EndNote();?>
+            </td>
         </tr>
         <tr>
             <td width="40%" class="adm-detail-content-cell-l"><?= GetMessage("TN_AUTH_REDIRECT_URL") ?></td>
@@ -356,20 +383,5 @@ if (COption::GetOptionString("main", "new_user_email_uniq_check") === "Y") {
     </form>
 
 <?
-} else {
-?>
-    <h3 style="margin-bottom: 10px;">
-        <?= GetMessage("TN_SET_EMAIL_UNIQ_CHECK_PREFIX") ?>
-        </br>"<i><?= GetMessage("TN_MAIN_REGISTER_EMAIL_UNIQ_CHECK_RU") ?></i>"</br>
-        <a href="/bitrix/admin/settings.php?lang=ru&mid=main&tabControl_active_tab=edit6#opt_new_user_registration_email_confirmation">
-            <?= GetMessage("TN_SET_EMAIL_UNIQ_CHECK_POSTFIX") ?>
-        </a>
-    </h3>
-    <?
 }
-?>
-
-<?echo BeginNote();?>
-<span class="required"><sup>1</sup></span><?echo GetMessage("TN_AUTH_USER_INFO_TEMPLATE_ID_NOTE")?><br>
-<?echo EndNote();?>
 

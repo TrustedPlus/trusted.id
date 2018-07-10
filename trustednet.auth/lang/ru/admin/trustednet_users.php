@@ -1,6 +1,15 @@
 <?php
 $MESS ['TRUSTEDNET_USERS_PAGE_TITLE'] = "Редактирование связей между пользователями Битрикс и TrustedNet";
 
+$MESS ["TRUSTEDNET_CURL_WARNING"] = "<span class=\"required\">Внимание!</span><br>Для работы модуля требуется установить на сервер php-расширение curl.";
+$MESS ["TRUSTEDNET_HTTP_WARNING"] = "<span class=\"required\">Внимание!</span><br>Работа модуля невозможна на незащищенном соединении (протокол \"HTTP\").";
+
+$MESS ["TN_SET_EMAIL_UNIQ_CHECK_PREFIX"] = "ВНИМАНИЕ!!! Для работы модуля требуется включить настройку";
+$MESS ["TN_SET_EMAIL_UNIQ_CHECK_POSTFIX"] = "в настройках главного модуля";
+
+$MESS ["TN_MAIN_REGISTER_EMAIL_UNIQ_CHECK_RU"] = "Проверять E-mail на уникальность при регистрации";
+$MESS ["TN_MAIN_REGISTER_EMAIL_UNIQ_CHECK_EN"] = "Check e-mail uniqueness";
+
 // Table columns
 $MESS ['TRUSTEDNET_USERS_COL_ID'] = "ID в Битрикс";
 $MESS ['TRUSTEDNET_USERS_COL_LOGIN'] = "Логин в Битрикс";

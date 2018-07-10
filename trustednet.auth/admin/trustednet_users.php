@@ -250,8 +250,27 @@ $oFilter = new CAdminFilter(
     )
 );
 
+if (!isSecure()) {
+    echo BeginNote(), GetMessage("TRUSTEDNET_HTTP_WARNING"), EndNote();
+}
+
 $auth = OAuth2::getFromSession();
-if ($auth) {
+if (!checkCurl()) {
+    echo BeginNote(), GetMessage("TRUSTEDNET_CURL_WARNING"), EndNote();
+} elseif (COption::GetOptionString("main", "new_user_email_uniq_check") !== "Y") {
+?>
+    <h3 style="margin-bottom: 10px;">
+        <?= GetMessage("TN_SET_EMAIL_UNIQ_CHECK_PREFIX") ?>
+        </br>"<i><?= GetMessage("TN_MAIN_REGISTER_EMAIL_UNIQ_CHECK_RU") ?></i>"</br>
+        <a href="/bitrix/admin/settings.php?lang=ru&mid=main&tabControl_active_tab=edit6#opt_new_user_registration_email_confirmation">
+            <?= GetMessage("TN_SET_EMAIL_UNIQ_CHECK_POSTFIX") ?>
+        </a>
+    </h3>
+<?
+
+} elseif (!$auth) {
+    $APPLICATION->IncludeComponent("trustednet:trustednet.auth", array());
+} else {
 ?>
 
     <form name="find_form" method="get" action="<?echo $APPLICATION->GetCurPage();?>">
@@ -322,8 +341,6 @@ if ($auth) {
 
     <? $lAdmin->DisplayList(); ?>
 <?
-} else {
-    $APPLICATION->IncludeComponent("trustednet:trustednet.auth", array());
 }
 ?>
 

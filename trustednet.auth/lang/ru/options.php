@@ -26,6 +26,9 @@ $MESS ["TN_SET_EMAIL_UNIQ_CHECK_POSTFIX"] = "в настройках главн�
 $MESS ["TN_MAIN_REGISTER_EMAIL_UNIQ_CHECK_RU"] = "Проверять E-mail на уникальность при регистрации";
 $MESS ["TN_MAIN_REGISTER_EMAIL_UNIQ_CHECK_EN"] = "Check e-mail uniqueness";
 
+$MESS ["TN_CURL_WARNING"] = "<span class=\"required\">Внимание!</span><br>Для работы модуля требуется установить на сервер php-расширение curl.";
+$MESS ["TN_HTTP_WARNING"] = "<span class=\"required\">Внимание!</span><br>Работа модуля невозможна на незащищенном соединении (протокол \"HTTP\").";
+
 $MESS ["TN_AUTH_REDIRECT_URL_INVALID"] = "Неправильная ссылка в поле перенаправления.";
 
 $MESS ["TN_SETTINGS_SAVE"] = "Сохранить";
