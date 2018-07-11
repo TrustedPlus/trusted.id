@@ -166,7 +166,7 @@ class TrustedAuth
         }
     }
 
-    private function bindUsers($bxUser, $tnUser)
+    public function bindUsers($bxUser, $tnUser)
     {
         $this->log('bindUsers', LOG_LEVEL_INFO);
         try {

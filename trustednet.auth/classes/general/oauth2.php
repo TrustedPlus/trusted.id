@@ -350,7 +350,7 @@ class TDataBaseUser {
      */
     static function getUserById($id) {
         global $DB;
-        $sql = "SELECT * FROM trn_user WHERE ID = " . $id;
+        $sql = "SELECT * FROM trn_user WHERE ID = '" . $id . "'";
         $res = null;
         $rows = $DB->Query($sql);
         if ($row = $rows->Fetch()) {

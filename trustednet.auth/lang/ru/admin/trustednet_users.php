@@ -10,6 +10,15 @@ $MESS ["TN_SET_EMAIL_UNIQ_CHECK_POSTFIX"] = "в настройках главн�
 $MESS ["TN_MAIN_REGISTER_EMAIL_UNIQ_CHECK_RU"] = "Проверять E-mail на уникальность при регистрации";
 $MESS ["TN_MAIN_REGISTER_EMAIL_UNIQ_CHECK_EN"] = "Check e-mail uniqueness";
 
+$MESS ['TN_NON_NUMERIC_ID_PRE'] = "Неверно введенное значение - ";
+$MESS ['TN_NON_NUMERIC_ID_POST'] = ". Идентификатор может быть только цифровым.";
+
+$MESS ['TN_BINDING_EXISTS_PRE'] = "Идентификатор ";
+$MESS ['TN_BINDING_EXISTS_POST'] = " уже привязан к другому пользователю.";
+
+$MESS ['TN_USER_NOT_FOUND_PRE'] = "Пользователь с идентификатором ";
+$MESS ['TN_USER_NOT_FOUND_POST'] = " не найден в TrustedNet.";
+
 // Table columns
 $MESS ['TRUSTEDNET_USERS_COL_ID'] = "ID в Битрикс";
 $MESS ['TRUSTEDNET_USERS_COL_LOGIN'] = "Логин в Битрикс";

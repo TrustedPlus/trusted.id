@@ -42,6 +42,45 @@ $arFilter = array(
     "TN_EMAIL" => $find_tn_email,
 );
 
+// Handle edits
+if($lAdmin->EditAction() && $POST_RIGHT=="W") {
+    foreach($FIELDS as $userId=>$editedFields) {
+        $newTnId = $editedFields["TN_ID"];
+        if (!is_numeric($newTnId)) {
+            echo BeginNote();
+            echo GetMessage("TN_NON_NUMERIC_ID_PRE") . $newTnId;
+            echo GetMessage("TN_NON_NUMERIC_ID_POST");
+            echo EndNote();
+            break;
+        }
+        $newTnId = (int)$newTnId;
+        if (TDataBaseUser::getUserById($newTnId)) {
+            echo BeginNote();
+            echo GetMessage("TN_BINDING_EXISTS_PRE") . $newTnId;
+            echo GetMessage("TN_BINDING_EXISTS_POST");
+            echo EndNote();
+            break;
+        }
+        $token = OAuth2::getFromSession();
+        if (!$token) {
+            break;
+        }
+        $token = $token->getAccessToken();
+        $tnUserInfo = TAuthCommand::pullTnInfo($token, "id", $newTnId);
+        if (!$tnUserInfo) {
+            echo BeginNote();
+            echo GetMessage("TN_USER_NOT_FOUND_PRE") . $newTnId;
+            echo GetMessage("TN_USER_NOT_FOUND_POST");
+            echo EndNote();
+            break;
+        }
+        $TrustedAuth->bindUsers(
+            array("ID" => $userId),
+            array("userID" => $newTnId)
+        );
+    }
+}
+
 // Handle actions
 if(($arID = $lAdmin->GroupAction()) && $POST_RIGHT=="W") {
     // selected = for all
@@ -161,6 +200,7 @@ while($arRes = $rsData->NavNext(true, "f_")) {
 
     // Some fields can be edited
     $row->AddViewField("LOGIN", '<a href="user_edit.php?ID='.$f_ID.'&lang='.LANG.'">'.$f_LOGIN.'</a>');
+    $row->AddInputField("TN_ID");
 
     // Context menu
     $arActions = Array();
