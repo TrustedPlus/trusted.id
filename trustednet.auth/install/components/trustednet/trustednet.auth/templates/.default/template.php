@@ -4,8 +4,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 LOC
 ?>
 
-<link rel="stylesheet" href="https://net.trusted.ru/static/css/tlogin-3.0.1.css">
-<script src="https://net.trusted.ru/static/js/tlogin-3.0.1.js"></script>
+<?php
+$SERVICE_HOST = COption::GetOptionString(TN_AUTH_MODULE_ID, "SERVICE_HOST", "");
+?>
+<link rel="stylesheet" href="https://<?= $SERVICE_HOST ?>/static/css/tlogin-3.0.1.css">
+<script src="https://<?= $SERVICE_HOST ?>/static/js/tlogin-3.0.1.js"></script>
 
 
 <!--<link rel="stylesheet" type="text/css" href="https://net.trusted.ru/static/css/tlogin.css">-->

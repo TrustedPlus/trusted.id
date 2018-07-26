@@ -1,5 +1,7 @@
 <?php
 
+use Bitrix\Main\Config\Option;
+
 Class trustednet_auth extends CModule
 {
 
@@ -63,6 +65,7 @@ Class trustednet_auth extends CModule
         $this->InstallFiles();
         $this->InstallDB();
         $this->RegisterEventHandlers();
+        $this->InstallModuleOptions();
         RegisterModule($this->MODULE_ID);
         $APPLICATION->IncludeAdminFile(GetMessage("MOD_INSTALL_TITLE"), $DOCUMENT_ROOT . "/bitrix/modules/" . $this->MODULE_ID . "/install/step.php");
     }
@@ -76,6 +79,13 @@ Class trustednet_auth extends CModule
         $this->UnRegisterEventHandlers();
         UnRegisterModule($this->MODULE_ID);
         $APPLICATION->IncludeAdminFile(GetMessage("MOD_INSTALL_TITLE"), $_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/" . $this->MODULE_ID . "/install/unstep.php");
+    }
+
+    function InstallModuleOptions()
+    {
+        if (!Option::get($this->MODULE_ID, "SERVICE_HOST", "")) {
+            Option::set($this->MODULE_ID, "SERVICE_HOST", "net.trusted.ru");
+        }
     }
 
     function InstallDB()

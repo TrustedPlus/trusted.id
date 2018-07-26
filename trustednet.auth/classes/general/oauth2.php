@@ -910,7 +910,7 @@ class TAuthCommand {
                 'Authorization: Bearer ' . $accessToken,
                 'Content-Type: application/x-www-form-urlencoded',
             ));
-            curl_setopt($curl, CURLOPT_URL, "https://net.trusted.ru/trustedapp/rest/user/find");
+            curl_setopt($curl, CURLOPT_URL, TRUSTED_COMMAND_REST_USER_FIND);
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
             curl_setopt($curl, CURLOPT_POSTFIELDS, "t=" . $searchTerm);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

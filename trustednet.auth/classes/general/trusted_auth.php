@@ -7,7 +7,7 @@ class TrustedAuth
 {
     private $MODULE_ID = TN_AUTH_MODULE_ID;
 
-    private $SERVICE_URL = "https://net.trusted.ru";
+    private $SERVICE_HOST = "https://" . SERVICE_HOST;
     private $SERVICE_REGISTER_URL;
     private $SERVICE_CODE_USER_EXISTS = 1501;
 
@@ -34,7 +34,7 @@ class TrustedAuth
         define("LOG_LEVEL_DEBUG", "DEBUG");
 
         $this->log("Constructor");
-        $this->SERVICE_REGISTER_URL = $this->SERVICE_URL . "/idp/sso/user/appregister";
+        $this->SERVICE_REGISTER_URL = $this->SERVICE_HOST . "/idp/sso/user/appregister";
 
         // SET CLIENT ID
         $client_id = $this->getOption("CLIENT_ID");

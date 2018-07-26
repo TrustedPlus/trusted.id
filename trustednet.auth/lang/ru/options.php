@@ -8,6 +8,7 @@ $MESS ["TN_AUTH_OPTIONS_TAB_SETTINGS_TITLE"] = "Настройки модуля 
 $MESS ["TN_AUTH_OPTIONS_TAB_INFO_TITLE"] = "Подробная информация об аккаунте TrustedNet";
 
 // Messages
+$MESS ["TN_AUTH_SERVICE_HOST"] = "Выбор сервиса";
 $MESS ["TN_AUTH_CLIENT_ID"] = "ID клиента сервиса TrustedNet";
 $MESS ["TN_AUTH_CLIENT_SECRET"] = "Secret клиента сервиса TrustedNet";
 $MESS ["TN_AUTH_ENABLE_AUTO_REGISTRATION"] = "Регистрировать пользователей в сервисе TrustedNet автоматически";

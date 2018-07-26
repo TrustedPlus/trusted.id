@@ -19,6 +19,7 @@ $aTabs = array(
 
 $tabControl = new CAdminTabControl("trustedTabControl", $aTabs, true, true);
 
+$SERVICE_HOST = COption::GetOptionString($module_id, "SERVICE_HOST", "");
 $CLIENT_ID = COption::GetOptionString($module_id, "CLIENT_ID", "");
 $CLIENT_SECRET = COption::GetOptionString($module_id, "CLIENT_SECRET", "");
 $REGISTER_ENABLED = COption::GetOptionString($module_id, "REGISTER_ENABLED", "");
@@ -40,6 +41,18 @@ function CheckRedirectUrl($url)
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
     if (isset($_POST['Update'])) {
+        if (isset($_POST['SERVICE_HOST'])) {
+            if ($_POST['SERVICE_HOST'] != $SERVICE_HOST) {
+                $SERVICE_HOST = (string)$_POST['SERVICE_HOST'];
+                if (isset($_SESSION['TRUSTEDNET']['OAUTH'])) {
+                    unset($_SESSION['TRUSTEDNET']['OAUTH']);
+                }
+            }
+        }
+        if ($SERVICE_HOST != '') {
+            COption::SetOptionString($module_id, "SERVICE_HOST", $SERVICE_HOST);
+        }
+
         if (isset($_POST['CLIENT_ID'])) {
             if ($_POST['CLIENT_ID'] != $CLIENT_ID) {
                 $CLIENT_ID = (string)$_POST['CLIENT_ID'];
@@ -125,13 +138,22 @@ if (COption::GetOptionString("main", "new_user_email_uniq_check") !== "Y") {
             <?= GetMessage("TN_EMAIL_UNIQ_CHECK_POSTFIX") ?>
         </div>
         <div style="position:absolute; right: 10px; top: -10px">
-            <a href="https://net.trusted.ru" target="_blank"><?= GetMessage("TN_SERVICE_LINK") ?></a>
+            <a href="https://<?= $SERVICE_HOST ?>" target="_blank"><?= GetMessage("TN_SERVICE_LINK") ?></a>
         </div>
     </div>
 
     <form method="POST" action="<? echo $APPLICATION->GetCurPage() ?>?lang=<? echo LANGUAGE_ID ?>&mid=<?= $module_id ?>"
           name="currency_settings">
         <? echo bitrix_sessid_post(); ?>
+        <tr>
+            <td width="40%" class="adm-detail-content-cell-l"><?= GetMessage("TN_AUTH_SERVICE_HOST") ?></td>
+            <td width="60%">
+                <select name="SERVICE_HOST" id="SERVICE_HOST">
+                    <option value"net.trusted.ru" <?= $SERVICE_HOST == "net.trusted.ru" ? "selected" : "" ?>>net.trusted.ru</option>
+                    <option value"id.trusted.plus" <?= $SERVICE_HOST == "id.trusted.plus" ? "selected" : "" ?>>id.trusted.plus</option>
+                </select>
+            </td>
+        </tr>
         <tr>
             <td width="40%" class="adm-detail-content-cell-l"><?= GetMessage("TN_AUTH_CLIENT_ID") ?></td>
             <td width="60%"><input name="CLIENT_ID" style="width: 300px;" value="<?= $CLIENT_ID ?>"/></td>

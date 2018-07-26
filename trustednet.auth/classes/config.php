@@ -38,9 +38,11 @@ define("TRUSTED_DB", true);
 define("TRUSTEDNET_DB_TABLE_USER", "trn_user");
 
 //TrustedNet URI
-define('TRUSTED_COMMAND_URI_HOST', 'https://net.trusted.ru');
+define('SERVICE_HOST', COption::GetOptionString(TN_AUTH_MODULE_ID, "SERVICE_HOST", ""));
+define('TRUSTED_COMMAND_URI_HOST', 'https://' . SERVICE_HOST);
 define('TRUSTED_COMMAND_REST', TRUSTED_COMMAND_URI_HOST . '/trustedapp/rest');
 define('TRUSTED_COMMAND_APP', TRUSTED_COMMAND_URI_HOST . '/trustedapp/app');
+define('TRUSTED_COMMAND_REST_USER_FIND', TRUSTED_COMMAND_REST . '/user/find');
 define('TRUSTED_COMMAND_REST_APP_LIST', TRUSTED_COMMAND_REST . '/application/list');
 define('TRUSTED_COMMAND_REST_LOGIN', TRUSTED_COMMAND_REST . '/application/auth/login');
 define('TRUSTED_COMMAND_REST_SOCIAL', TRUSTED_COMMAND_REST . '/application/auth/social');
