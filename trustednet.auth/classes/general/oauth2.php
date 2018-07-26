@@ -378,6 +378,21 @@ class TDataBaseUser {
         return $res;
     }
 
+    static function getUserByEmail($email) {
+        global $DB;
+        $sql = "SELECT * FROM trn_user WHERE USER_ID <> '' AND EMAIL = '" . $email . "'";
+        $res = null;
+        $rows = $DB->Query($sql);
+        if ($row = $rows->Fetch()) {
+            $array = array(
+                "id" => $row["ID"],
+                "userId" => $row["USER_ID"]
+            );
+            $res = TUser::fromArray($array);
+        }
+        return $res;
+    }
+
     static function saveUser($user) {
         if (TDataBaseUser::getUser($user)) {
             global $DB;

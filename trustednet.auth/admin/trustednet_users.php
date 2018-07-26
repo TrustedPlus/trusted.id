@@ -45,18 +45,16 @@ $arFilter = array(
 // Handle edits
 if($lAdmin->EditAction() && $POST_RIGHT=="W") {
     foreach($FIELDS as $userId=>$editedFields) {
-        $newTnId = $editedFields["TN_ID"];
-        if (!is_numeric($newTnId)) {
+        $newTnEmail = $editedFields["TN_EMAIL"];
+        if (!filter_var($newTnEmail, FILTER_VALIDATE_EMAIL)) {
             echo BeginNote();
-            echo GetMessage("TN_NON_NUMERIC_ID_PRE") . $newTnId;
-            echo GetMessage("TN_NON_NUMERIC_ID_POST");
+            echo GetMessage("TN_INVALID_EMAIL") . $newTnEmail;
             echo EndNote();
             break;
         }
-        $newTnId = (int)$newTnId;
-        if (TDataBaseUser::getUserById($newTnId)) {
+        if (TDataBaseUser::getUserByEmail($newTnEmail)) {
             echo BeginNote();
-            echo GetMessage("TN_BINDING_EXISTS_PRE") . $newTnId;
+            echo GetMessage("TN_BINDING_EXISTS_PRE") . $newTnEmail;
             echo GetMessage("TN_BINDING_EXISTS_POST");
             echo EndNote();
             break;
@@ -66,17 +64,17 @@ if($lAdmin->EditAction() && $POST_RIGHT=="W") {
             break;
         }
         $token = $token->getAccessToken();
-        $tnUserInfo = TAuthCommand::pullTnInfo($token, "id", $newTnId);
+        $tnUserInfo = TAuthCommand::pullTnInfo($token, "email", $newTnEmail);
         if (!$tnUserInfo) {
             echo BeginNote();
-            echo GetMessage("TN_USER_NOT_FOUND_PRE") . $newTnId;
+            echo GetMessage("TN_USER_NOT_FOUND_PRE") . $newTnEmail;
             echo GetMessage("TN_USER_NOT_FOUND_POST");
             echo EndNote();
             break;
         }
         $TrustedAuth->bindUsers(
             array("ID" => $userId),
-            array("userID" => $newTnId)
+            array("userID" => $tnUserInfo["entityId"])
         );
     }
 }
@@ -200,7 +198,7 @@ while($arRes = $rsData->NavNext(true, "f_")) {
 
     // Some fields can be edited
     $row->AddViewField("LOGIN", '<a href="user_edit.php?ID='.$f_ID.'&lang='.LANG.'">'.$f_LOGIN.'</a>');
-    $row->AddInputField("TN_ID");
+    $row->AddInputField("TN_EMAIL");
 
     // Context menu
     $arActions = Array();
