@@ -3,8 +3,10 @@
 require_once $_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/bx_root.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_before.php";
 
-require_once $_SERVER["DOCUMENT_ROOT"] . '/bitrix/modules/trustednet.auth/classes/config.php';
-require_once TRUSTED_MODULE_PATH . '/classes/general/oauth2.php';
+// require_once $_SERVER["DOCUMENT_ROOT"] . '/bitrix/modules/trustednet.auth/classes/config.php';
+// require_once TRUSTED_MODULE_PATH . '/classes/general/oauth2.php';
+
+CModule::IncludeModule("trustednet.auth");
 
 //Debuging
 if (TRUSTED_DEBUG) {
@@ -30,8 +32,26 @@ function __param($array, $name, $default) {
     }
     return $res;
 }
+
 try {
-    if ($code = getParam("code")) {
+    // Widget checks if user is registered in the bitrix but not on the tn service
+    if ($login = postParam("login")) {
+        $protocol = isset($_SERVER["SERVER_PROTOCOL"]) ? $_SERVER["SERVER_PROTOCOL"] : "HTTP/1.0";
+        $users = CUser::GetList($by = "id", $order = "asc", array("EMAIL" => $login));
+        while ($user = $users->Fetch()) {
+            // User with same email is found and should be registered automatically
+            if ($user["EMAIL"] === $login) {
+                $user["RESULT"] = true;
+                $TrustedAuth = new TrustedAuth;
+                $TrustedAuth->registerUser($user, true);
+                header($protocol . " 200 User found");
+                die();
+            }
+        }
+        header($protocol . " 404 User not found");
+        die();
+    // OAuth authorization
+    } else if ($code = getParam("code")) {
         if (getParam("final", false)) {
             $res = TAuthCommand::getAccessTokenByCode($code);
             debug("OAuth token from service:", $res);
