@@ -5,6 +5,7 @@ LOC
 ?>
 
 <?php
+require_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/trustednet.auth/classes/config.php");
 $SERVICE_HOST = COption::GetOptionString(TN_AUTH_MODULE_ID, "SERVICE_HOST", "");
 ?>
 <link rel="stylesheet" href="https://<?= $SERVICE_HOST ?>/static/css/tlogin-3.0.1.css">
@@ -13,7 +14,6 @@ $SERVICE_HOST = COption::GetOptionString(TN_AUTH_MODULE_ID, "SERVICE_HOST", "");
 
 <!--<link rel="stylesheet" type="text/css" href="https://net.trusted.ru/static/css/tlogin.css">-->
 <?php
-require_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/trustednet.auth/classes/config.php");
 require_once(TRUSTED_MODULE_PATH . "/classes/general/oauth2.php");
 $token = OAuth2::getFromSession();
 if (!($USER && $USER->IsAuthorized())) {
