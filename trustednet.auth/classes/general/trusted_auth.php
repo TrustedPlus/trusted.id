@@ -374,8 +374,22 @@ class TrustedAuth
         return $arParams;
     }
 
-    public function OnUserLoginHandler()
+    public function OnUserLoginHandler($bxUserId)
     {
+        $session = OAuth2::getFromSession();
+        if ($session) {
+            $TDataBaseUser = new TDataBaseUser;
+            $tnUserId = $TDataBaseUser->getUserByUserId($bxUserId)->getId();
+            $token = $session->getAccessToken();
+            $tnUserInfo = TAuthCommand::pullTnInfo($token, "id", $tnUserId);
+            if ($tnUserInfo) {
+                $serviceUser = ServiceUser::fromArray($tnUserInfo);
+                $user = new TUser();
+                $user->setServiceUser($serviceUser);
+                $user->setUserId($bxUserId);
+                $user->save();
+            }
+        }
         return true;
     }
 
