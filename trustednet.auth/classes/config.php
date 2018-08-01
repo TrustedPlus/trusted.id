@@ -29,13 +29,18 @@ define('TRUSTED_MODULE_AUTH', TRUSTED_MODULE_AUTH_ROOT . '/common.php');
 //define('TRUSTED_MODULE_SIGN', TRUSTED_MODULE_SIGN_ROOT . '/common.php');
 
 //Login
-define("TRUSTED_LOGIN_CLIENT_ID", COption::GetOptionString("trustednet.auth", "CLIENT_ID", ""));
-define("TRUSTED_LOGIN_CLIENT_SECRET", COption::GetOptionString("trustednet.auth", "CLIENT_SECRET", ""));
+define("TRUSTED_LOGIN_CLIENT_ID", COption::GetOptionString(TN_AUTH_MODULE_ID, "CLIENT_ID", ""));
+define("TRUSTED_LOGIN_CLIENT_SECRET", COption::GetOptionString(TN_AUTH_MODULE_ID, "CLIENT_SECRET", ""));
 define("TRUSTED_AUTHORIZED_REDIRECT", "../../index.php");
 
 //Database
+
 define("TRUSTED_DB", true);
-define("TRUSTEDNET_DB_TABLE_USER", "trn_user");
+if (COption::GetOptionString(TN_AUTH_MODULE_ID, "SERVICE_HOST", "") === "net.trusted.ru") {
+    define("TRUSTEDNET_DB_TABLE_USER", "trn_user_ntr");
+} else {
+    define("TRUSTEDNET_DB_TABLE_USER", "trn_user_itp");
+}
 
 //TrustedNet URI
 define('SERVICE_HOST', COption::GetOptionString(TN_AUTH_MODULE_ID, "SERVICE_HOST", ""));

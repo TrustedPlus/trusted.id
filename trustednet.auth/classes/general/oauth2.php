@@ -301,7 +301,7 @@ class TDataBaseUser {
             FROM
                 b_user as BU
             LEFT JOIN
-                trn_user as TU
+                " . TRUSTEDNET_DB_TABLE_USER . " as TU
             ON
                 BU.ID=TU.USER_ID";
 
@@ -350,7 +350,7 @@ class TDataBaseUser {
      */
     static function getUserById($id) {
         global $DB;
-        $sql = "SELECT * FROM trn_user WHERE ID = '" . $id . "'";
+        $sql = "SELECT * FROM " . TRUSTEDNET_DB_TABLE_USER . " WHERE ID = '" . $id . "'";
         $res = null;
         $rows = $DB->Query($sql);
         if ($row = $rows->Fetch()) {
@@ -365,7 +365,7 @@ class TDataBaseUser {
 
     static function getUserByUserId($userId) {
         global $DB;
-        $sql = "SELECT * FROM trn_user WHERE USER_ID = " . $userId;
+        $sql = "SELECT * FROM " . TRUSTEDNET_DB_TABLE_USER . " WHERE USER_ID = " . $userId;
         $res = null;
         $rows = $DB->Query($sql);
         if ($row = $rows->Fetch()) {
@@ -380,7 +380,7 @@ class TDataBaseUser {
 
     static function getUserByEmail($email) {
         global $DB;
-        $sql = "SELECT * FROM trn_user WHERE USER_ID <> '' AND EMAIL = '" . $email . "'";
+        $sql = "SELECT * FROM " . TRUSTEDNET_DB_TABLE_USER . " WHERE USER_ID <> '' AND EMAIL = '" . $email . "'";
         $res = null;
         $rows = $DB->Query($sql);
         if ($row = $rows->Fetch()) {

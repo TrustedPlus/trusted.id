@@ -156,7 +156,7 @@ class TrustedAuth
         try {
             global $DB;
             $res = null;
-            $sql = "SELECT * FROM trn_user WHERE USER_ID = " . $userId;
+            $sql = "SELECT * FROM " . TRUSTEDNET_DB_TABLE_USER . " WHERE USER_ID = " . $userId;
             $rows = $DB->Query($sql);
             $row = $rows->Fetch();
             return $t_auth->returnResultWithStatus(true, $row);
@@ -181,13 +181,13 @@ class TrustedAuth
             $timeStamp = date('Y-m-d G:i:s');
             $tnUserId = $tnUser['userID'];
             if (!$userRow["data"]) {
-                $sql = "INSERT INTO trn_user
+                $sql = "INSERT INTO " . TRUSTEDNET_DB_TABLE_USER . "
                             (`ID`, `USER_ID`, `TIMESTAMP_X`)
                         VALUES
                             ('" . $tnUserId . "', '" . $bxUserId . "', '" . $timeStamp . "')";
                 $DB->Query($sql);
             } else {
-                $sql = "UPDATE trn_user
+                $sql = "UPDATE " . TRUSTEDNET_DB_TABLE_USER . "
                             SET ID = '" . $tnUserId . "', TIMESTAMP_X = '" . $timeStamp . "'
                         WHERE
                             USER_ID = '" . $bxUserId . "'";
