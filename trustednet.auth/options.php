@@ -148,19 +148,22 @@ if (COption::GetOptionString("main", "new_user_email_uniq_check") !== "Y") {
         <tr>
             <td width="40%" class="adm-detail-content-cell-l"><?= GetMessage("TN_AUTH_SERVICE_HOST") ?></td>
             <td width="60%">
-                <select name="SERVICE_HOST" id="SERVICE_HOST">
-                    <option value"net.trusted.ru" <?= $SERVICE_HOST == "net.trusted.ru" ? "selected" : "" ?>>net.trusted.ru</option>
-                    <option value"id.trusted.plus" <?= $SERVICE_HOST == "id.trusted.plus" ? "selected" : "" ?>>id.trusted.plus</option>
+                <select
+                    name="SERVICE_HOST"
+                    id="SERVICE_HOST"
+                    onchange="document.getElementById('CLIENT_ID').value = ''; document.getElementById('CLIENT_SECRET').value = '';">
+                        <option value"net.trusted.ru" <?= $SERVICE_HOST == "net.trusted.ru" ? "selected" : "" ?>>net.trusted.ru</option>
+                        <option value"id.trusted.plus" <?= $SERVICE_HOST == "id.trusted.plus" ? "selected" : "" ?>>id.trusted.plus</option>
                 </select>
             </td>
         </tr>
         <tr>
             <td width="40%" class="adm-detail-content-cell-l"><?= GetMessage("TN_AUTH_CLIENT_ID") ?></td>
-            <td width="60%"><input name="CLIENT_ID" style="width: 300px;" value="<?= $CLIENT_ID ?>"/></td>
+            <td width="60%"><input id="CLIENT_ID" name="CLIENT_ID" style="width: 300px;" value="<?= $CLIENT_ID ?>" type="text"/></td>
         </tr>
         <tr>
             <td width="40%" class="adm-detail-content-cell-l"><?= GetMessage("TN_AUTH_CLIENT_SECRET") ?></td>
-            <td width="60%"><input name="CLIENT_SECRET" value="<?= $CLIENT_SECRET ?>" type="password"/></td>
+            <td width="60%"><input id="CLIENT_SECRET" name="CLIENT_SECRET" value="<?= $CLIENT_SECRET ?>" type="password"/></td>
         </tr>
         <tr>
             <td class="adm-detail-content-cell-l">
@@ -213,7 +216,7 @@ if (COption::GetOptionString("main", "new_user_email_uniq_check") !== "Y") {
         <tr>
             <td width="40%" class="adm-detail-content-cell-l"><?= GetMessage("TN_AUTH_REDIRECT_URL") ?></td>
             <td width="60%">
-                <input name="REDIRECT_URL" style="width: 400px;" value="<?= $REDIRECT_URL ?>"/>
+                <input name="REDIRECT_URL" style="width: 400px;" value="<?= $REDIRECT_URL ?>" type="text"/>
             </td>
         </tr>
 
