@@ -118,7 +118,9 @@ Class trustednet_auth extends CModule
     function UnInstallDB()
     {
         global $DB;
-        $sql = "DROP TABLE IF EXISTS `trn_user`";
+        $sql = "DROP TABLE IF EXISTS `trn_user_ntr`";
+        $DB->Query($sql);
+        $sql = "DROP TABLE IF EXISTS `trn_user_itp`";
         $DB->Query($sql);
     }
 
