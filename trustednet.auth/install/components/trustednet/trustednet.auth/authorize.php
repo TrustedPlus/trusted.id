@@ -35,12 +35,18 @@ function __param($array, $name, $default) {
 
 try {
     // Widget checks if user is registered in the bitrix but not on the tn service
-    if ($login = postParam("login")) {
+    if ($userEmail = postParam("login")) {
         $protocol = isset($_SERVER["SERVER_PROTOCOL"]) ? $_SERVER["SERVER_PROTOCOL"] : "HTTP/1.0";
-        $users = CUser::GetList($by = "id", $order = "asc", array("EMAIL" => $login));
+        $users = CUser::GetList($by = "id", $order = "asc", array("EMAIL" => $userEmail));
         while ($user = $users->Fetch()) {
-            // User with same email is found and should be registered automatically
-            if ($user["EMAIL"] === $login) {
+            // User with same email is found
+            if ($user["EMAIL"] === $userEmail) {
+                // User already has binding to tn service user
+                if (TDataBaseUser::getUserByUserId($user["ID"])) {
+                    header($protocol . " 201 User is already registered");
+                    die();
+                }
+                // Register user on the tn service
                 $user["RESULT"] = true;
                 $TrustedAuth = new TrustedAuth;
                 $TrustedAuth->registerUser($user, true);
