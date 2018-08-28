@@ -1,4 +1,4 @@
 <?php
 
-$MESS ['AUTH_LOGOUT'] = "Logout";
+$MESS ['AUTH_LOGOUT'] = 'Logout';
 

@@ -1,13 +1,16 @@
 <?php
 
-require_once __DIR__ . "/../config.php";
-require_once __DIR__ . "/oauth2.php";
+namespace Trusted\Id;
+use Bitrix\Main\Config\Option;
 
-class TrustedAuth
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/OAuth2.php';
+
+class Auth
 {
     private $MODULE_ID = TR_ID_MODULE_ID;
 
-    private $SERVICE_HOST = "https://" . TR_ID_OPT_SERVICE_HOST;
+    private $SERVICE_HOST = 'https://' . TR_ID_SERVICE_HOST;
     private $SERVICE_REGISTER_URL;
     private $SERVICE_CODE_USER_EXISTS = 1501;
 
@@ -28,56 +31,56 @@ class TrustedAuth
 
     function __construct()
     {
-        define("LOG_LEVEL_ERROR", "ERROR");
-        define("LOG_LEVEL_WARNING", "WARNING");
-        define("LOG_LEVEL_INFO", "INFO");
-        define("LOG_LEVEL_DEBUG", "DEBUG");
+        define('LOG_LEVEL_ERROR', 'ERROR');
+        define('LOG_LEVEL_WARNING', 'WARNING');
+        define('LOG_LEVEL_INFO', 'INFO');
+        define('LOG_LEVEL_DEBUG', 'DEBUG');
 
-        $this->log("Constructor");
-        $this->SERVICE_REGISTER_URL = $this->SERVICE_HOST . "/idp/sso/user/appregister";
+        $this->log('Constructor');
+        $this->SERVICE_REGISTER_URL = $this->SERVICE_HOST . '/idp/sso/user/appregister';
 
         // SET CLIENT ID
-        $client_id = $this->getOption("CLIENT_ID");
+        $client_id = $this->getOption('CLIENT_ID');
         if ($client_id) {
             $this->CLIENT_ID = $client_id;
         } else {
-            $this->setError(GetMessage("TN_ERROR_CLIENT_ID_NOT_SET"));
+            $this->setError(GetMessage('TN_ERROR_CLIENT_ID_NOT_SET'));
         }
 
         // SET CLIENT SECRET
-        $client_secret = $this->getOption("CLIENT_SECRET");
+        $client_secret = $this->getOption('CLIENT_SECRET');
         if ($client_secret) {
             $this->CLIENT_SECRET = $client_secret;
         } else {
-            $this->setError(GetMessage("TN_ERROR_CLIENT_SECRET_NOT_SET"));
+            $this->setError(GetMessage('TN_ERROR_CLIENT_SECRET_NOT_SET'));
         }
 
-        // CHECK FLAG "new_user_email_uniq_check"
-        $email_uniq_check = COption::GetOptionString("main", "new_user_email_uniq_check");
-        if ($email_uniq_check == "N") {
-            $this->setError(GetMessage("TN_ERROR_EMAIL_UNIQ_CHECK_NOT_SET"));
+        // CHECK FLAG 'new_user_email_uniq_check'
+        $email_uniq_check = Option::get('main', 'new_user_email_uniq_check');
+        if ($email_uniq_check == 'N') {
+            $this->setError(GetMessage('TN_ERROR_EMAIL_UNIQ_CHECK_NOT_SET'));
         }
 
         // CHECK SEND MAIL ENABLED
         if ($this->USE_SEND_MAIL_SETTINGS) {
-            $send_mail_enabled = $this->getOption("SEND_MAIL_ENABLED");
+            $send_mail_enabled = $this->getOption('SEND_MAIL_ENABLED');
             $this->SHOULD_SEND_MAIL = $send_mail_enabled;
         } else {
             $this->SHOULD_SEND_MAIL = TR_ID_DEFAULT_SHOULD_SEND_MAIL;
         }
 
         // CHECK TEMPLATE ID
-        $user_info_template_id = $this->getOption("USER_INFO_TEMPLATE_ID");
+        $user_info_template_id = $this->getOption('USER_INFO_TEMPLATE_ID');
         if ($user_info_template_id) {
             $this->USER_INFO_TEMPLATE_ID = $user_info_template_id;
         } else {
-            $this->log(getMessage("TN_ERROR_USER_INFO_TEMPLATE_ID"), LOG_LEVEL_INFO);
+            $this->log(getMessage('TN_ERROR_USER_INFO_TEMPLATE_ID'), LOG_LEVEL_INFO);
         }
     }
 
     private function returnResultWithStatus($status, $data)
     {
-        return Array("status" => $status, "data" => $data);
+        return Array('status' => $status, 'data' => $data);
     }
 
     private function setError($message)
@@ -90,13 +93,13 @@ class TrustedAuth
 
     private function getOption($name)
     {
-        return COption::GetOptionString($this->MODULE_ID, $name);
+        return Option::get($this->MODULE_ID, $name);
     }
 
     private function shouldRegister()
     {
         $this->log('shouldRegister', LOG_LEVEL_INFO);
-        $IS_REGISTER_ENABLED = $this->getOption("REGISTER_ENABLED");
+        $IS_REGISTER_ENABLED = $this->getOption('REGISTER_ENABLED');
         return (true && !$this->ERROR_OCCURRED && $IS_REGISTER_ENABLED);
     }
 
@@ -114,22 +117,22 @@ class TrustedAuth
             return $this->returnResultWithStatus(false, $data);
         }
         try {
-            $FIELD_EMAIL_NAME = "EMAIL";
-            $FIELD_NAME_NAME = "NAME";
-            $FIELD_LAST_NAME_NAME = "LAST_NAME";
+            $FIELD_EMAIL_NAME = 'EMAIL';
+            $FIELD_NAME_NAME = 'NAME';
+            $FIELD_LAST_NAME_NAME = 'LAST_NAME';
 
             // Protection against empty fields
-            if ($data[$FIELD_LAST_NAME_NAME] == "") {
+            if ($data[$FIELD_LAST_NAME_NAME] == '') {
                 $data[$FIELD_LAST_NAME_NAME] = $data[$FIELD_EMAIL_NAME];
             }
-            if ($data[$FIELD_NAME_NAME] == "") {
+            if ($data[$FIELD_NAME_NAME] == '') {
                 $data[$FIELD_NAME_NAME] = $data[$FIELD_LAST_NAME_NAME];
             }
 
             $QUERY_FIELDS = array(
-                "login" => $data[$FIELD_EMAIL_NAME],
-                "fName" => $data[$FIELD_NAME_NAME],
-                "lName" => $data[$FIELD_LAST_NAME_NAME]
+                'login' => $data[$FIELD_EMAIL_NAME],
+                'fName' => $data[$FIELD_NAME_NAME],
+                'lName' => $data[$FIELD_LAST_NAME_NAME]
             );
 
             return $this->returnResultWithStatus(true, http_build_query($QUERY_FIELDS));
@@ -156,7 +159,7 @@ class TrustedAuth
         try {
             global $DB;
             $res = null;
-            $sql = "SELECT * FROM " . TR_ID_DB_TABLE_USER . " WHERE USER_ID = " . $userId;
+            $sql = 'SELECT * FROM ' . TR_ID_DB_TABLE_USER . ' WHERE USER_ID = ' . $userId;
             $rows = $DB->Query($sql);
             $row = $rows->Fetch();
             return $t_auth->returnResultWithStatus(true, $row);
@@ -180,7 +183,7 @@ class TrustedAuth
 
             $timeStamp = date('Y-m-d G:i:s');
             $tnUserId = $tnUser['userID'];
-            if (!$userRow["data"]) {
+            if (!$userRow['data']) {
                 $sql = "INSERT INTO " . TR_ID_DB_TABLE_USER . "
                             (`ID`, `USER_ID`, `TIMESTAMP_X`)
                         VALUES
@@ -196,7 +199,7 @@ class TrustedAuth
             $token = OAuth2::getFromSession();
             if ($token) {
                 $token = $token->getAccessToken();
-                $tnUserInfo = TAuthCommand::pullTnInfo($token, "id", $tnUserId);
+                $tnUserInfo = TAuthCommand::pullTnInfo($token, 'id', $tnUserId);
                 if ($tnUserInfo) {
                     $serviceUser = ServiceUser::fromArray($tnUserInfo);
                     $user = new TUser();
@@ -225,7 +228,7 @@ class TrustedAuth
             }
 
             curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-            curl_setopt($curl, CURLOPT_USERPWD, $this->CLIENT_ID . ":" . $this->CLIENT_SECRET);
+            curl_setopt($curl, CURLOPT_USERPWD, $this->CLIENT_ID . ':' . $this->CLIENT_SECRET);
 
             curl_setopt($curl, CURLOPT_POST, true);
             curl_setopt($curl, CURLOPT_URL, $this->SERVICE_REGISTER_URL);
@@ -349,21 +352,21 @@ class TrustedAuth
             $t_auth = new TrustedAuth();
         }
         $t_auth->log('OnBeforeUserUpdateHandler', LOG_LEVEL_INFO);
-        $userId = $arParams["ID"];
-        $newEmail = $arParams["EMAIL"];
+        $userId = $arParams['ID'];
+        $newEmail = $arParams['EMAIL'];
         $rsUser = CUser::GetByID($userId);
         $arUser = $rsUser->Fetch();
         if ($arUser) {
-            $oldEmail = $arUser["EMAIL"];
+            $oldEmail = $arUser['EMAIL'];
         }
         // Check if email was changed
         if ($newEmail != $oldEmail) {
             if (filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
                 // Check if other user has the same email
-                $filter = array("EMAIL" => $newEmail);
-                $arUsersByEmail = CUser::GetList(($by = "id"), ($order = "asc"), $filter);
+                $filter = array('EMAIL' => $newEmail);
+                $arUsersByEmail = CUser::GetList(($by = 'id'), ($order = 'asc'), $filter);
                 while($userByEmail = $arUsersByEmail->GetNext()) {
-                    if ($userByEmail["EMAIL"] == $newEmail) {
+                    if ($userByEmail['EMAIL'] == $newEmail) {
                         // Duplicate email found
                         return $arParams;
                     }
@@ -381,7 +384,7 @@ class TrustedAuth
             $TDataBaseUser = new TDataBaseUser;
             $tnUserId = $TDataBaseUser->getUserByUserId($bxUserId)->getId();
             $token = $session->getAccessToken();
-            $tnUserInfo = TAuthCommand::pullTnInfo($token, "id", $tnUserId);
+            $tnUserInfo = TAuthCommand::pullTnInfo($token, 'id', $tnUserId);
             if ($tnUserInfo) {
                 $serviceUser = ServiceUser::fromArray($tnUserInfo);
                 $user = new TUser();

@@ -1,17 +1,19 @@
 <?php
-//BITRIX
-require_once $_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/bx_root.php";
-require_once $_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_before.php";
+use Trusted\Id;
 
-CModule::IncludeModule("trusted.id");
+//BITRIX
+require_once $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/bx_root.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/prolog_before.php';
+
+CModule::IncludeModule('trusted.id');
 
 //Debuging
 if (TR_ID_DEBUG) {
-    header("Content-Type: text/plain; charset=utf-8");
+    header('Content-Type: text/plain; charset=utf-8');
     echo 'DEBUG' . PHP_EOL;
     echo '========================================' . PHP_EOL;
-    debug("GET", $_GET);
-    debug("POST", $_POST);
+    Id\Utils::debug('GET', $_GET);
+    Id\Utils::debug('POST', $_POST);
 }
 
 function getParam($name, $default = null) {
@@ -32,92 +34,82 @@ function __param($array, $name, $default) {
 
 try {
     // Widget checks if user is registered in the bitrix but not on the tn service
-    if ($userEmail = postParam("login")) {
-        $protocol = isset($_SERVER["SERVER_PROTOCOL"]) ? $_SERVER["SERVER_PROTOCOL"] : "HTTP/1.0";
-        $users = CUser::GetList($by = "id", $order = "asc", array("EMAIL" => $userEmail));
+    if ($userEmail = postParam('login')) {
+        $protocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0';
+        $users = CUser::GetList($by = 'id', $order = 'asc', array('EMAIL' => $userEmail));
         while ($user = $users->Fetch()) {
             // User with same email is found
-            if ($user["EMAIL"] === $userEmail) {
+            if ($user['EMAIL'] === $userEmail) {
                 // User already has binding to tn service user
-                if (TDataBaseUser::getUserByUserId($user["ID"])) {
-                    header($protocol . " 201 User is already registered");
+                if (Id\TDataBaseUser::getUserByUserId($user['ID'])) {
+                    header($protocol . ' 201 User is already registered');
                     die();
                 }
                 // Register user on the tn service
-                $user["RESULT"] = true;
-                $TrustedAuth = new TrustedAuth;
+                $user['RESULT'] = true;
+                $TrustedAuth = new Id\TrustedAuth;
                 $TrustedAuth->registerUser($user, true);
-                header($protocol . " 200 User found");
+                header($protocol . ' 200 User found');
                 die();
             }
         }
-        header($protocol . " 404 User not found");
+        header($protocol . ' 404 User not found');
         die();
     // OAuth authorization
-    } else if ($code = getParam("code")) {
-        if (getParam("final", false)) {
-            $res = TAuthCommand::getAccessTokenByCode($code);
-            debug("OAuth token from service:", $res);
-            $token = OAuth2::fromArray($res);
-            debug($token);
-            $user_array = TAuthCommand::getUserProfileByToken($token->getAccessToken());
-            debug($user_array);
+    } else if ($code = getParam('code')) {
+        if (getParam('final', false)) {
+            $res = Id\TAuthCommand::getAccessTokenByCode($code);
+            Id\Utils::debug('OAuth token from service:', $res);
+            $token = Id\OAuth2::fromArray($res);
+            Id\Utils::debug($token);
+            $user_array = Id\TAuthCommand::getUserProfileByToken($token->getAccessToken());
+            Id\Utils::debug($user_array);
             if (TR_ID_DB) {
-                $user = TDataBaseUser::getUserById($user_array['id']);
-                debug("TDataBaseUser::getUserById:", $user);
+                $user = Id\TDataBaseUser::getUserById($user_array['id']);
+                Id\Utils::debug('TDataBaseUser::getUserById:', $user);
                 if ($user) {
                     //User already registered
-                    debug('Old user');
-                    if (onRegUserFound) {
-                        debug('Event onRegUserFound');
-                        onRegUserFound($user);
-                    }
+                    Id\Utils::debug('Old user');
+                    Id\Utils::debug('Event onRegUserFound');
+                    Id\Custom::onRegUserFound($user);
                 } else {
                     //User not found
-                    debug('New user');
-                    $user_service = ServiceUser::fromArray($user_array);
-                    $user = new TUser();
+                    Id\Utils::debug('New user');
+                    $user_service = Id\ServiceUser::fromArray($user_array);
+                    $user = new Id\TUser();
                     $user->setServiceUser($user_service);
 
-                    if (onBeforeUserInsert) {
-                        debug('Event onBeforeUserInsert');
-                        onBeforeUserInsert($user);
-                    }
+                    Id\Utils::debug('Event onBeforeUserInsert');
+                    Id\Custom::onBeforeUserInsert($user);
                     $user->save();
                 }
             }
             $token->setUser($user);
-            debug('Token', $token);
-            if (onUserAuthorized) {
-                debug('Event onUserAuthorized');
-                onUserAuthorized($user);
-            }
+            Id\Utils::debug('Token', $token);
+            Id\Utils::debug('Event onUserAuthorized');
+            Id\Custom::onUserAuthorized($user);
         } else {
-            include_once __DIR__ . "/widget.tpl";
+            include_once __DIR__ . '/widget.tpl';
         }
     } else {
-        $token = OAuth2::getFromSession();
+        $token = Id\OAuth2::getFromSession();
         if (!$token) {
-            throw new OAuth2Exception(TR_ID_ERROR_MSG_TOKEN_NOT_FOUND, TR_ID_ERROR_CODE_TOKEN_NOT_FOUND, null);
+            throw new Id\OAuth2Exception(TR_ID_ERROR_MSG_TOKEN_NOT_FOUND, TR_ID_ERROR_CODE_TOKEN_NOT_FOUND, null);
         }
         $token->getAccessToken();
         $token->getUser();
-        debug("Token", $token);
+        Id\Utils::debug('Token', $token);
     }
-} catch (OAuth2Exception $e) {
-    if (onOAuth2Exception) {
-        onOAuth2Exception($e);
-    }
-    debug("OAuth2Exception: " . $e->getMessage());
-    debug($e->getTrace());
+} catch (Id\OAuth2Exception $e) {
+    Id\onOAuth2Exception($e);
+    Id\Utils::debug('OAuth2Exception: ' . $e->getMessage());
+    Id\Utils::debug($e->getTrace());
 } catch (Exception $e) {
     var_dump($e);
     die();
-    if (Exception) {
-        onException($e);
-    }
-    debug("Exception: " . $e->getMessage());
-    debug($e->getTrace());
+    Id\Custom::onException($e);
+    Id\Utils::debug('Exception: ' . $e->getMessage());
+    Id\Utils::debug($e->getTrace());
 }
-debug("END");
+Id\Utils::debug('END');
 

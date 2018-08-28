@@ -1,36 +1,36 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/urlrewrite.php';
-require $_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php";
+require $_SERVER['DOCUMENT_ROOT'] . '/bitrix/header.php';
 
-$APPLICATION->SetPageProperty("show_catalog_nemu", "N");
-$APPLICATION->SetTitle("<span class=\"b-big-title\">" . GetMessage("TN_ERROR_TITLE") . "</span>");
+$APPLICATION->SetPageProperty('show_catalog_nemu', 'N');
+$APPLICATION->SetTitle('<span class="b-big-title">' . GetMessage('TN_ERROR_TITLE') . '</span>');
 
 IncludeModuleLangFile(__FILE__);
 
 $code = $_GET['c'];
 switch ($code) {
-    case "1":
-    case "2":
-    case "3":
-    case "4":
-    case "5":
-    case "6":
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
         ?>
         <b class="message">
-            <? echo GetMessage("TN_AUTH_ERROR"); ?>
+            <? echo GetMessage('TN_AUTH_ERROR'); ?>
             </br>
-            <? echo GetMessage("TN_AUTH_ERROR_" . $code); ?>
+            <? echo GetMessage('TN_AUTH_ERROR_' . $code); ?>
         </b>
         <?
         break;
     default:
         ?>
         <b class="message">
-            <? echo GetMessage("TN_AUTH_ERROR"); ?>
+            <? echo GetMessage('TN_AUTH_ERROR'); ?>
             </br>
             <?
-            if (strpos($_GET['e'], "Bad credentials") !== false) {
-                echo GetMessage("TN_AUTH_BAD_CREDENTIALS");
+            if (strpos($_GET['e'], 'Bad credentials') !== false) {
+                echo GetMessage('TN_AUTH_BAD_CREDENTIALS');
             } else {
                 echo $_GET['e'];
             }
@@ -39,5 +39,5 @@ switch ($code) {
     <?
 }
 
-require $_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php";
+require $_SERVER['DOCUMENT_ROOT'] . '/bitrix/footer.php';
 
