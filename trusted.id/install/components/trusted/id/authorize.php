@@ -101,7 +101,7 @@ try {
         Id\Utils::debug('Token', $token);
     }
 } catch (Id\OAuth2Exception $e) {
-    Id\onOAuth2Exception($e);
+    Id\Custom::onOAuth2Exception($e);
     Id\Utils::debug('OAuth2Exception: ' . $e->getMessage());
     Id\Utils::debug($e->getTrace());
 } catch (Exception $e) {

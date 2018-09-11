@@ -43,6 +43,14 @@ class Custom
         ShowMessage($e->getMessage());
     }
 
+    function bitrixGetUserByEmail($email) {
+        $by = 'id';
+        $order = 'desc';
+        $loginUsers = \CUser::GetList($by, $order, array('EMAIL' => $email, 'ACTIVE' => 'Y'));
+        $res = $loginUsers->Fetch();
+        return $res;
+    }
+
     /**
      *
      * @global type $USER
@@ -62,10 +70,10 @@ class Custom
                 TDataBaseUser::removeUser($savedUser);
             }
             $user->setUserId($USER->GetID());
-        } else if ($bxUser = bitrixGetUserByEmail($email)) {
+        } else if ($bxUser = Custom::bitrixGetUserByEmail($email)) {
             $user->setUserId($bxUser['ID']);
         } else {
-            $bxUser = new CUser();
+            $bxUser = new \CUser();
             $srvUser = $user->getServiceUser();
             $psw = Utils::randomPassword();
             $bx_user_array = array(
@@ -88,14 +96,6 @@ class Custom
         }
     }
 
-    function bitrixGetUserByEmail($email) {
-        $by = 'id';
-        $order = 'desc';
-        $loginUsers = CUser::GetList($by, $order, array('EMAIL' => $email, 'ACTIVE' => 'Y'));
-        $res = $loginUsers->Fetch();
-        return $res;
-    }
-
     /**
      * @global type $USER
      * @param \TUser $user
@@ -104,7 +104,7 @@ class Custom
         Utils::debug('onUserAuthorize');
         global $USER;
         if (!($USER && $USER->IsAuthorized())) {
-            $bxUser = new CUser();
+            $bxUser = new \CUser();
             if (!$bxUser->authorize($user->getUserId())) {
                 Utils::debug('Not authorized');
             } else {
