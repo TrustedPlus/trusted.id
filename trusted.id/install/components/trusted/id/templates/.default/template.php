@@ -18,7 +18,7 @@ Loader::includeModule('trusted.id');
 $token = Id\OAuth2::getFromSession();
 if (!($USER && $USER->IsAuthorized())) {
     // Remove accesss token from session
-    OAuth2::remove();
+    Id\OAuth2::remove();
     $token = NULL;
 }
 if ($token) {
