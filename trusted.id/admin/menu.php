@@ -4,7 +4,7 @@ if ($APPLICATION->GetGroupRight('trusted.id') >= 'R') {
     if (\Bitrix\Main\ModuleManager::isModuleInstalled('trusted.id')) {
         IncludeModuleLangFile(__FILE__);
         $aMenu = array(
-            'parent_menu' => 'global_menu_settings',
+            'parent_menu' => 'global_menu_services',
             'section' => 'trusted.id',
             'sort' => 20,
             'text' => GetMessage('TR_ID_MENU_SERVICE'),
