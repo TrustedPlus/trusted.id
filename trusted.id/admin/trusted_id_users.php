@@ -310,7 +310,7 @@ if (!Id\Utils::checkCurl()) {
 <?
 
 } elseif (!Id\OAuth2::getFromSession()) {
-    $APPLICATION->IncludeComponent('trusted:id', array());
+    $APPLICATION->IncludeComponent('trusted:id', '');
 } else {
     $auth = Id\OAuth2::getFromSession();
 ?>
