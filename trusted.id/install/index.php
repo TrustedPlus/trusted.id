@@ -1,6 +1,7 @@
 <?php
 
 use Bitrix\Main\Config\Option;
+use Trusted\Id;
 
 Class trusted_id extends CModule
 {
@@ -35,28 +36,28 @@ Class trusted_id extends CModule
 
     function RegisterEventHandlers()
     {
-        RegisterModuleDependences('main', 'OnAfterUserAdd', $this->MODULE_ID, 'TrustedAuth', 'OnAfterUserAddHandler');
-        RegisterModuleDependences('main', 'OnAfterUserRegister', $this->MODULE_ID, 'TrustedAuth', 'OnAfterUserRegisterHandler');
-        RegisterModuleDependences('main', 'OnAfterUserSimpleRegister', $this->MODULE_ID, 'TrustedAuth', 'OnAfterUserSimpleRegisterHandler');
-        RegisterModuleDependences('main', 'OnBeforeUserUpdate', $this->MODULE_ID, 'TrustedAuth', 'OnBeforeUserUpdateHandler');
-        RegisterModuleDependences('main', 'OnBeforeUserAdd', $this->MODULE_ID, 'TrustedAuth', 'OnBeforeUserAddHandler');
-        RegisterModuleDependences('main', 'OnBeforeEventSend', $this->MODULE_ID, 'TrustedAuth', 'OnBeforeEventSendHandler');
-        RegisterModuleDependences('main', 'OnUserLogin', $this->MODULE_ID, 'TrustedAuth', 'OnUserLoginHandler');
+        RegisterModuleDependences('main', 'OnAfterUserAdd', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnAfterUserAddHandler');
+        RegisterModuleDependences('main', 'OnAfterUserRegister', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnAfterUserRegisterHandler');
+        RegisterModuleDependences('main', 'OnAfterUserSimpleRegister', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnAfterUserSimpleRegisterHandler');
+        RegisterModuleDependences('main', 'OnBeforeUserUpdate', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnBeforeUserUpdateHandler');
+        RegisterModuleDependences('main', 'OnBeforeUserAdd', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnBeforeUserAddHandler');
+        RegisterModuleDependences('main', 'OnBeforeEventSend', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnBeforeEventSendHandler');
+        RegisterModuleDependences('main', 'OnUserLogin', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnUserLoginHandler');
 
-        RegisterModuleDependences('sale', 'OnSaleComponentOrderOneStepComplete', $this->MODULE_ID, 'TrustedAuth', 'OnSaleComponentOrderOneStepCompleteHandler');
+        RegisterModuleDependences('sale', 'OnSaleComponentOrderOneStepComplete', $this->MODULE_ID, 'Id\Auth', 'OnSaleComponentOrderOneStepCompleteHandler');
     }
 
     function UnRegisterEventHandlers()
     {
-        UnRegisterModuleDependences('main', 'OnAfterUserAdd', $this->MODULE_ID, 'TrustedAuth');
-        UnRegisterModuleDependences('main', 'OnAfterUserRegister', $this->MODULE_ID, 'TrustedAuth');
-        UnRegisterModuleDependences('main', 'OnAfterUserSimpleRegister', $this->MODULE_ID, 'TrustedAuth');
-        UnRegisterModuleDependences('main', 'OnBeforeUserUpdate', $this->MODULE_ID, 'TrustedAuth');
-        UnRegisterModuleDependences('main', 'OnBeforeUserAdd', $this->MODULE_ID, 'TrustedAuth');
-        UnRegisterModuleDependences('main', 'OnBeforeEventSend', $this->MODULE_ID, 'TrustedAuth');
-        UnRegisterModuleDependences('main', 'OnUserLogin', $this->MODULE_ID, 'TrustedAuth');
+        UnRegisterModuleDependences('main', 'OnAfterUserAdd', $this->MODULE_ID, '\Trusted\Id\Auth');
+        UnRegisterModuleDependences('main', 'OnAfterUserRegister', $this->MODULE_ID, '\Trusted\Id\Auth');
+        UnRegisterModuleDependences('main', 'OnAfterUserSimpleRegister', $this->MODULE_ID, '\Trusted\Id\Auth');
+        UnRegisterModuleDependences('main', 'OnBeforeUserUpdate', $this->MODULE_ID, '\Trusted\Id\Auth');
+        UnRegisterModuleDependences('main', 'OnBeforeUserAdd', $this->MODULE_ID, '\Trusted\Id\Auth');
+        UnRegisterModuleDependences('main', 'OnBeforeEventSend', $this->MODULE_ID, '\Trusted\Id\Auth');
+        UnRegisterModuleDependences('main', 'OnUserLogin', $this->MODULE_ID, '\Trusted\Id\Auth');
 
-        UnRegisterModuleDependences('sale', 'OnSaleComponentOrderOneStepComplete', $this->MODULE_ID, 'TrustedAuth');
+        UnRegisterModuleDependences('sale', 'OnSaleComponentOrderOneStepComplete', $this->MODULE_ID, '\Trusted\Id\Auth');
     }
 
     function DoInstall()

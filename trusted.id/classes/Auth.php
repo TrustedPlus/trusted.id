@@ -150,7 +150,7 @@ class Auth
         if (isset($this)) {
             $t_auth = $this;
         } else {
-            $t_auth = new TrustedAuth();
+            $t_auth = new Auth();
         }
         $t_auth->log('getUserRowByUserId', LOG_LEVEL_INFO);
         if ($t_auth->ERROR_OCCURRED) {
@@ -305,7 +305,7 @@ class Auth
         if (isset($this)) {
             $t_auth = $this;
         } else {
-            $t_auth = new TrustedAuth();
+            $t_auth = new Auth();
         }
         $t_auth->log('onAfterUserAddHandler', LOG_LEVEL_INFO);
         $t_auth->registerUser($arFields);
@@ -318,7 +318,7 @@ class Auth
         if (isset($this)) {
             $t_auth = $this;
         } else {
-            $t_auth = new TrustedAuth();
+            $t_auth = new Auth();
         }
         $t_auth->log('OnAfterUserRegisterHandler', LOG_LEVEL_INFO);
         $t_auth->registerUser($arFields);
@@ -331,7 +331,7 @@ class Auth
         if (isset($this)) {
             $t_auth = $this;
         } else {
-            $t_auth = new TrustedAuth();
+            $t_auth = new Auth();
         }
         $t_auth->log('OnAfterUserSimpleRegisterHandler', LOG_LEVEL_INFO);
         $t_auth->registerUser($arFields);
@@ -349,7 +349,7 @@ class Auth
         if (isset($this)) {
             $t_auth = $this;
         } else {
-            $t_auth = new TrustedAuth();
+            $t_auth = new Auth();
         }
         $t_auth->log('OnBeforeUserUpdateHandler', LOG_LEVEL_INFO);
         $userId = $arParams['ID'];
@@ -402,7 +402,7 @@ class Auth
         if (isset($this)) {
             $t_auth = $this;
         } else {
-            $t_auth = new TrustedAuth();
+            $t_auth = new Auth();
         }
         $t_auth->log('OnBeforeEventSendHandler', LOG_LEVEL_INFO);
         $shouldSendMail = $t_auth->shouldSendMail();
@@ -419,7 +419,7 @@ class Auth
         if (isset($this)) {
             $t_auth = $this;
         } else {
-            $t_auth = new TrustedAuth();
+            $t_auth = new Auth();
         }
         $t_auth->log('OnSaleComponentOrderOneStepCompleteHandler', LOG_LEVEL_INFO);
         $t_auth->saveOrderIdAndLogout($orderId);

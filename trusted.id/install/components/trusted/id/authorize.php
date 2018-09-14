@@ -47,8 +47,8 @@ try {
                 }
                 // Register user on the tn service
                 $user['RESULT'] = true;
-                $TrustedAuth = new Id\TrustedAuth;
-                $TrustedAuth->registerUser($user, true);
+                $Auth = new Id\Auth;
+                $Auth->registerUser($user, true);
                 header($protocol . ' 200 User found');
                 die();
             }

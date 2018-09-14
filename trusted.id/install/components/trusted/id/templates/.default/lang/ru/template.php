@@ -1,6 +1,6 @@
 <?php
 
 // TODO: move to the component settings
-$MESS ['AUTH'] = 'Авторизация TN';
+$MESS ['AUTH'] = 'Вход';
 $MESS ['AUTH_LOGOUT'] = 'Выход';
 
