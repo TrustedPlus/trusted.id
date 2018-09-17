@@ -382,15 +382,18 @@ class Auth
         $session = OAuth2::getFromSession();
         if ($session) {
             $TDataBaseUser = new TDataBaseUser;
-            $tnUserId = $TDataBaseUser->getUserByUserId($bxUserId)->getId();
-            $token = $session->getAccessToken();
-            $tnUserInfo = TAuthCommand::pullTnInfo($token, 'id', $tnUserId);
-            if ($tnUserInfo) {
-                $serviceUser = ServiceUser::fromArray($tnUserInfo);
-                $user = new TUser();
-                $user->setServiceUser($serviceUser);
-                $user->setUserId($bxUserId);
-                $user->save();
+            $tnUser = $TDataBaseUser->getUserByUserId($bxUserId);
+            if ($tnUser) {
+                $tnUserId = $tnUser->getId();
+                $token = $session->getAccessToken();
+                $tnUserInfo = TAuthCommand::pullTnInfo($token, 'id', $tnUserId);
+                if ($tnUserInfo) {
+                    $serviceUser = ServiceUser::fromArray($tnUserInfo);
+                    $user = new TUser();
+                    $user->setServiceUser($serviceUser);
+                    $user->setUserId($bxUserId);
+                    $user->save();
+                }
             }
         }
         return true;
