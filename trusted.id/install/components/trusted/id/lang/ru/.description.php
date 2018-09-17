@@ -1,4 +1,4 @@
 <?php
-$MESS ['NAME'] = 'Текущая дата';
-$MESS ['DESCRIPTION'] = 'Выводим текущую дату';
+$MESS ['NAME'] = 'Авторизация Trusted.Id';
+$MESS ['DESCRIPTION'] = 'Компонент авторизации модуля Trusted.Id';
 

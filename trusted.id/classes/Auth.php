@@ -291,7 +291,7 @@ class Auth
 
             $_SESSION['SALE_ORDER_ID'][] = $orderId;
             try {
-                $CUser = new CUser;
+                $CUser = new \CUser;
                 $CUser->Logout();
             } catch (Exception $exception) {
                 $this->log($exception->getMessage());
@@ -354,7 +354,7 @@ class Auth
         $t_auth->log('OnBeforeUserUpdateHandler', LOG_LEVEL_INFO);
         $userId = $arParams['ID'];
         $newEmail = $arParams['EMAIL'];
-        $rsUser = CUser::GetByID($userId);
+        $rsUser = \CUser::GetByID($userId);
         $arUser = $rsUser->Fetch();
         if ($arUser) {
             $oldEmail = $arUser['EMAIL'];
@@ -364,7 +364,7 @@ class Auth
             if (filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
                 // Check if other user has the same email
                 $filter = array('EMAIL' => $newEmail);
-                $arUsersByEmail = CUser::GetList(($by = 'id'), ($order = 'asc'), $filter);
+                $arUsersByEmail = \CUser::GetList(($by = 'id'), ($order = 'asc'), $filter);
                 while($userByEmail = $arUsersByEmail->GetNext()) {
                     if ($userByEmail['EMAIL'] == $newEmail) {
                         // Duplicate email found

@@ -22,14 +22,12 @@ Class trusted_id extends CModule
     function __construct()
     {
         $arModuleVersion = array();
-
-        include substr(__FILE__, 0, -10) . '/version.php';
-
+        include __DIR__ . '/version.php';
         $this->MODULE_ID = 'trusted.id';
         $this->MODULE_NAME = GetMessage('TR_ID_MODULE_NAME');
         $this->MODULE_DESCRIPTION = GetMessage('TR_ID_MODULE_DESCRIPTION');
-        $this->MODULE_VERSION = '1.3.2';
-        $this->MODULE_VERSION_DATE = '2018-04-20 9:00:00';
+        $this->MODULE_VERSION = $arModuleVersion['VERSION'];
+        $this->MODULE_VERSION_DATE = $arModuleVersion['VERSION_DATE'];
         $this->PARTNER_NAME = GetMessage('TR_ID_PARTNER_NAME');
         $this->PARTNER_URI = 'http://www.digt.ru';
     }
