@@ -91,7 +91,7 @@ Class trusted_id extends CModule
                     `EMAIL` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
                     `USERNAME` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
                     `TIMESTAMP_X` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-                    PRIMARY KEY (`ID`)
+                    PRIMARY KEY (`TR_ID`)
                     ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
         $DB->Query($sql);
     }
