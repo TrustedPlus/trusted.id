@@ -41,6 +41,7 @@ Class trusted_id extends CModule
         RegisterModuleDependences('main', 'OnBeforeUserAdd', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnBeforeUserAddHandler');
         RegisterModuleDependences('main', 'OnBeforeEventSend', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnBeforeEventSendHandler');
         RegisterModuleDependences('main', 'OnUserLogin', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnUserLoginHandler');
+        // TODO: add OnUserLogout handler to remove token from session
 
         RegisterModuleDependences('sale', 'OnSaleComponentOrderOneStepComplete', $this->MODULE_ID, 'Id\Auth', 'OnSaleComponentOrderOneStepCompleteHandler');
     }
@@ -83,8 +84,8 @@ Class trusted_id extends CModule
     {
         global $DB;
         $sql = "CREATE TABLE IF NOT EXISTS `tr_id_users` (
-                    `ID` int(11) NOT NULL,
-                    `USER_ID` int(18) DEFAULT NULL,
+                    `TR_ID` int(11) NOT NULL,
+                    `BX_ID` int(18) DEFAULT NULL,
                     `GIVEN_NAME` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
                     `FAMILY_NAME` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
                     `EMAIL` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,

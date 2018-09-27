@@ -33,7 +33,7 @@ class TDataBaseUser {
             $sqlWhere[] = "BU.EMAIL LIKE '%" . $find_email . "%'";
         }
         if ($find_tn_id !== "") {
-            $sqlWhere[] = "TU.ID = '" . $find_tn_id . "'";
+            $sqlWhere[] = "TU.TR_ID = '" . $find_tn_id . "'";
         }
         if ($find_tn_giv_name !== "") {
             $sqlWhere[] = "TU.GIVEN_NAME LIKE '%" . $find_tn_giv_name . "%'";
@@ -49,13 +49,13 @@ class TDataBaseUser {
         $sql = "
             SELECT
                 BU.ID, BU.LOGIN, CONCAT(BU.NAME, ' ', BU.LAST_NAME) AS NAME, BU.EMAIL,
-                TU.ID as TN_ID, TU.GIVEN_NAME as TN_GIV_NAME, TU.FAMILY_NAME as TN_FAM_NAME, TU.EMAIL as TN_EMAIL
+                TU.TR_ID as TN_ID, TU.GIVEN_NAME as TN_GIV_NAME, TU.FAMILY_NAME as TN_FAM_NAME, TU.EMAIL as TN_EMAIL
             FROM
                 b_user as BU
             LEFT JOIN
                 " . TR_ID_DB_TABLE_USER . " as TU
             ON
-                BU.ID=TU.USER_ID";
+                BU.ID=TU.BX_ID";
 
         // Filtering
         if (count($sqlWhere)) {
@@ -68,7 +68,7 @@ class TDataBaseUser {
             'LOGIN' => 'BU.LOGIN',
             'NAME' => "CONCAT(BU.NAME, ' ', BU.LAST_NAME)",
             'EMAIL' => 'BU.EMAIL',
-            'TN_ID' => 'TU.ID',
+            'TN_ID' => 'TU.TR_ID',
             'TN_GIV_NAME' => 'TU.GIVEN_NAME',
             'TN_FAM_NAME' => 'TU.FAMILY_NAME',
             'TN_EMAIL' => 'TU.EMAIL',
@@ -102,13 +102,13 @@ class TDataBaseUser {
      */
     static function getUserById($id) {
         global $DB;
-        $sql = "SELECT * FROM " . TR_ID_DB_TABLE_USER . " WHERE ID = '" . $id . "'";
+        $sql = "SELECT * FROM " . TR_ID_DB_TABLE_USER . " WHERE TR_ID = '" . $id . "'";
         $res = null;
         $rows = $DB->Query($sql);
         if ($row = $rows->Fetch()) {
             $array = array(
-                'id' => $row['ID'],
-                'userId' => $row['USER_ID']
+                'id' => $row['TR_ID'],
+                'userId' => $row['BX_ID']
             );
             $res = TUser::fromArray($array);
         }
@@ -117,13 +117,13 @@ class TDataBaseUser {
 
     static function getUserByUserId($userId) {
         global $DB;
-        $sql = "SELECT * FROM " . TR_ID_DB_TABLE_USER . " WHERE USER_ID = " . $userId;
+        $sql = "SELECT * FROM " . TR_ID_DB_TABLE_USER . " WHERE BX_ID = " . $userId;
         $res = null;
         $rows = $DB->Query($sql);
         if ($row = $rows->Fetch()) {
             $array = array(
-                'id' => $row['ID'],
-                'userId' => $row['USER_ID']
+                'id' => $row['TR_ID'],
+                'userId' => $row['BX_ID']
             );
             $res = TUser::fromArray($array);
         }
@@ -132,13 +132,13 @@ class TDataBaseUser {
 
     static function getUserByEmail($email) {
         global $DB;
-        $sql = "SELECT * FROM " . TR_ID_DB_TABLE_USER . " WHERE USER_ID <> '' AND EMAIL = '" . $email . "'";
+        $sql = "SELECT * FROM " . TR_ID_DB_TABLE_USER . " WHERE BX_ID <> '' AND EMAIL = '" . $email . "'";
         $res = null;
         $rows = $DB->Query($sql);
         if ($row = $rows->Fetch()) {
             $array = array(
-                'id' => $row['ID'],
-                'userId' => $row['USER_ID']
+                'id' => $row['TR_ID'],
+                'userId' => $row['BX_ID']
             );
             $res = TUser::fromArray($array);
         }
@@ -167,11 +167,12 @@ class TDataBaseUser {
                 $email = "'" . $user->getEmail() . "'";
             }
             $sql = "UPDATE " . TR_ID_DB_TABLE_USER . " SET "
-                    . "USER_ID = " . $userId . ", "
+                    . "BX_ID = " . $userId . ", "
                     . "FAMILY_NAME = " . $familyName . ", "
                     . "GIVEN_NAME = " . $givenName . ", "
                     . "EMAIL = " . $email . " "
                     . "WHERE ID = " . $user->getId();
+                    . "WHERE TR_ID = " . $user->getId();
             $DB->Query($sql);
         } else {
             //Insert
@@ -204,7 +205,7 @@ class TDataBaseUser {
             $email = "'" . $user->getEmail() . "'";
         }
         $sql = "INSERT INTO " .
-                    TR_ID_DB_TABLE_USER . " (ID, USER_ID, FAMILY_NAME, GIVEN_NAME, EMAIL)
+                    TR_ID_DB_TABLE_USER . " (TR_ID, BX_ID, FAMILY_NAME, GIVEN_NAME, EMAIL, USERNAME)
                 VALUES ("
                     . $user->getId() . ", "
                     . $userId . ", "
@@ -219,7 +220,7 @@ class TDataBaseUser {
         global $DB;
         Utils::debug('removeUserById');
         $sql = "DELETE FROM " . TR_ID_DB_TABLE_USER . " WHERE "
-                . "ID = " . $id;
+                . "TR_ID = " . $id;
         Utils::debug('SQL: ', $sql);
         $DB->Query($sql);
     }
@@ -228,7 +229,7 @@ class TDataBaseUser {
         global $DB;
         Utils::debug('removeUserByUserId');
         $sql = "DELETE FROM " . TR_ID_DB_TABLE_USER . " WHERE "
-                . "USER_ID = " . $userId;
+                . "BX_ID = " . $userId;
         Utils::debug('SQL: ', $sql);
         $DB->Query($sql);
     }

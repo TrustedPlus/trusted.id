@@ -159,7 +159,7 @@ class Auth
         try {
             global $DB;
             $res = null;
-            $sql = 'SELECT * FROM ' . TR_ID_DB_TABLE_USER . ' WHERE USER_ID = ' . $userId;
+            $sql = 'SELECT * FROM ' . TR_ID_DB_TABLE_USER . ' WHERE BX_ID = ' . $userId;
             $rows = $DB->Query($sql);
             $row = $rows->Fetch();
             return $t_auth->returnResultWithStatus(true, $row);
@@ -185,15 +185,15 @@ class Auth
             $tnUserId = $tnUser['userID'];
             if (!$userRow['data']) {
                 $sql = "INSERT INTO " . TR_ID_DB_TABLE_USER . "
-                            (`ID`, `USER_ID`, `TIMESTAMP_X`)
+                            (`TR_ID`, `BX_ID`, `TIMESTAMP_X`)
                         VALUES
                             ('" . $tnUserId . "', '" . $bxUserId . "', '" . $timeStamp . "')";
                 $DB->Query($sql);
             } else {
                 $sql = "UPDATE " . TR_ID_DB_TABLE_USER . "
-                            SET ID = '" . $tnUserId . "', TIMESTAMP_X = '" . $timeStamp . "'
+                            SET TR_ID = '" . $tnUserId . "', TIMESTAMP_X = '" . $timeStamp . "'
                         WHERE
-                            USER_ID = '" . $bxUserId . "'";
+                            BX_ID = '" . $bxUserId . "'";
                 $DB->Query($sql);
             }
             $token = OAuth2::getFromSession();
