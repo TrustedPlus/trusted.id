@@ -89,6 +89,7 @@ Class trusted_id extends CModule
                     `GIVEN_NAME` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
                     `FAMILY_NAME` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
                     `EMAIL` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+                    `USERNAME` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
                     `TIMESTAMP_X` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
                     PRIMARY KEY (`ID`)
                     ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";

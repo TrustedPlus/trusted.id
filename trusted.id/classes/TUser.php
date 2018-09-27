@@ -14,6 +14,7 @@ class TUser {
     protected $familyName;
     protected $givenName;
     protected $email;
+    protected $username;
     protected $serviceUser = null;
 
     function getId() {
@@ -57,6 +58,14 @@ class TUser {
         $this->email = $email;
     }
 
+    function getUsername() {
+        return $this->username;
+    }
+
+    function setUsername($username) {
+        $this->username = $username;
+    }
+
     /**
      * Returns user parameters received from service
      * @return \ServiceUser
@@ -89,6 +98,7 @@ class TUser {
         $this->familyName = $serviceUser->getFamilyName();
         $this->givenName = $serviceUser->getGivenName();
         $this->email = $serviceUser->getEmail();
+        $this->username = $serviceUser->getUsername();
     }
 
     static function fromArray($array) {

@@ -166,12 +166,16 @@ class TDataBaseUser {
             if ($user->getEmail()) {
                 $email = "'" . $user->getEmail() . "'";
             }
+            $username = 'NULL';
+            if ($user->getUsername()) {
+                $username = "'" . $user->getUsername() . "'";
+            }
             $sql = "UPDATE " . TR_ID_DB_TABLE_USER . " SET "
                     . "BX_ID = " . $userId . ", "
                     . "FAMILY_NAME = " . $familyName . ", "
                     . "GIVEN_NAME = " . $givenName . ", "
-                    . "EMAIL = " . $email . " "
-                    . "WHERE ID = " . $user->getId();
+                    . "EMAIL = " . $email . ", "
+                    . "USERNAME = " . $username . " "
                     . "WHERE TR_ID = " . $user->getId();
             $DB->Query($sql);
         } else {
@@ -204,6 +208,10 @@ class TDataBaseUser {
         if ($user->getEmail()) {
             $email = "'" . $user->getEmail() . "'";
         }
+        $username = 'NULL';
+        if ($user->getUsername()) {
+            $username = "'" . $user->getUsername() . "'";
+        }
         $sql = "INSERT INTO " .
                     TR_ID_DB_TABLE_USER . " (TR_ID, BX_ID, FAMILY_NAME, GIVEN_NAME, EMAIL, USERNAME)
                 VALUES ("
@@ -211,7 +219,8 @@ class TDataBaseUser {
                     . $userId . ", "
                     . $familyName . ", "
                     . $givenName . ", "
-                    . $email
+                    . $email . ", "
+                    . $username
                     . ")";
         $DB->Query($sql);
     }
