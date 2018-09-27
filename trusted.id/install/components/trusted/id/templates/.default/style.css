@@ -16,6 +16,9 @@
 .trn-profile_name{
     padding: 0 5px;
     white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 120px;
+    overflow: hidden;
 }
 
 .trn-profile_exit{
