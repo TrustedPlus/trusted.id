@@ -41,7 +41,7 @@ Class trusted_id extends CModule
         RegisterModuleDependences('main', 'OnBeforeUserAdd', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnBeforeUserAddHandler');
         RegisterModuleDependences('main', 'OnBeforeEventSend', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnBeforeEventSendHandler');
         RegisterModuleDependences('main', 'OnUserLogin', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnUserLoginHandler');
-        // TODO: add OnUserLogout handler to remove token from session
+        RegisterModuleDependences('main', 'OnUserLogout', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnUserLogoutHandler');
 
         RegisterModuleDependences('sale', 'OnSaleComponentOrderOneStepComplete', $this->MODULE_ID, 'Id\Auth', 'OnSaleComponentOrderOneStepCompleteHandler');
     }
@@ -55,6 +55,7 @@ Class trusted_id extends CModule
         UnRegisterModuleDependences('main', 'OnBeforeUserAdd', $this->MODULE_ID, '\Trusted\Id\Auth');
         UnRegisterModuleDependences('main', 'OnBeforeEventSend', $this->MODULE_ID, '\Trusted\Id\Auth');
         UnRegisterModuleDependences('main', 'OnUserLogin', $this->MODULE_ID, '\Trusted\Id\Auth');
+        UnRegisterModuleDependences('main', 'OnUserLogout', $this->MODULE_ID, '\Trusted\Id\Auth');
 
         UnRegisterModuleDependences('sale', 'OnSaleComponentOrderOneStepComplete', $this->MODULE_ID, '\Trusted\Id\Auth');
     }

@@ -399,6 +399,12 @@ class Auth
         return true;
     }
 
+    public function OnUserLogoutHandler($bxUserId)
+    {
+        OAuth2::remove();
+        return true;
+    }
+
     public function OnBeforeEventSendHandler($arFields, $arTemplate)
     {
         $t_auth = null;
