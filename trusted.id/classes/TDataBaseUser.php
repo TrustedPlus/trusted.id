@@ -123,7 +123,10 @@ class TDataBaseUser {
         if ($row = $rows->Fetch()) {
             $array = array(
                 'id' => $row['TR_ID'],
-                'userId' => $row['BX_ID']
+                'userId' => $row['BX_ID'],
+                'givenName' => $row['GIVEN_NAME'],
+                'familyName' => $row['FAMILY_NAME'],
+                'email' => $row['EMAIL'],
             );
             $res = TUser::fromArray($array);
         }

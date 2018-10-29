@@ -1,4 +1,5 @@
 <?php
+
 if ($APPLICATION->GetGroupRight('trusted.id') >= 'R') {
 
     if (\Bitrix\Main\ModuleManager::isModuleInstalled('trusted.id')) {
@@ -15,11 +16,10 @@ if ($APPLICATION->GetGroupRight('trusted.id') >= 'R') {
             'items' => array()
         );
 
-
         $Menu[] = array('text' => GetMessage('TR_ID_MENU_USERS'),
             'url' => 'trusted_id_users.php?lang=' . LANGUAGE_ID,
             // Subpages
-            // 'more_url' => array('trusted_id_docs_loading.php'),
+            'more_url' => array('trusted_id_personal.php'),
             'title' => GetMessage('TR_ID_MENU_USERS_ALT')
         );
 

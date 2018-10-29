@@ -3,7 +3,7 @@
 use Trusted\Id;
 use Bitrix\Main\Config\Option;
 
-require_once($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_admin_before.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/prolog_admin_before.php');
 
 CModule::IncludeModule('trusted.id');
 
@@ -47,8 +47,8 @@ $arFilter = array(
 );
 
 // Handle edits
-if($lAdmin->EditAction() && $POST_RIGHT=='W') {
-    foreach($FIELDS as $userId=>$editedFields) {
+if ($lAdmin->EditAction() && $POST_RIGHT == 'W') {
+    foreach ($FIELDS as $userId => $editedFields) {
         $newTnEmail = $editedFields['TN_EMAIL'];
         if (!filter_var($newTnEmail, FILTER_VALIDATE_EMAIL)) {
             echo BeginNote();
@@ -84,21 +84,26 @@ if($lAdmin->EditAction() && $POST_RIGHT=='W') {
 }
 
 // Handle actions
-if(($arID = $lAdmin->GroupAction()) && $POST_RIGHT=='W') {
+if (($arID = $lAdmin->GroupAction()) && $POST_RIGHT == 'W') {
     // selected = for all
-    if($_REQUEST['action_target']=='selected') {
+    if ($_REQUEST['action_target'] == 'selected') {
         $rsData = CUser::GetList($by, $order, $arFilter);
-        while($arRes = $rsData->Fetch()) {
+        while ($arRes = $rsData->Fetch()) {
             $arID[] = $arRes['ID'];
         }
     }
 
-    foreach($arID as $ID) {
-        if(strlen($ID)<=0)
+    foreach ($arID as $ID) {
+        if (strlen($ID) <= 0)
             continue;
         $ID = IntVal($ID);
 
-        switch($_REQUEST['action']) {
+        switch ($_REQUEST['action']) {
+            case 'personal_info':
+                echo '<script>';
+                echo "window.location.href = 'trusted_id_personal.php?id={$ID}&lang={$lang}'";
+                echo '</script>';
+                break;
             case 'pull_tn_info':
                 $token = Id\OAuth2::getFromSession();
                 if (!$token) {
@@ -196,16 +201,25 @@ $lAdmin->AddHeaders(
     )
 );
 
-while($arRes = $rsData->NavNext(true, 'f_')) {
+while ($arRes = $rsData->NavNext(true, 'f_')) {
     // Create a row, class CAdminListRow
     $row =& $lAdmin->AddRow($f_ID, $arRes);
 
     // Some fields can be edited
-    $row->AddViewField('LOGIN', '<a href="user_edit.php?ID='.$f_ID.'&lang='.LANG.'">'.$f_LOGIN.'</a>');
+    $row->AddViewField('LOGIN', '<a href="user_edit.php?ID=' . $f_ID . '&lang=' . LANG . '">' . $f_LOGIN . '</a>');
     $row->AddInputField('TN_EMAIL');
 
     // Context menu
     $arActions = Array();
+
+    $arActions[] = array(
+        'ICON' => 'edit',
+        'DEFAULT' => true,
+        'TEXT' => 'Изменить информацию',
+        'ACTION' => $lAdmin->ActionDoGroup($f_ID, 'personal_info'),
+    );
+
+    $arActions[] = array('SEPARATOR' => true);
 
     $arActions[] = array(
         'ICON' => 'view',
@@ -254,6 +268,7 @@ while($arRes = $rsData->NavNext(true, 'f_')) {
 
 $lAdmin->AddGroupActionTable(
     array(
+        'personal_info' => 'Подробная информация о пользователе',
         'pull_tn_info' => GetMessage('TR_ID_USERS_ACT_PULL_TN_INFO'),
         'register' => GetMessage('TR_ID_USERS_ACT_REGISTER'),
         'remove' => GetMessage('TR_ID_USERS_ACT_REMOVE'),
@@ -299,7 +314,7 @@ if (!Id\Utils::isSecure()) {
 if (!Id\Utils::checkCurl()) {
     echo BeginNote(), GetMessage('TR_ID_CURL_WARNING'), EndNote();
 } elseif (Option::get('main', 'new_user_email_uniq_check', '') !== 'Y') {
-?>
+    ?>
     <h3 style="margin-bottom: 10px;">
         <?= GetMessage('TR_ID_SET_EMAIL_UNIQ_CHECK_PREFIX') ?>
         </br>"<i><?= GetMessage('TR_ID_MAIN_REGISTER_EMAIL_UNIQ_CHECK') ?></i>"</br>
@@ -307,82 +322,92 @@ if (!Id\Utils::checkCurl()) {
             <?= GetMessage('TR_ID_SET_EMAIL_UNIQ_CHECK_POSTFIX') ?>
         </a>
     </h3>
-<?
+    <?
 
 } elseif (!Id\OAuth2::getFromSession()) {
     $APPLICATION->IncludeComponent('trusted:id', '');
 } else {
     $auth = Id\OAuth2::getFromSession();
-?>
-
-    <form name="find_form" method="get" action="<?echo $APPLICATION->GetCurPage();?>">
-
-    <?$oFilter->Begin();?>
-
-    <tr>
-        <td><?= GetMessage('TR_ID_USERS_COL_ID') ?></td>
-        <td>
-            <input type="text" size="25" name="find_id" value="<?echo htmlspecialchars($find_id)?>">
-        </td>
-    </tr>
-
-    <tr>
-        <td><?= GetMessage('TR_ID_USERS_COL_LOGIN') ?></td>
-        <td>
-            <input type="text" size="25" name="find_login" value="<?echo htmlspecialchars($find_login)?>">
-        </td>
-    </tr>
-
-    <tr>
-        <td><?= GetMessage('TR_ID_USERS_COL_NAME') ?></td>
-        <td>
-            <input type="text" name="find_name" size="47" value="<?echo htmlspecialchars($find_name)?>">
-        </td>
-    </tr>
-
-    <tr>
-        <td><?= GetMessage('TR_ID_USERS_COL_EMAIL') ?></td>
-        <td>
-            <input type="text" name="find_email" size="47" value="<?echo htmlspecialchars($find_email)?>">
-        </td>
-    </tr>
-
-    <tr>
-        <td><?= GetMessage('TR_ID_USERS_COL_TN_ID') ?></td>
-        <td>
-            <input type="text" name="find_tn_id" size="47" value="<?echo htmlspecialchars($find_tn_id)?>">
-        </td>
-    </tr>
-
-    <tr>
-        <td><?= GetMessage('TR_ID_USERS_COL_TN_GIV_NAME') ?></td>
-        <td>
-            <input type="text" name="find_tn_giv_name" size="47" value="<?echo htmlspecialchars($find_tn_giv_name)?>">
-        </td>
-    </tr>
-
-    <tr>
-        <td><?= GetMessage('TR_ID_USERS_COL_TN_FAM_NAME') ?></td>
-        <td>
-            <input type="text" name="find_tn_fam_name" size="47" value="<?echo htmlspecialchars($find_tn_fam_name)?>">
-        </td>
-    </tr>
-
-    <tr>
-        <td><?= GetMessage('TR_ID_USERS_COL_TN_EMAIL') ?></td>
-        <td>
-            <input type="text" name="find_tn_email" size="47" value="<?echo htmlspecialchars($find_tn_email)?>">
-        </td>
-    </tr>
-
-    <?
-    $oFilter->Buttons(array('table_id'=>$sTableID,'url'=>$APPLICATION->GetCurPage(),'form'=>'find_form'));
-    $oFilter->End();
     ?>
+
+    <form name="find_form" method="get" action="<?
+    echo $APPLICATION->GetCurPage(); ?>">
+
+        <?
+        $oFilter->Begin(); ?>
+
+        <tr>
+            <td><?= GetMessage('TR_ID_USERS_COL_ID') ?></td>
+            <td>
+                <input type="text" size="25" name="find_id" value="<?
+                echo htmlspecialchars($find_id) ?>">
+            </td>
+        </tr>
+
+        <tr>
+            <td><?= GetMessage('TR_ID_USERS_COL_LOGIN') ?></td>
+            <td>
+                <input type="text" size="25" name="find_login" value="<?
+                echo htmlspecialchars($find_login) ?>">
+            </td>
+        </tr>
+
+        <tr>
+            <td><?= GetMessage('TR_ID_USERS_COL_NAME') ?></td>
+            <td>
+                <input type="text" name="find_name" size="47" value="<?
+                echo htmlspecialchars($find_name) ?>">
+            </td>
+        </tr>
+
+        <tr>
+            <td><?= GetMessage('TR_ID_USERS_COL_EMAIL') ?></td>
+            <td>
+                <input type="text" name="find_email" size="47" value="<?
+                echo htmlspecialchars($find_email) ?>">
+            </td>
+        </tr>
+
+        <tr>
+            <td><?= GetMessage('TR_ID_USERS_COL_TN_ID') ?></td>
+            <td>
+                <input type="text" name="find_tn_id" size="47" value="<?
+                echo htmlspecialchars($find_tn_id) ?>">
+            </td>
+        </tr>
+
+        <tr>
+            <td><?= GetMessage('TR_ID_USERS_COL_TN_GIV_NAME') ?></td>
+            <td>
+                <input type="text" name="find_tn_giv_name" size="47" value="<?
+                echo htmlspecialchars($find_tn_giv_name) ?>">
+            </td>
+        </tr>
+
+        <tr>
+            <td><?= GetMessage('TR_ID_USERS_COL_TN_FAM_NAME') ?></td>
+            <td>
+                <input type="text" name="find_tn_fam_name" size="47" value="<?
+                echo htmlspecialchars($find_tn_fam_name) ?>">
+            </td>
+        </tr>
+
+        <tr>
+            <td><?= GetMessage('TR_ID_USERS_COL_TN_EMAIL') ?></td>
+            <td>
+                <input type="text" name="find_tn_email" size="47" value="<?
+                echo htmlspecialchars($find_tn_email) ?>">
+            </td>
+        </tr>
+
+        <?
+        $oFilter->Buttons(array('table_id' => $sTableID, 'url' => $APPLICATION->GetCurPage(), 'form' => 'find_form'));
+        $oFilter->End();
+        ?>
     </form>
 
     <? $lAdmin->DisplayList(); ?>
-<?
+    <?
 }
 ?>
 
