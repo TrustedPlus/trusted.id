@@ -196,17 +196,13 @@ class Auth
                             BX_ID = '" . $bxUserId . "'";
                 $DB->Query($sql);
             }
-            $token = OAuth2::getFromSession();
-            if ($token) {
-                $token = $token->getAccessToken();
-                $tnUserInfo = TAuthCommand::pullTnInfo($token, 'id', $tnUserId);
-                if ($tnUserInfo) {
-                    $serviceUser = ServiceUser::fromArray($tnUserInfo);
-                    $user = new TUser();
-                    $user->setServiceUser($serviceUser);
-                    $user->setUserId($bxUserId);
-                    $user->save();
-                }
+            $tnUserInfo = TAuthCommand::findTnUserDataById($tnUserId);
+            if ($tnUserInfo) {
+                $serviceUser = ServiceUser::fromArray($tnUserInfo);
+                $user = new TUser();
+                $user->setServiceUser($serviceUser);
+                $user->setUserId($bxUserId);
+                $user->save();
             }
         } catch (ErrorException $errorException) {
             $this->setError($errorException->getMessage());
@@ -385,8 +381,7 @@ class Auth
             $tnUser = $TDataBaseUser->getUserByUserId($bxUserId);
             if ($tnUser) {
                 $tnUserId = $tnUser->getId();
-                $token = $session->getAccessToken();
-                $tnUserInfo = TAuthCommand::pullTnInfo($token, 'id', $tnUserId);
+                $tnUserInfo = TAuthCommand::findTnUserDataById($tnUserId);
                 if ($tnUserInfo) {
                     $serviceUser = ServiceUser::fromArray($tnUserInfo);
                     $user = new TUser();

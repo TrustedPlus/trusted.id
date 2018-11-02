@@ -16,6 +16,7 @@ $MESS ['TR_ID_BINDING_EXISTS_POST'] = ' уже привязан к другом�
 
 $MESS ['TR_ID_USER_NOT_FOUND_PRE'] = 'Пользователь с email ';
 $MESS ['TR_ID_USER_NOT_FOUND_POST'] = ' не найден в Id.Trusted.Plus';
+$MESS ['TR_ID_USER_NOT_GIVE_PERMISSION'] = ' не дал разрешение на использования его персональных данных';
 
 // Table columns
 $MESS ['TR_ID_USERS_COL_ID'] = 'ID в Битрикс';

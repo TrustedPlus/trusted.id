@@ -63,12 +63,16 @@ if ($lAdmin->EditAction() && $POST_RIGHT == 'W') {
             echo EndNote();
             break;
         }
-        $token = Id\OAuth2::getFromSession();
-        if (!$token) {
+        $tnUserInfo = Id\TAuthCommand::findTnUserData('email', $newTnEmail);
+        $rsUser = CUser::GetByID($userId);
+        $arUser = $rsUser->Fetch();
+        if ($tnUserInfo['email'] == null) {
+            echo BeginNote();
+            echo $arUser['NAME'] . $arUser['LAST_NAME'] . '(' .$arUser['EMAIL'] . ')';
+            echo GetMessage('TR_ID_USER_NOT_GIVE_PERMISSION');
+            echo EndNote();
             break;
         }
-        $token = $token->getAccessToken();
-        $tnUserInfo = Id\TAuthCommand::pullTnInfo($token, 'email', $newTnEmail);
         if (!$tnUserInfo) {
             echo BeginNote();
             echo GetMessage('TR_ID_USER_NOT_FOUND_PRE') . $newTnEmail;
@@ -105,14 +109,10 @@ if (($arID = $lAdmin->GroupAction()) && $POST_RIGHT == 'W') {
                 echo '</script>';
                 break;
             case 'pull_tn_info':
-                $token = Id\OAuth2::getFromSession();
-                if (!$token) {
-                    break;
-                }
-                $token = $token->getAccessToken();
                 $bxUser = CUser::GetById($ID);
                 $bxUser = $bxUser->Fetch();
-                $tnUserInfo = Id\TAuthCommand::pullTnInfo($token, 'email', $bxUser['EMAIL']);
+                $tnUserInfo = Id\TAuthCommand::findTnUserData('email', $bxUser['EMAIL']);
+
                 if ($tnUserInfo) {
                     Id\TDataBaseUser::removeUserByUserId($ID);
                     $serviceUser = Id\ServiceUser::fromArray($tnUserInfo);
@@ -121,6 +121,14 @@ if (($arID = $lAdmin->GroupAction()) && $POST_RIGHT == 'W') {
                     $user->setUserId($ID);
                     $user->save();
                 }
+
+                if ($tnUserInfo['email'] == null) {
+                    echo BeginNote();
+                    echo $bxUser['NAME'] . $bxUser['LAST_NAME'] . '(' .$bxUser['EMAIL'] . ')';
+                    echo GetMessage('TR_ID_USER_NOT_GIVE_PERMISSION');
+                    echo EndNote();
+                }
+
                 break;
             case 'register':
                 $bxUser = CUser::GetById($ID);

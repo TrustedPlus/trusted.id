@@ -39,7 +39,6 @@ define('TR_ID_SERVICE_HOST', 'id.trusted.plus');
 define('TR_ID_COMMAND_URI_HOST', 'https://' . TR_ID_SERVICE_HOST);
 define('TR_ID_COMMAND_REST', TR_ID_COMMAND_URI_HOST . '/trustedapp/rest');
 define('TR_ID_COMMAND_APP', TR_ID_COMMAND_URI_HOST . '/trustedapp/app');
-define('TR_ID_COMMAND_REST_USER_FIND', TR_ID_COMMAND_REST . '/user/find');
 define('TR_ID_COMMAND_REST_APP_LIST', TR_ID_COMMAND_REST . '/application/list');
 define('TR_ID_COMMAND_REST_LOGIN', TR_ID_COMMAND_REST . '/application/auth/login');
 define('TR_ID_COMMAND_REST_SOCIAL', TR_ID_COMMAND_REST . '/application/auth/social');
@@ -49,6 +48,8 @@ define('TR_ID_COMMAND_URI_TOKEN', TR_ID_COMMAND_URI_OAUTH . '/token');
 define('TR_ID_COMMAND_URI_CHECK_TOKEN', TR_ID_COMMAND_URI_OAUTH . '/check_token');
 define('TR_ID_COMMAND_URI_LOGOUT', TR_ID_COMMAND_URI_OAUTH . '/authorize/logout');
 define('TR_ID_COMMAND_URI_USERPROFILE', TR_ID_COMMAND_URI_HOST . '/trustedapp/rest/user/profile/get');
+define('TR_ID_COMMAND_AUTHORIZE_PROFILE', TR_ID_COMMAND_URI_HOST . '/idp/sso/user/authorize/profile');
+define('TR_ID_COMMAND_AUTHORIZE_IDENTITY', TR_ID_COMMAND_URI_HOST . '/idp/sso/user/authorize/identity');
 
 //Module URI
 define('TR_ID_URI_HOST', 'https://' . $_SERVER['HTTP_HOST']);

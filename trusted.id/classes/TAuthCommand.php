@@ -256,50 +256,89 @@ class TAuthCommand {
         return $res;
     }
 
-    // SearchField can be:
-    // entitityId, username, email, displayName, familyName, givenName, login, id
-    static function pullTnInfo($accessToken, $searchField, $searchTerm) {
+    static function findTnUserDataById($searchId)
+    {
         $res = false;
-        if ($accessToken) {
-            $curl = curl_init();
-            curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-                'Authorization: Bearer ' . $accessToken,
-                'Content-Type: application/x-www-form-urlencoded',
-            ));
-            curl_setopt($curl, CURLOPT_URL, TR_ID_COMMAND_REST_USER_FIND);
-            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
-            curl_setopt($curl, CURLOPT_POSTFIELDS, 't=' . $searchTerm);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            $response = curl_exec($curl);
-            if (!curl_errno($curl)) {
-                $info = curl_getinfo($curl);
-                if ($info['http_code'] == 200) {
-                    $responseList = json_decode($response, true);
-                    $responseList = $responseList['users']['list'];
-                    foreach ($responseList as $user) {
-                        if ($user[$searchField] == $searchTerm) {
-                            $res = $user;
-                        }
-                    }
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, TR_ID_COMMAND_AUTHORIZE_PROFILE);
+        curl_setopt($curl, CURLOPT_USERPWD, TR_ID_OPT_CLIENT_ID . ":" . TR_ID_OPT_CLIENT_SECRET);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, array('userId' => $searchId));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        $response = curl_exec($curl);
+        if (!curl_errno($curl)) {
+            $info = curl_getinfo($curl);
+            if ($info['http_code'] == 200) {
+                $responseList = json_decode($response, true);
+                if ($responseList['code'] == 1605) {
+                    $res = array(
+                        'id' => $searchId,
+                        'familyName' => null,
+                        'givenName' => null,
+                        'email' => null,
+                        'username' => null
+                    );
                 } else {
-                    $message = 'Wrong HTTP response status ' . $info['http_code'];
-                    if ($response) {
-                        $error = json_decode($response, true);
-                        if ($error) {
-                            $message .= PHP_EOL . $error['error'] . ' - ' . $error['error_description'];
-                        }
-                    }
-                    Utils::debug('OAuth request error', $message);
-                    throw new OAuth2Exception($message, 0, null);
+                    $res = $responseList['data'];
                 }
             } else {
-                $error = curl_error($curl);
-                curl_close($curl);
-                Utils::debug('CURL error', $error);
-                throw new OAuth2Exception(TR_ID_ERROR_MSG_CURL, TR_ID_ERROR_CODE_CURL, null);
+                $message = 'Wrong HTTP response status ' . $info['http_code'];
+                if ($response) {
+                    $error = json_decode($response, true);
+                    if ($error) {
+                        $message .= PHP_EOL . $error['error'] . ' - ' . $error['error_description'];
+                    }
+                }
+                Utils::debug('OAuth request error', $message);
+                throw new OAuth2Exception($message, 0, null);
             }
+        } else {
+            $error = curl_error($curl);
+            curl_close($curl);
+            Utils::debug('CURL error', $error);
+            throw new OAuth2Exception(TR_ID_ERROR_MSG_CURL, TR_ID_ERROR_CODE_CURL, null);
+        }
+        return $res;
+    }
+
+    // SearchField can be: email, phone number
+    static function findTnUserData($searchField, $searchTerm)
+    {
+        $res = false;
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, TR_ID_COMMAND_AUTHORIZE_IDENTITY);
+        curl_setopt($curl, CURLOPT_USERPWD, TR_ID_OPT_CLIENT_ID . ":" . TR_ID_OPT_CLIENT_SECRET);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, array('type' => $searchField, 'identity' => $searchTerm));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        $response = curl_exec($curl);
+        if (!curl_errno($curl)) {
+            $info = curl_getinfo($curl);
+            if ($info['http_code'] == 200) {
+                $responseList = json_decode($response, true);
+                $responseList = $responseList['data'];
+                $res = TAuthCommand::findTnUserDataById($responseList);
+            } else {
+                $message = 'Wrong HTTP response status ' . $info['http_code'];
+                if ($response) {
+                    $error = json_decode($response, true);
+                    if ($error) {
+                        $message .= PHP_EOL . $error['error'] . ' - ' . $error['error_description'];
+                    }
+                }
+                Utils::debug('OAuth request error', $message);
+                throw new OAuth2Exception($message, 0, null);
+            }
+        } else {
+            $error = curl_error($curl);
+            curl_close($curl);
+            Utils::debug('CURL error', $error);
+            throw new OAuth2Exception(TR_ID_ERROR_MSG_CURL, TR_ID_ERROR_CODE_CURL, null);
         }
         return $res;
     }
 }
-
