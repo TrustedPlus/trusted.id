@@ -43,7 +43,7 @@ Class trusted_id extends CModule
         RegisterModuleDependences('main', 'OnUserLogin', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnUserLoginHandler');
         RegisterModuleDependences('main', 'OnUserLogout', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnUserLogoutHandler');
 
-        RegisterModuleDependences('sale', 'OnSaleComponentOrderOneStepComplete', $this->MODULE_ID, 'Id\Auth', 'OnSaleComponentOrderOneStepCompleteHandler');
+        RegisterModuleDependences('sale', 'OnSaleComponentOrderOneStepComplete', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnSaleComponentOrderOneStepCompleteHandler');
     }
 
     function UnRegisterEventHandlers()
