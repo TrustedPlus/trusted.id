@@ -105,7 +105,7 @@ if (($arID = $lAdmin->GroupAction()) && $POST_RIGHT == 'W') {
         switch ($_REQUEST['action']) {
             case 'personal_info':
                 echo '<script>';
-                echo "window.location.href = 'trusted_id_personal.php?id={$ID}&lang={$lang}'";
+                echo "window.location.href = 'trusted_id_user_edit.php?id={$ID}&lang={$lang}'";
                 echo '</script>';
                 break;
             case 'pull_tn_info':
@@ -221,9 +221,9 @@ while ($arRes = $rsData->NavNext(true, 'f_')) {
     $arActions = Array();
 
     $arActions[] = array(
-        'ICON' => 'edit',
+        'ICON' => 'rename',
         'DEFAULT' => true,
-        'TEXT' => 'Изменить информацию',
+        'TEXT' => GetMessage('TR_ID_USERS_ACT_USER_EDIT'),
         'ACTION' => $lAdmin->ActionDoGroup($f_ID, 'personal_info'),
     );
 
@@ -276,7 +276,7 @@ while ($arRes = $rsData->NavNext(true, 'f_')) {
 
 $lAdmin->AddGroupActionTable(
     array(
-        'personal_info' => 'Подробная информация о пользователе',
+        'personal_info' => GetMessage('TR_ID_USERS_ACT_USER_EDIT'),
         'pull_tn_info' => GetMessage('TR_ID_USERS_ACT_PULL_TN_INFO'),
         'register' => GetMessage('TR_ID_USERS_ACT_REGISTER'),
         'remove' => GetMessage('TR_ID_USERS_ACT_REMOVE'),
@@ -332,11 +332,8 @@ if (!Id\Utils::checkCurl()) {
     </h3>
     <?
 
-} elseif (!Id\OAuth2::getFromSession()) {
-    $APPLICATION->IncludeComponent('trusted:id', '');
-} else {
-    $auth = Id\OAuth2::getFromSession();
-    ?>
+}
+?>
 
     <form name="find_form" method="get" action="<?
     echo $APPLICATION->GetCurPage(); ?>">
@@ -415,9 +412,6 @@ if (!Id\Utils::checkCurl()) {
     </form>
 
     <? $lAdmin->DisplayList(); ?>
-    <?
-}
-?>
 
 <?php require($_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/epilog_admin.php'); ?>
 

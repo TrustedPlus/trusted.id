@@ -275,6 +275,7 @@ class TAuthCommand {
                 if ($responseList['code'] == 1605) {
                     $res = array(
                         'id' => $searchId,
+                        'entityId' => $searchId,
                         'familyName' => null,
                         'givenName' => null,
                         'email' => null,

@@ -19,7 +19,7 @@ if ($APPLICATION->GetGroupRight('trusted.id') >= 'R') {
         $Menu[] = array('text' => GetMessage('TR_ID_MENU_USERS'),
             'url' => 'trusted_id_users.php?lang=' . LANGUAGE_ID,
             // Subpages
-            'more_url' => array('trusted_id_personal.php'),
+            'more_url' => array('trusted_id_user_edit.php'),
             'title' => GetMessage('TR_ID_MENU_USERS_ALT')
         );
 

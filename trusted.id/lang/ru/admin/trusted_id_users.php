@@ -29,6 +29,8 @@ $MESS ['TR_ID_USERS_COL_TN_FAM_NAME'] = 'Фамилия в Id.Trusted.Plus';
 $MESS ['TR_ID_USERS_COL_TN_EMAIL'] = 'E-mail в Id.Trusted.Plus';
 
 // Actions
+
+$MESS ['TR_ID_USERS_ACT_USER_EDIT'] = 'Редактировать запись';
 $MESS ['TR_ID_USERS_ACT_PULL_TN_INFO'] = 'Найти пользователя в Id.Trusted.Plus';
 $MESS ['TR_ID_USERS_ACT_REGISTER'] = 'Зарегистрировать пользователя в Id.Trusted.Plus';
 $MESS ['TR_ID_USERS_ACT_REMOVE'] = 'Отменить связь с пользователем в Id.Trusted.Plus';
