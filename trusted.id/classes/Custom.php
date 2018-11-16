@@ -14,8 +14,7 @@ class Custom
     function onRegUserFound($user) {
         global $USER;
         if ($USER->IsAuthorized()) {
-            $user->setUserId($USER->GetID());
-            $user->save();
+            $USER->Logout();
         }
     }
 
