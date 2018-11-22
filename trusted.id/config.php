@@ -25,7 +25,7 @@ define('TR_ID_MODULE_AUTH_ROOT', TR_ID_MODULE_ROOT . TR_ID_MODULE_AUTH_PATH);
 define('TR_ID_MODULE_AUTH', TR_ID_MODULE_AUTH_ROOT . '/common.php');
 
 //Login
-
+define('TR_ID_OPT_REGISTER_ENABLED', Option::get(TR_ID_MODULE_ID, 'REGISTER_ENABLED', ''));
 define('TR_ID_OPT_CLIENT_ID', Option::get(TR_ID_MODULE_ID, 'CLIENT_ID', ''));
 define('TR_ID_OPT_CLIENT_SECRET', Option::get(TR_ID_MODULE_ID, 'CLIENT_SECRET', ''));
 

@@ -70,7 +70,7 @@ class Auth
         }
 
         // CHECK TEMPLATE ID
-        $user_info_template_id = $this->getOption('USER_INFO_TEMPLATE_ID');
+        $user_info_template_id = unserialize($this->getOption('USER_INFO_TEMPLATE_ID'));
         if ($user_info_template_id) {
             $this->USER_INFO_TEMPLATE_ID = $user_info_template_id;
         } else {
@@ -410,7 +410,8 @@ class Auth
         }
         $t_auth->log('OnBeforeEventSendHandler', LOG_LEVEL_INFO);
         $shouldSendMail = $t_auth->shouldSendMail();
-        if (($arTemplate['ID'] == $t_auth->USER_INFO_TEMPLATE_ID) && !$shouldSendMail) {
+        // Template ID handler
+        if ((in_array($arTemplate['ID'], $t_auth->USER_INFO_TEMPLATE_ID)) && !$shouldSendMail) {
             return false;
         } else {
             return $arFields;

@@ -26,7 +26,7 @@ $tabControl = new CAdminTabControl('trustedTabControl', $aTabs, true, true);
 $CLIENT_ID = Option::get($module_id, 'CLIENT_ID', '');
 $CLIENT_SECRET = Option::get($module_id, 'CLIENT_SECRET', '');
 $REGISTER_ENABLED = Option::get($module_id, 'REGISTER_ENABLED', '');
-$USER_INFO_TEMPLATE_ID = Option::get($module_id, 'USER_INFO_TEMPLATE_ID', '2');
+$USER_INFO_TEMPLATE_ID = unserialize(Option::get($module_id, 'USER_INFO_TEMPLATE_ID', '2'));
 $SEND_MAIL_ENABLED = TR_ID_DEFAULT_SHOULD_SEND_MAIL;
 $REDIRECT_URL = Option::get($module_id, 'REDIRECT_URL', '');
 
@@ -72,8 +72,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
         $REGISTER_ENABLED = isset($_POST['REGISTER_ENABLED']) && (string)$_POST['REGISTER_ENABLED'] == 'on';
 
         if ($REGISTER_ENABLED) {
-            if (isset($_POST['USER_INFO_TEMPLATE_ID'])) {
-                $USER_INFO_TEMPLATE_ID = $_POST['USER_INFO_TEMPLATE_ID'];
+            if (isset($_POST['USER_INFO_TEMPLATE_ID0'])) {
+                $USER_INFO_TEMPLATE_ID = [];
+                foreach ($_POST as $key => $value) {
+                    if (strpos($key, 'USER_INFO_TEMPLATE_ID') === 0) {
+                        if ($value !== '') {
+                            $USER_INFO_TEMPLATE_ID[] = (int)$value;
+                        }
+                    }
+                }
+                $USER_INFO_TEMPLATE_ID = array_unique($USER_INFO_TEMPLATE_ID);
+                sort($USER_INFO_TEMPLATE_ID);
+                Option::set($module_id, 'USER_INFO_TEMPLATE_ID', serialize($USER_INFO_TEMPLATE_ID));
             }
             $SEND_MAIL_ENABLED = isset($_POST['SEND_MAIL_ENABLED']) && (string)$_POST['SEND_MAIL_ENABLED'] == 'on';
         }
@@ -89,7 +99,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
         }
 
         Option::set($module_id, 'REGISTER_ENABLED', $REGISTER_ENABLED);
-        Option::set($module_id, 'USER_INFO_TEMPLATE_ID', $USER_INFO_TEMPLATE_ID);
         Option::set($module_id, 'SEND_MAIL_ENABLED', $SEND_MAIL_ENABLED);
     }
 }
@@ -135,7 +144,7 @@ if (Option::get('main', 'new_user_email_uniq_check') !== 'Y') {
     </div>
 
     <form method="POST" action="<? echo $APPLICATION->GetCurPage() ?>?lang=<? echo LANGUAGE_ID ?>&mid=<?= $module_id ?>"
-          name="currency_settings">
+          id="tr_id_settings">
         <? echo bitrix_sessid_post(); ?>
         <tr>
             <td width="40%" class="adm-detail-content-cell-l"><?= GetMessage('TR_ID_CLIENT_ID') ?></td>
@@ -149,8 +158,7 @@ if (Option::get('main', 'new_user_email_uniq_check') !== 'Y') {
             <td class="adm-detail-content-cell-l">
                 <input type="checkbox" <? echo($REGISTER_ENABLED ? "checked='checked'" : "") ?>
                        id="autoRegister"
-                       name="REGISTER_ENABLED"
-                       onchange="document.getElementById('templateId').disabled = !this.checked"/>
+                       name="REGISTER_ENABLED"/>
             </td>
             <td>
                 <label for="autoRegister"><?= GetMessage('TR_ID_ENABLE_AUTO_REGISTRATION') ?></label>
@@ -162,8 +170,7 @@ if (Option::get('main', 'new_user_email_uniq_check') !== 'Y') {
             <tr>
                 <td class="adm-detail-content-cell-l">
                     <input type="checkbox"
-                        <?= (($SEND_MAIL_ENABLED) ? "checked='checked'" : "") ?>
-                        <?= $REGISTER_ENABLED ? "" : "disabled='disabled'" ?>
+                           <?= $REGISTER_ENABLED ? "checked" : "" ?>
                            name="SEND_MAIL_ENABLED"/>
                 </td>
                 <td>
@@ -177,14 +184,81 @@ if (Option::get('main', 'new_user_email_uniq_check') !== 'Y') {
             <td class="adm-detail-content-cell-l">
                 <?= GetMessage('TR_ID_USER_INFO_TEMPLATE_ID') ?>
             </td>
-            <td><input name="USER_INFO_TEMPLATE_ID"
+            <td><input name="USER_INFO_TEMPLATE_ID0"
+                       class="templateId"
                        id="templateId"
-                       <?= $REGISTER_ENABLED ? "" : "disabled='disabled'" ?>
+                       <?= $REGISTER_ENABLED ? "" : "disabled" ?>
                        type="number"
                        min="1"
                        max="999"
-                       value="<?= $USER_INFO_TEMPLATE_ID ?>"/></td>
+                       value="<?= $USER_INFO_TEMPLATE_ID[0] ?>"/></td>
+            </td>
+        </tr>
 
+        <script>
+            document.getElementById('autoRegister').onchange = function () {
+                let resultsElements = document.getElementsByClassName("templateId");
+
+                for (let el of resultsElements) {
+                    el.disabled = !document.getElementById('autoRegister').checked;
+                }
+
+            };
+
+            var indexName = 1;
+
+            function createNewInput(value = "") {
+                let parent = document.getElementById('createInput');
+                let inputNumber = document.createElement('input');
+                let disableElem = document.getElementById("templateId").disabled;
+
+                inputNumber.setAttribute("name", "USER_INFO_TEMPLATE_ID" + indexName);
+                inputNumber.setAttribute("class", "templateId");
+                inputNumber.setAttribute("type", "number");
+                inputNumber.setAttribute("min", "1");
+                inputNumber.setAttribute("max", "999");
+
+                if (disableElem === true) {
+                    inputNumber.disabled = true;
+                }
+
+                inputNumber.setAttribute("form", "tr_id_settings");
+                inputNumber.style = "margin: 0 0 12px 0 !important";
+                inputNumber.value = value;
+
+                parent.appendChild(inputNumber);
+
+                indexName++;
+            }
+        </script>
+
+        <tr>
+            <td></td>
+            <td id="createInput" style="display: flex; flex-direction: column; width: 60px"
+                class="adm-detail-content-cell-r">
+                <?
+                if ($USER_INFO_TEMPLATE_ID[1]) {
+                    foreach (array_slice($USER_INFO_TEMPLATE_ID, 1) as $key => $value) {
+                            ?>
+                            <script>
+                                createNewInput(<?= json_encode($value) ?>);
+                            </script>
+                            <?
+                    }
+                }
+                ?>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div style="display: flex; justify-content: flex-start;">
+                    <input type="button"
+                           class="adm-workarea adm-btn"
+                           onclick="createNewInput()"
+                           value="<?= GetMessage('TR_ID_BTN_MORE') ?>"/>
+                </div>
+            </td>
         </tr>
         <tr>
             <td colspan="2">
