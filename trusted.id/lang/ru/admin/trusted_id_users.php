@@ -14,6 +14,8 @@ $MESS ['TR_ID_INVALID_EMAIL'] = 'Неверно введенный email - ';
 $MESS ['TR_ID_BINDING_EXISTS_PRE'] = 'Email ';
 $MESS ['TR_ID_BINDING_EXISTS_POST'] = ' уже привязан к другому пользователю.';
 
+$MESS ['TR_ID_MODULE_NOT_CONFIGURED'] = 'Запрос не выполнен. Проверьте настройки модуля.';
+
 $MESS ['TR_ID_USER_NOT_FOUND_PRE'] = 'Пользователь с email ';
 $MESS ['TR_ID_USER_NOT_FOUND_POST'] = ' не найден в Id.Trusted.Plus';
 $MESS ['TR_ID_USER_NOT_GIVE_PERMISSION'] = ' не дал разрешение на использования его персональных данных';

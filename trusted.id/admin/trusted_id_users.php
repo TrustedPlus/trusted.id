@@ -111,7 +111,14 @@ if (($arID = $lAdmin->GroupAction()) && $POST_RIGHT == 'W') {
             case 'pull_tn_info':
                 $bxUser = CUser::GetById($ID);
                 $bxUser = $bxUser->Fetch();
-                $tnUserInfo = Id\TAuthCommand::findTnUserData('email', $bxUser['EMAIL']);
+                try {
+                    $tnUserInfo = Id\TAuthCommand::findTnUserData('email', $bxUser['EMAIL']);
+                } catch (Id\OAuth2Exception $e) {
+                    echo BeginNote();
+                    echo GetMessage('TR_ID_MODULE_NOT_CONFIGURED');
+                    echo EndNote();
+                    break;
+                }
 
                 if ($tnUserInfo) {
                     Id\TDataBaseUser::removeUserByUserId($ID);
