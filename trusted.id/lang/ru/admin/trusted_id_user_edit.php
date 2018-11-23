@@ -3,6 +3,8 @@ $MESS ['TR_ID_PERSONAL_PAGE_TITLE'] = 'Подробная информация �
 
 $MESS ['ACCESS_DENIED'] = 'Доступ запрещен';
 
+$MESS ['TR_ID_PERSONAL_TAB_TITLE'] = 'Пользователь';
+
 $MESS ['TR_ID_PERSONAL_BTN_BACK'] = 'Список пользователей';
 
 $MESS ['TR_ID_PERSONAL_DATA_IN_BITRIX'] = 'Информация о пользователе в Битрикс';

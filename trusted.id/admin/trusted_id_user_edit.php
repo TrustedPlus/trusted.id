@@ -33,9 +33,9 @@ if ($REQUEST_METHOD == "POST" && ($save != "" || $apply != "") && check_bitrix_s
 $aTabs = array(
     array(
         "DIV" => "edit1",
-        "TAB" => 'Пользователь',
+        "TAB" => GetMessage('TR_ID_PERSONAL_TAB_TITLE'),
         "ICON" => "main_user_edit",
-        "TITLE" => GetMessage('TR_ID_PERSONAL_PAGE_TITLE'),
+        "TITLE" => GetMessage('TR_ID_PERSONAL_TAB_TITLE'),
     ),
 );
 $tabControl = new CAdminTabControl("tabControl", $aTabs);
