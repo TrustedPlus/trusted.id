@@ -36,6 +36,7 @@ $MESS ['TR_ID_USERS_ACT_USER_EDIT'] = 'Редактировать запись';
 $MESS ['TR_ID_USERS_ACT_PULL_TN_INFO'] = 'Найти пользователя в Id.Trusted.Plus';
 $MESS ['TR_ID_USERS_ACT_REGISTER'] = 'Зарегистрировать пользователя в Id.Trusted.Plus';
 $MESS ['TR_ID_USERS_ACT_REMOVE'] = 'Отменить связь с пользователем в Id.Trusted.Plus';
+$MESS ['TR_ID_USERS_ACT_REMOVE_CONFIRM'] = 'Вы действительно хотите удалить связку?';
 
 // Pagination text
 $MESS ['TR_ID_USERS_NAV_TEXT'] = 'Пользователи';

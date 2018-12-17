@@ -300,17 +300,19 @@ if (!Id\Utils::isSecure()) {
     function removeUserBinding() {
         var userID = <?= $personalData["BX_ID"] ?>;
 
-        sendCommand("remove", {userID}, (data, err) => {
-            if (err || data.success == false) {
-                console.log(err || data);
-            } else {
-                document.getElementById("personalTnUID").style.display = "none";
-                document.getElementById("personalTnGivName").style.display = "none";
-                document.getElementById("personalTnFamName").style.display = "none";
-                document.getElementById("personalTnEmail").style.display = "none";
-                document.getElementById("btnRmvBind").style.display = "none";
-            }
-        });
+        if (confirm('<?= GetMessage("TR_ID_PERSONAL_BTN_DELETE_TR_DATA_CONFIRM") ?>')) {
+            sendCommand("remove", {userID}, (data, err) => {
+                if (err || data.success == false) {
+                    console.log(err || data);
+                } else {
+                    document.getElementById("personalTnUID").style.display = "none";
+                    document.getElementById("personalTnGivName").style.display = "none";
+                    document.getElementById("personalTnFamName").style.display = "none";
+                    document.getElementById("personalTnEmail").style.display = "none";
+                    document.getElementById("btnRmvBind").style.display = "none";
+                }
+            });
+        }
     }
 
     function sendCommand(command, params, cb) {

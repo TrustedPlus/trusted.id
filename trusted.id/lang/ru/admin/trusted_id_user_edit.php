@@ -33,6 +33,8 @@ $MESS ['TR_ID_PERSONAL_FIND_DATA_VALUE'] = 'Значение';
 $MESS ['TR_ID_PERSONAL_BTN_DELETE_TR_DATA'] = 'Удалить связку';
 $MESS ['TR_ID_PERSONAL_BTN_FIND_DATA_BY_IND'] = 'Поиск данных';
 
+$MESS ['TR_ID_PERSONAL_BTN_DELETE_TR_DATA_CONFIRM'] = 'Вы действительно хотите удалить связку?';
+
 $MESS ['TR_ID_PERSONAL_VALUE_CANNOT_BE_EMPTY'] = 'Поле не может быть пустым!';
 $MESS ['TR_ID_PERSONAL_PPL_DOES_NOT_EXIST'] = 'Пользователь не найден!';
 

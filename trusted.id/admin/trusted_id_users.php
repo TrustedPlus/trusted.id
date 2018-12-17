@@ -259,7 +259,7 @@ while ($arRes = $rsData->NavNext(true, 'f_')) {
             'ICON' => 'delete',
             'DEFAULT' => true,
             'TEXT' => GetMessage('TR_ID_USERS_ACT_REMOVE'),
-            'ACTION' => $lAdmin->ActionDoGroup($f_ID, 'remove'),
+            'ACTION' => "if(confirm('".GetMessage('TR_ID_USERS_ACT_REMOVE_CONFIRM')."')) ".$lAdmin->ActionDoGroup($f_ID, "remove"),
         );
     }
 

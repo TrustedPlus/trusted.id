@@ -31,7 +31,6 @@ if (isset($command)) {
     switch ($command) {
         case "find":
             $res = id\AjaxCommand::findUser($_GET);
-
             break;
         case "remove":
             $res = id\AjaxCommand::removeUserBind($_GET);
