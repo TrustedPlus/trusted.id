@@ -185,7 +185,7 @@ class OAuth2 {
                 try {
                     $res->refresh();
                 } catch (OAuth2Exception $e) {
-                    onOAuth2Exception($e);
+                    Id\Custom::onOAuth2Exception($e);
                 }
             }
         }
