@@ -52,7 +52,7 @@ define('TR_ID_COMMAND_AUTHORIZE_PROFILE', TR_ID_COMMAND_URI_HOST . '/idp/sso/use
 define('TR_ID_COMMAND_AUTHORIZE_IDENTITY', TR_ID_COMMAND_URI_HOST . '/idp/sso/user/authorize/identity');
 
 //Module URI
-define('TR_ID_URI_HOST', 'https://' . $_SERVER['HTTP_HOST']);
+define('TR_ID_URI_HOST', 'https://' . preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST'])); // remove port from host
 define('TR_ID_URI_MODULE', TR_ID_URI_HOST . TR_ID_COMPONENT_PATH);
 define('TR_ID_URI_MODULE_AUTH', TR_ID_URI_MODULE . '/id');
 

@@ -14,11 +14,11 @@ $aTabs = array(
         'TAB' => GetMessage('TR_ID_OPTIONS_TAB_SETTINGS'),
         'TITLE' => GetMessage('TR_ID_OPTIONS_TAB_SETTINGS_TITLE')
     ),
-    array(
-        'DIV' => 'tab_info',
-        'TAB' => GetMessage('TR_ID_OPTIONS_TAB_INFO'),
-        'TITLE' => GetMessage('TR_ID_OPTIONS_TAB_INFO_TITLE')
-    ),
+    // array(
+    //     'DIV' => 'tab_info',
+    //     'TAB' => GetMessage('TR_ID_OPTIONS_TAB_INFO'),
+    //     'TITLE' => GetMessage('TR_ID_OPTIONS_TAB_INFO_TITLE')
+    // ),
 );
 
 $tabControl = new CAdminTabControl('trustedTabControl', $aTabs, true, true);
@@ -274,6 +274,11 @@ if (Option::get('main', 'new_user_email_uniq_check') !== 'Y') {
             </td>
         </tr>
 
+    <?
+    // Hide tab
+    if (false) {
+    ?>
+
     <? $tabControl->BeginNextTab(); ?>
         <?
         $APPLICATION->IncludeComponent('trusted:id', '');
@@ -294,7 +299,7 @@ if (Option::get('main', 'new_user_email_uniq_check') !== 'Y') {
                 $yes = "<span style='color:green;'>" . GetMessage('TR_ID_YES') . '</span>';
                 $no = "<span style='color:red;'>" . GetMessage('TR_ID_NO') . '</span>';
 
-                $login = Id\TAuthCommand::getAppParameters($accessToken, 'login');
+                // $login = Id\TAuthCommand::getAppParameters($accessToken, 'login');
                 $login = $login['data'];
                 if ($login['limit'] == -1) {
                     $loginLimit = GetMessage('TR_ID_NO_LIMIT');
@@ -302,7 +307,7 @@ if (Option::get('main', 'new_user_email_uniq_check') !== 'Y') {
                     $loginLimit = $login['limit'];
                 }
 
-                $social = Id\TAuthCommand::getAppParameters($accessToken, 'social');
+                // $social = Id\TAuthCommand::getAppParameters($accessToken, 'social');
                 $social = $social['data'];
                 if ($social['limit'] == -1) {
                     $socialLimit = GetMessage('TR_ID_NO_LIMIT');
@@ -310,7 +315,7 @@ if (Option::get('main', 'new_user_email_uniq_check') !== 'Y') {
                     $socialLimit = $social['limit'];
                 }
 
-                $cert = Id\TAuthCommand::getAppParameters($accessToken, 'certificate');
+                // $cert = Id\TAuthCommand::getAppParameters($accessToken, 'certificate');
                 $cert = $cert['data'];
                 if ($cert['limit'] == -1) {
                     $certLimit = GetMessage('TR_ID_NO_LIMIT');
@@ -452,6 +457,11 @@ if (Option::get('main', 'new_user_email_uniq_check') !== 'Y') {
         <?
         }
         ?>
+
+    <?
+    // Hide tab
+    }
+    ?>
 
     <? $tabControl->Buttons(); ?>
 
