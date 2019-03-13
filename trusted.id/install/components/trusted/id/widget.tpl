@@ -35,10 +35,11 @@
             }
             try {
                 var code = $_GET('code');
+                var state = $_GET('state');
                 console.log(window.opener);
                 if (window.opener) {
                     // window.opener is undefined in Microsoft Edge
-                    window.opener.location.href = '<?php echo TR_ID_REDIRECT_URI?>?final=true&code=' + code;
+                    window.opener.location.href = '<?php echo TR_ID_REDIRECT_URI?>?final=true&code=' + code + '&state=' + encodeURIComponent(state);
                 }
                 window.close();
             }

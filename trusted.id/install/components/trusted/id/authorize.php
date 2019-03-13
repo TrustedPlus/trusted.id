@@ -86,8 +86,12 @@ try {
             }
             $token->setUser($user);
             Id\Utils::debug('Token', $token);
+
+            $redirectUrl = getParam('state');
+            Id\Utils::debug('State get param (redirectUrl)', $redirectUrl);
+
             Id\Utils::debug('Event onUserAuthorized');
-            Id\Custom::onUserAuthorized($user);
+            Id\Custom::onUserAuthorized($user, $redirectUrl);
         } else {
             include_once __DIR__ . '/widget.tpl';
         }

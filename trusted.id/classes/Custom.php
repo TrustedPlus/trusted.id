@@ -98,8 +98,9 @@ class Custom
     /**
      * @global type $USER
      * @param \TUser $user
+     * @param string $redirectUrl
      */
-    function onUserAuthorized($user) {
+    function onUserAuthorized($user, $redirectUrl) {
         Utils::debug('onUserAuthorize');
         global $USER;
         if (!($USER && $USER->IsAuthorized())) {
@@ -110,12 +111,12 @@ class Custom
                 Utils::debug('Authorized');
             }
         }
-        $REDIRECT_URL = Option::get(TR_ID_MODULE_ID, 'REDIRECT_URL', TR_ID_URI_HOST);
-        if ($REDIRECT_URL == '') {
-            $REDIRECT_URL = TR_ID_URI_HOST;
+
+        if (!$redirectUrl) {
+            $redirectUrl = TR_ID_URI_HOST;
         }
         if (!TR_ID_DEBUG) {
-            header('Location: ' . $REDIRECT_URL);
+            header('Location: ' . $redirectUrl);
         }
     }
 

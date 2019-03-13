@@ -28,19 +28,6 @@ $CLIENT_SECRET = Option::get($module_id, 'CLIENT_SECRET', '');
 $REGISTER_ENABLED = Option::get($module_id, 'REGISTER_ENABLED', '');
 $USER_INFO_TEMPLATE_ID = unserialize(Option::get($module_id, 'USER_INFO_TEMPLATE_ID', '2'));
 $SEND_MAIL_ENABLED = TR_ID_DEFAULT_SHOULD_SEND_MAIL;
-$REDIRECT_URL = Option::get($module_id, 'REDIRECT_URL', '');
-
-function CheckRedirectUrl($url)
-{
-    $res = true;
-    if ($url == '')
-        return true;
-    if (!filter_var($url, FILTER_VALIDATE_URL))
-        $res = false;
-    if (!preg_match('/^(http:\/\/|https:\/\/).*/', $url))
-        $res = false;
-    return $res;
-}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
     if (isset($_POST['Update'])) {
@@ -86,16 +73,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
                 Option::set($module_id, 'USER_INFO_TEMPLATE_ID', serialize($USER_INFO_TEMPLATE_ID));
             }
             $SEND_MAIL_ENABLED = isset($_POST['SEND_MAIL_ENABLED']) && (string)$_POST['SEND_MAIL_ENABLED'] == 'on';
-        }
-
-        if (isset($_POST['REDIRECT_URL'])) {
-            $REDIRECT_URL_POST = (string)$_POST['REDIRECT_URL'];
-            if (CheckRedirectUrl($REDIRECT_URL_POST)) {
-                $REDIRECT_URL = $REDIRECT_URL_POST;
-                Option::set($module_id, 'REDIRECT_URL', $REDIRECT_URL_POST);
-            } else {
-                CAdminMessage::ShowMessage(GetMessage('TR_ID_REDIRECT_URL_INVALID'));
-            }
         }
 
         Option::set($module_id, 'REGISTER_ENABLED', $REGISTER_ENABLED);
@@ -265,12 +242,6 @@ if (Option::get('main', 'new_user_email_uniq_check') !== 'Y') {
                 <?echo BeginNote();?>
                 <?echo GetMessage('TR_ID_USER_INFO_TEMPLATE_ID_NOTE')?><br>
                 <?echo EndNote();?>
-            </td>
-        </tr>
-        <tr>
-            <td width="40%" class="adm-detail-content-cell-l"><?= GetMessage('TR_ID_REDIRECT_URL') ?></td>
-            <td width="60%">
-                <input name="REDIRECT_URL" style="width: 400px;" value="<?= $REDIRECT_URL ?>" type="text"/>
             </td>
         </tr>
 
