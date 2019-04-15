@@ -5,5 +5,9 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true)
 $arComponentDescription = array(
     'NAME' => GetMessage('NAME'),
     'DESCRIPTION' => GetMessage('DESCRIPTION'),
+    'PATH' => array(
+        'ID' => 'Trusted ID',
+        "NAME" => GetMessage("NAME"),
+    ),
 );
 

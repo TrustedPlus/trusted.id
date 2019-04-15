@@ -17,8 +17,8 @@ if (!($USER && $USER->IsAuthorized())) {
     Id\OAuth2::remove();
     $token = NULL;
 }
-$defaultIn = $arParams['LOG_IN'] ? $arParams['LOG_IN'] : GetMessage('LOG_IN');
-$defaultOut = $arParams['LOG_OUT'] ? $arParams['LOG_OUT'] : GetMessage('LOG_OUT');
+$defaultIn = $arParams['LOG_IN'] ?: GetMessage('LOG_IN');
+$defaultOut = $arParams['LOG_OUT'] ?: GetMessage('LOG_OUT');
 if ($token) {
     echo '<div class="trn-profile">';
     echo '<img class="trn-profile_icon" src="' . $token->getUser()->getServiceUser()->getAvatarUrl($token->getAccessToken()) . '"/>';
