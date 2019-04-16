@@ -131,7 +131,7 @@ if (($arID = $lAdmin->GroupAction()) && $POST_RIGHT == 'W') {
 
                 if ($tnUserInfo['email'] == null) {
                     echo BeginNote();
-                    echo $bxUser['NAME'] . $bxUser['LAST_NAME'] . '(' .$bxUser['EMAIL'] . ')';
+                    echo $bxUser['NAME'] . ' ' . $bxUser['LAST_NAME'] . '(' .$bxUser['EMAIL'] . ')';
                     echo GetMessage('TR_ID_USER_NOT_GIVE_PERMISSION');
                     echo EndNote();
                 }

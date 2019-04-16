@@ -13,6 +13,7 @@ class AjaxCommand {
         return array("success" => $success, "message" => $message, "data" => $data);
     }
 
+
     static function findUser($params) {
         if ($params["searchValue"] == "") {
             return self::s2o("Value cannot be empty!", false);
@@ -26,20 +27,22 @@ class AjaxCommand {
 
             case "email":
             case "phone":
+            case "photo":
                 $user = TAuthCommand::findTnUserData($params["searchTypeValue"], $params["searchValue"]);
                 return self::s2o(null, true, $user);
             default:
                 return self::s2o("Invalid searchTypeValue!", false);
         }
-
     }
 
+
     static function removeUserBind($params) {
-        if ($params["userID"]== "") {
+        if ($params["userID"] == "") {
             return self::s2o("Value cannot be empty!", false);
         }
         TDataBaseUser::removeUserByUserId($params["userID"]);
         return self::s2o(null, true);
     }
+
 }
 

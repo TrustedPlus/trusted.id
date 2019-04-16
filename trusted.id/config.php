@@ -19,6 +19,10 @@ define('TR_ID_PROJECT_ROOT', $_SERVER['DOCUMENT_ROOT']);
 define('TR_ID_MODULE_ROOT', TR_ID_PROJECT_ROOT . TR_ID_COMPONENT_PATH);
 define('TR_ID_MODULE_PATH', TR_ID_PROJECT_ROOT . '/bitrix/modules/trusted.id');
 
+define("TR_ID_HOST", preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST']));
+
+define("TR_ID_AJAX_CONTROLLER", "https://" . TR_ID_HOST . "/bitrix/components/trusted/id.api/ajax.php");
+
 //Path login
 define('TR_ID_MODULE_AUTH_PATH', '/trusted.id');
 define('TR_ID_MODULE_AUTH_ROOT', TR_ID_MODULE_ROOT . TR_ID_MODULE_AUTH_PATH);

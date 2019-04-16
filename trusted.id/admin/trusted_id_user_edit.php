@@ -78,149 +78,149 @@ if (!Id\Utils::isSecure()) {
 }
 ?>
 
-    <form method="POST" Action="<? echo $APPLICATION->GetCurPage() ?>" ENCTYPE="multipart/form-data"
-          name="post_form">
-        <? echo bitrix_sessid_post(); ?>
-        <?
-        $tabControl->Begin();
-        $tabControl->BeginNextTab();
-        ?>
-        <tr class="heading">
-            <td colspan="2"><?= GetMessage("TR_ID_PERSONAL_DATA_IN_BITRIX") ?></td>
-        </tr>
-        <tr>
-            <td width="50%"><?= GetMessage("TR_ID_PERSONAL_COL_ID") ?></td>
-            <td width="50%"><?= $personalData['BX_ID'] ?></td>
-        </tr>
-        <tr>
-            <td><?= GetMessage("TR_ID_PERSONAL_COL_LOGIN") ?></td>
-            <td><?= $personalData['BX_LOGIN'] ?></td>
-        </tr>
-        <tr>
-            <td><?= GetMessage("TR_ID_PERSONAL_COL_GIV_NAME") ?></td>
-            <td><?= $personalData['BX_NAME']; ?></td>
-        </tr>
-        <tr>
-            <td><?= GetMessage("TR_ID_PERSONAL_COL_FAM_NAME") ?></td>
-            <td><?= $personalData['BX_LAST_NAME']; ?></td>
-        </tr>
-        <tr>
-            <td><?= GetMessage("TR_ID_PERSONAL_COL_EMAIL") ?></td>
-            <td><?= $personalData['BX_EMAIL']; ?></td>
-        </tr>
-        <tr>
-            <td colspan="2" style="text-align: center">
-                <a href="user_edit.php?lang=<?= LANG ?>&ID=<?= $personalData['BX_ID'] ?>">
-                    <?= GetMessage("TR_ID_PERSONAL_EDIT_DATA_BITRIX") ?>
-                </a>
-            </td>
-        </tr>
-        <tr class="heading">
-            <td colspan="2"><?= GetMessage("TR_ID_PERSONAL_DATA_IN_TR") ?></td>
-        </tr>
-        <tr>
-            <td><?= GetMessage("TR_ID_PERSONAL_COL_TN_ID") ?></td>
-            <td id="personalTnUID"><?= $personalData['TR_UID']; ?></td>
-        </tr>
-        <tr>
-            <td><?= GetMessage("TR_ID_PERSONAL_COL_TN_GIV_NAME") ?></td>
-            <td id="personalTnGivName"><?= $personalData['TN_GIV_NAME']; ?></td>
-        </tr>
-        <tr>
-            <td><?= GetMessage("TR_ID_PERSONAL_COL_TN_FAM_NAME") ?></td>
-            <td id="personalTnFamName"><?= $personalData['TN_FAM_NAME']; ?></td>
-        </tr>
-        <tr>
-            <td><?= GetMessage("TR_ID_PERSONAL_COL_TN_EMAIL") ?></td>
-            <td id="personalTnEmail"><?= $personalData['TN_EMAIL']; ?></td>
-        </tr>
+<form method="POST" Action="<? echo $APPLICATION->GetCurPage() ?>" ENCTYPE="multipart/form-data"
+      name="post_form">
+    <? echo bitrix_sessid_post(); ?>
+    <?
+    $tabControl->Begin();
+    $tabControl->BeginNextTab();
+    ?>
+    <tr class="heading">
+        <td colspan="2"><?= GetMessage("TR_ID_PERSONAL_DATA_IN_BITRIX") ?></td>
+    </tr>
+    <tr>
+        <td width="50%"><?= GetMessage("TR_ID_PERSONAL_COL_ID") ?></td>
+        <td width="50%"><?= $personalData['BX_ID'] ?></td>
+    </tr>
+    <tr>
+        <td><?= GetMessage("TR_ID_PERSONAL_COL_LOGIN") ?></td>
+        <td><?= $personalData['BX_LOGIN'] ?></td>
+    </tr>
+    <tr>
+        <td><?= GetMessage("TR_ID_PERSONAL_COL_GIV_NAME") ?></td>
+        <td><?= $personalData['BX_NAME']; ?></td>
+    </tr>
+    <tr>
+        <td><?= GetMessage("TR_ID_PERSONAL_COL_FAM_NAME") ?></td>
+        <td><?= $personalData['BX_LAST_NAME']; ?></td>
+    </tr>
+    <tr>
+        <td><?= GetMessage("TR_ID_PERSONAL_COL_EMAIL") ?></td>
+        <td><?= $personalData['BX_EMAIL']; ?></td>
+    </tr>
+    <tr>
+        <td colspan="2" style="text-align: center">
+            <a href="user_edit.php?lang=<?= LANG ?>&ID=<?= $personalData['BX_ID'] ?>">
+                <?= GetMessage("TR_ID_PERSONAL_EDIT_DATA_BITRIX") ?>
+            </a>
+        </td>
+    </tr>
+    <tr class="heading">
+        <td colspan="2"><?= GetMessage("TR_ID_PERSONAL_DATA_IN_TR") ?></td>
+    </tr>
+    <tr>
+        <td><?= GetMessage("TR_ID_PERSONAL_COL_TN_ID") ?></td>
+        <td id="personalTnUID"><?= $personalData['TR_UID']; ?></td>
+    </tr>
+    <tr>
+        <td><?= GetMessage("TR_ID_PERSONAL_COL_TN_GIV_NAME") ?></td>
+        <td id="personalTnGivName"><?= $personalData['TN_GIV_NAME']; ?></td>
+    </tr>
+    <tr>
+        <td><?= GetMessage("TR_ID_PERSONAL_COL_TN_FAM_NAME") ?></td>
+        <td id="personalTnFamName"><?= $personalData['TN_FAM_NAME']; ?></td>
+    </tr>
+    <tr>
+        <td><?= GetMessage("TR_ID_PERSONAL_COL_TN_EMAIL") ?></td>
+        <td id="personalTnEmail"><?= $personalData['TN_EMAIL']; ?></td>
+    </tr>
 
-        <? if (!($personalData['TR_UID'] === null)) { ?>
-            <tr id="btnRmvBind">
-                <td colspan="2">
-                    <div style="display: flex; justify-content: center;">
-                        <input type="button"
-                               class="adm-workarea adm-btn"
-                               onclick="removeUserBinding()"
-                               value="<?= GetMessage("TR_ID_PERSONAL_BTN_DELETE_TR_DATA") ?>"/>
-                </td>
-            </tr>
-        <? } ?>
-
-        <tr class="heading">
-            <td colspan="2"><?= GetMessage("TR_ID_PERSONAL_FIND_DATA_BY_IND") ?></td>
-        </tr>
-        <tr>
-            <td><?= GetMessage("TR_ID_PERSONAL_IND") ?></td>
-            <td>
-                <?
-                $searchType = array(
-                    "REFERENCE" => array(
-                        GetMessage("TR_ID_PERSONAL_SELECTOR_UID"),
-                        GetMessage("TR_ID_PERSONAL_SELECTOR_EMAIL"),
-                        GetMessage("TR_ID_PERSONAL_SELECTOR_PHONE"),
-                    ),
-                    "REFERENCE_ID" => array(
-                        "uid",
-                        "email",
-                        "phone",
-                    ),
-                );
-                echo SelectBoxFromArray("", $searchType, "", "", "id=\"SelectBoxValue\"", false, "post_form");
-                ?>
-            </td>
-        </tr>
-        <tr>
-            <td><?= GetMessage("TR_ID_PERSONAL_FIND_DATA_VALUE") ?></td>
-            <td><input id="findUserValue" type="text" size="30" maxlength="100"></td>
-        </tr>
-        <tr>
+    <? if (!($personalData['TR_UID'] === null)) { ?>
+        <tr id="btnRmvBind">
             <td colspan="2">
                 <div style="display: flex; justify-content: center;">
                     <input type="button"
                            class="adm-workarea adm-btn"
-                           onclick="findValue()"
-                           value="<?= GetMessage("TR_ID_PERSONAL_BTN_FIND_DATA_BY_IND") ?>"/>
-                </div>
+                           onclick="removeUserBinding()"
+                           value="<?= GetMessage("TR_ID_PERSONAL_BTN_DELETE_TR_DATA") ?>"/>
             </td>
         </tr>
-        <tr class="search-field">
-            <td><?= GetMessage("TR_ID_PERSONAL_COL_TN_ID") ?></td>
-            <td class="search-field-result" id="searchId"></td>
-        </tr>
-        <tr class="search-field">
-            <td><?= GetMessage("TR_ID_PERSONAL_COL_TN_GIV_NAME") ?></td>
-            <td class="search-field-result" id="searchGivName"></td>
-        </tr>
-        <tr class="search-field">
-            <td><?= GetMessage("TR_ID_PERSONAL_COL_TN_FAM_NAME") ?></td>
-            <td class="search-field-result" id="searchFamName"></td>
-        </tr>
-        <tr class="search-field">
-            <td><?= GetMessage("TR_ID_PERSONAL_COL_TN_EMAIL") ?></td>
-            <td class="search-field-result" id="searchEmail"></td>
-        </tr>
+    <? } ?>
 
-        <tr class="search-field-error" align="center" style="display: none">
-                <td colspan="2">
-                    <div class="search-field-message adm-info-message">
+    <tr class="heading">
+        <td colspan="2"><?= GetMessage("TR_ID_PERSONAL_FIND_DATA_BY_IND") ?></td>
+    </tr>
+    <tr>
+        <td><?= GetMessage("TR_ID_PERSONAL_IND") ?></td>
+        <td>
+            <?
+            $searchType = array(
+                "REFERENCE" => array(
+                    GetMessage("TR_ID_PERSONAL_SELECTOR_UID"),
+                    GetMessage("TR_ID_PERSONAL_SELECTOR_EMAIL"),
+                    GetMessage("TR_ID_PERSONAL_SELECTOR_PHONE"),
+                ),
+                "REFERENCE_ID" => array(
+                    "uid",
+                    "email",
+                    "phone",
+                ),
+            );
+            echo SelectBoxFromArray("", $searchType, "", "", "id=\"SelectBoxValue\"", false, "post_form");
+            ?>
+        </td>
+    </tr>
+    <tr>
+        <td><?= GetMessage("TR_ID_PERSONAL_FIND_DATA_VALUE") ?></td>
+        <td><input id="findUserValue" type="text" size="30" maxlength="100"></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div style="display: flex; justify-content: center;">
+                <input type="button"
+                       class="adm-workarea adm-btn"
+                       onclick="findValue()"
+                       value="<?= GetMessage("TR_ID_PERSONAL_BTN_FIND_DATA_BY_IND") ?>"/>
+            </div>
+        </td>
+    </tr>
+    <tr class="search-field">
+        <td><?= GetMessage("TR_ID_PERSONAL_COL_TN_ID") ?></td>
+        <td class="search-field-result" id="searchId"></td>
+    </tr>
+    <tr class="search-field">
+        <td><?= GetMessage("TR_ID_PERSONAL_COL_TN_GIV_NAME") ?></td>
+        <td class="search-field-result" id="searchGivName"></td>
+    </tr>
+    <tr class="search-field">
+        <td><?= GetMessage("TR_ID_PERSONAL_COL_TN_FAM_NAME") ?></td>
+        <td class="search-field-result" id="searchFamName"></td>
+    </tr>
+    <tr class="search-field">
+        <td><?= GetMessage("TR_ID_PERSONAL_COL_TN_EMAIL") ?></td>
+        <td class="search-field-result" id="searchEmail"></td>
+    </tr>
 
-                    </div>
-                </td>
-        </tr>
-        <input type="hidden" name="id" id="id" value="<?= $bxId ?>">
-        <input type="hidden" name="trId" id="trId">
-    </form>
+    <tr class="search-field-error" align="center" style="display: none">
+        <td colspan="2">
+            <div class="search-field-message adm-info-message">
 
-    <?
-    $tabControl->Buttons(
-        array(
-            "disabled" => false,
-            "back_url" => "trusted_id_users.php?lang=" . LANG,
-        )
-    );
+            </div>
+        </td>
+    </tr>
+    <input type="hidden" name="id" id="id" value="<?= $bxId ?>">
+    <input type="hidden" name="trId" id="trId">
+</form>
 
-    $tabControl->End();
+<?
+$tabControl->Buttons(
+    array(
+        "disabled" => false,
+        "back_url" => "trusted_id_users.php?lang=" . LANG,
+    )
+);
+
+$tabControl->End();
 ?>
 
 <style>
@@ -244,9 +244,9 @@ if (!Id\Utils::isSecure()) {
 
             document.getElementById("trId").value = data.entityId;
 
-            if(data.email === null) {
+            if (data.email === null) {
                 document.getElementsByClassName("search-field-error")[0].style.display = "table-row";
-                document.getElementsByClassName("search-field-message")[0].innerHTML = '<?= GetMessage("TR_ID_PERSONAL_PERSONAL_DATA_IN_NOT_GIVEN") ?>' + data.entityId +  '<?= GetMessage("TR_ID_PERSONAL_PERSONAL_DATA_IN_NOT_GIVEN2") ?>';
+                document.getElementsByClassName("search-field-message")[0].innerHTML = '<?= GetMessage("TR_ID_PERSONAL_PERSONAL_DATA_IN_NOT_GIVEN") ?>' + data.entityId + '<?= GetMessage("TR_ID_PERSONAL_PERSONAL_DATA_IN_NOT_GIVEN2") ?>';
             }
         }
 
@@ -283,7 +283,7 @@ if (!Id\Utils::isSecure()) {
 
         var searchTypeValue = document.getElementById("SelectBoxValue").value;
         var searchValue = document.getElementById("findUserValue").value;
-        sendCommand("find", {searchTypeValue, searchValue}, (response, err) => {
+        sendCommand("find", {searchTypeValue: searchTypeValue, searchValue: searchValue}, (response, err) => {
             // Some times data will as a string not a JSON
             if (err || response.success === false || response.data == null) {
                 console.log(err || response);
@@ -316,21 +316,23 @@ if (!Id\Utils::isSecure()) {
     }
 
     function sendCommand(command, params, cb) {
-        BX.ajax.get(
-            "trusted_id_ajax.php",
-            Object.assign({command: command}, params),
-            function (data, err) {
-                if (err) {
-                    cb(data, err);
-                } else {
-                    try {
-                        var jsonData = JSON.parse(data);
-                        cb(jsonData, err);
-                    } catch (e) {
+        BX.ajax.({
+                url: '<?= TR_ID_AJAX_CONTROLLER . '?command='?>' + command,
+                data: params,
+                method: 'POST',
+                function(data, err) {
+                    if (err) {
                         cb(data, err);
+                    } else {
+                        try {
+                            var jsonData = JSON.parse(data);
+                            cb(jsonData, err);
+                        } catch (e) {
+                            cb(data, err);
+                        }
                     }
-                }
 
+                }
             }
         );
     }

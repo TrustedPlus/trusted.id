@@ -113,8 +113,7 @@ class TAuthCommand {
                     Utils::debug('OAuth request error', $message);
                     throw new OAuth2Exception($message, 0, null);
                 }
-            }
-            else{
+            } else {
                 $error = curl_error($curl);
                 curl_close($curl);
                 Utils::debug('CURL error', $error);
@@ -256,8 +255,7 @@ class TAuthCommand {
         return $res;
     }
 
-    static function findTnUserDataById($searchId)
-    {
+    static function findTnUserDataById($searchId) {
         $res = false;
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, TR_ID_COMMAND_AUTHORIZE_PROFILE);
@@ -304,16 +302,25 @@ class TAuthCommand {
         return $res;
     }
 
-    // SearchField can be: email, phone number
-    static function findTnUserData($searchField, $searchTerm)
-    {
+    // SearchField can be: email, phone number, photo
+    static function findTnUserData($searchField, $searchTerm) {
         $res = false;
+
+        $postFields = array(
+            'type' => $searchField,
+            'identity' => $searchTerm,
+        );
+
+        if ($searchField === "photo") {
+            $postFields = array_merge($postFields, array('minAccuracy' => 50, "key" => ""));
+        }
+
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, TR_ID_COMMAND_AUTHORIZE_IDENTITY);
         curl_setopt($curl, CURLOPT_USERPWD, TR_ID_OPT_CLIENT_ID . ":" . TR_ID_OPT_CLIENT_SECRET);
         curl_setopt($curl, CURLOPT_TIMEOUT, 30);
         curl_setopt($curl, CURLOPT_POST, 1);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, array('type' => $searchField, 'identity' => $searchTerm));
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $postFields);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
         $response = curl_exec($curl);
@@ -321,7 +328,7 @@ class TAuthCommand {
             $info = curl_getinfo($curl);
             if ($info['http_code'] == 200) {
                 $responseList = json_decode($response, true);
-                $responseList = $responseList['data'];
+                $responseList = $searchField === "photo" ? $responseList['data']['0']['userId'] : $responseList['data'];
                 $res = TAuthCommand::findTnUserDataById($responseList);
             } else {
                 $message = 'Wrong HTTP response status ' . $info['http_code'];

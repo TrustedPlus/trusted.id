@@ -9,5 +9,7 @@ $arComponentDescription = array(
         'ID' => 'Trusted ID',
         "NAME" => GetMessage("NAME"),
     ),
+    'CACHE_PATH' => 'Y',
+    'COMPLEX' => 'N'
 );
 

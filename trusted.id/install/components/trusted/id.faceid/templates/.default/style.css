@@ -1,0 +1,8 @@
+video,
+canvas {
+    position: absolute;
+    transform: scaleX(-1);
+}
+.demo-container {
+    margin-top: 20px;
+}
