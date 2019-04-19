@@ -36,12 +36,15 @@
             try {
                 var code = $_GET('code');
                 var state = $_GET('state');
+                var link = '<?php echo TR_ID_REDIRECT_URI?>?final=true&code=' + code + '&state=' + encodeURIComponent(state);
                 console.log(window.opener);
                 if (window.opener) {
                     // window.opener is undefined in Microsoft Edge
-                    window.opener.location.href = '<?php echo TR_ID_REDIRECT_URI?>?final=true&code=' + code + '&state=' + encodeURIComponent(state);
+                    window.opener.location.href = link;
+                    window.close();
+                } else {
+                    window.location.href = link;
                 }
-                window.close();
             }
             catch (e) {
                 window.document.writeln('<h3>Trusted login frame: ' + e.message + '</h3>');
