@@ -8,7 +8,7 @@ use Bitrix\Main\Loader;
 Loader::includeModule('trusted.id');
 ?>
 
-    <script src="https://<?= TR_ID_SERVICE_HOST ?>/static/js/tlogin-3.0.1.js"></script>
+<script src="https://<?= TR_ID_SERVICE_HOST ?>/static/js/tlogin-3.0.1.js"></script>
 
 <?
 $token = Id\OAuth2::getFromSession();
@@ -19,12 +19,31 @@ if (!($USER && $USER->IsAuthorized())) {
 }
 $defaultIn = $arParams['LOG_IN'] ?: GetMessage('LOG_IN');
 $defaultOut = $arParams['LOG_OUT'] ?: GetMessage('LOG_OUT');
+$personalLinkEnable = $arParams['PERSONAL_LINK_ENABLE'] == 'Y';
+$personalLinkUrl = $arParams['PERSONAL_LINK_URL'] ?: '/personal/';
+$personalLinkText = $arParams['PERSONAL_LINK_TEXT'] ?: GetMessage('PERSONAL_LINK_TEXT');
+
 if ($token) {
-    echo '<div class="trn-profile">';
-    echo '<img class="trn-profile_icon" src="' . $token->getUser()->getServiceUser()->getAvatarUrl($token->getAccessToken()) . '"/>';
-    echo '<div class="trn-profile_name">' . $token->getUser()->getServiceUser()->getDisplayName() . '</div>';
-    echo '<a class="trn-profile_exit" href="/?logout=yes">' . $defaultOut . '</a>';
-    echo '</div>';
+    ?>
+    <div class="trn-profile">
+        <div class="trn-text-wrap">
+            <div class="trn-profile_name"><?= $token->getUser()->getServiceUser()->getDisplayName() ?></div>
+            <?
+            if ($personalLinkEnable) {
+            ?>
+                <div class="trn-profile_name">
+                    <a href="<?= $personalLinkUrl ?>">
+                        <?= $personalLinkText ?>
+                    </a>
+                </div>
+            <?
+            }
+            ?>
+            <a class="trn-profile_exit" href="/?logout=yes"><?= $defaultOut ?></a>
+        </div>
+        <img class="trn-profile_icon" src="<?=$token->getUser()->getServiceUser()->getAvatarUrl($token->getAccessToken()) ?>"/>
+    </div>
+    <?
 } else {
     ?>
     <div class='trusted-btn'

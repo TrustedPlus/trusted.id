@@ -5,16 +5,17 @@
 .trn-profile {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    margin: 8px;
 }
 
 .trn-profile_icon {
-    width: 32px;
-    height: 32px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
 }
 
 .trn-profile_name{
-    padding: 0 5px;
     white-space: nowrap;
     text-overflow: ellipsis;
     width: 120px;
@@ -50,5 +51,9 @@
 .trusted-btn:hover {
     -webkit-box-shadow: 0 5px 11px 0 rgba(0,0,0,.18),0 4px 15px 0 rgba(0,0,0,.15);
     box-shadow: 0 5px 11px 0 rgba(0,0,0,.18),0 4px 15px 0 rgba(0,0,0,.15);
+}
+
+.trn-text-wrap {
+    padding-left: 5px;
 }
 

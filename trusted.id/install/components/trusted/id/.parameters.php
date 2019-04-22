@@ -5,25 +5,43 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true)
 
 $arComponentParameters = array(
     'GROUPS' => array(
-        'BUTTON_NAME' => array(
-            'NAME' => GetMessage('BUTTON_NAME'),
+        'LOOK' => array(
+            'NAME' => GetMessage('TR_ID_COMP_LOOK'),
         ),
         'SOCIAL_LIST' => array(
-            'NAME' => GetMessage('SOCIAL_LIST'),
+            'NAME' => GetMessage('TR_ID_COMP_SOCIAL_LIST'),
         ),
     ),
     'PARAMETERS' => array(
         'LOG_IN' => array(
-            'PARENT' => 'BUTTON_NAME',
-            'NAME' => GetMessage('BUTTON_LOG_IN'),
+            'PARENT' => 'LOOK',
+            'NAME' => GetMessage('TR_ID_COMP_BUTTON_LOG_IN'),
             'TYPE' => 'String',
-            'DEFAULT' => GetMessage('BUTTON_LOG_IN_DEFAULT'),
+            'DEFAULT' => GetMessage('TR_ID_COMP_BUTTON_LOG_IN_DEFAULT'),
         ),
         'LOG_OUT' => array(
-            'PARENT' => 'BUTTON_NAME',
-            'NAME' => GetMessage('BUTTON_LOG_OUT'),
+            'PARENT' => 'LOOK',
+            'NAME' => GetMessage('TR_ID_COMP_BUTTON_LOG_OUT'),
             'TYPE' => 'String',
-            'DEFAULT' => GetMessage('BUTTON_LOG_OUT_DEFAULT'),
+            'DEFAULT' => GetMessage('TR_ID_COMP_BUTTON_LOG_OUT_DEFAULT'),
+        ),
+        'PERSONAL_LINK_ENABLE' => array(
+            'PARENT' => 'LOOK',
+            'NAME' => GetMessage('TR_ID_COMP_PERSONAL_LINK_ENABLE'),
+            'TYPE' => 'CHECKBOX',
+            'DEFAULT' => 'Y',
+        ),
+        'PERSONAL_LINK_URL' => array(
+            'PARENT' => 'LOOK',
+            'NAME' => GetMessage('TR_ID_COMP_PERSONAL_LINK_URL'),
+            'TYPE' => 'String',
+            'DEFAULT' => '/personal/',
+        ),
+        'PERSONAL_LINK_TEXT' => array(
+            'PARENT' => 'LOOK',
+            'NAME' => GetMessage('TR_ID_COMP_PERSONAL_LINK_TEXT'),
+            'TYPE' => 'String',
+            'DEFAULT' => GetMessage('TR_ID_COMP_PERSONAL_LINK_TEXT_DEFAULT'),
         ),
         'TRUSTED' => array(
             'PARENT' => 'SOCIAL_LIST',
