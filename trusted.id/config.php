@@ -19,10 +19,6 @@ define('TR_ID_PROJECT_ROOT', $_SERVER['DOCUMENT_ROOT']);
 define('TR_ID_MODULE_ROOT', TR_ID_PROJECT_ROOT . TR_ID_COMPONENT_PATH);
 define('TR_ID_MODULE_PATH', TR_ID_PROJECT_ROOT . '/bitrix/modules/trusted.id');
 
-define("TR_ID_HOST", preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST']));
-
-define("TR_ID_AJAX_CONTROLLER", "https://" . TR_ID_HOST . "/bitrix/components/trusted/id.api/ajax.php");
-
 //Path login
 define('TR_ID_MODULE_AUTH_PATH', '/trusted.id');
 define('TR_ID_MODULE_AUTH_ROOT', TR_ID_MODULE_ROOT . TR_ID_MODULE_AUTH_PATH);
@@ -59,6 +55,7 @@ define('TR_ID_COMMAND_AUTHORIZE_IDENTITY', TR_ID_COMMAND_URI_HOST . '/idp/sso/us
 define('TR_ID_URI_HOST', 'https://' . preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST'])); // remove port from host
 define('TR_ID_URI_MODULE', TR_ID_URI_HOST . TR_ID_COMPONENT_PATH);
 define('TR_ID_URI_MODULE_AUTH', TR_ID_URI_MODULE . '/id');
+define("TR_ID_AJAX_CONTROLLER", TR_ID_URI_MODULE . "/id.api/ajax.php");
 
 // Upload
 define('TR_ID_UPLOAD_PATH', '/upload');
