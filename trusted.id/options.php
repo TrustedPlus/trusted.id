@@ -27,6 +27,7 @@ $CLIENT_ID = Option::get($module_id, 'CLIENT_ID', '');
 $CLIENT_SECRET = Option::get($module_id, 'CLIENT_SECRET', '');
 $REGISTER_ENABLED = Option::get($module_id, 'REGISTER_ENABLED', '');
 $USER_INFO_TEMPLATE_ID = unserialize(Option::get($module_id, 'USER_INFO_TEMPLATE_ID', '2'));
+$E_VISION_KEY = Option::get($module_id, 'E_VISION_KEY', '');
 $SEND_MAIL_ENABLED = TR_ID_DEFAULT_SHOULD_SEND_MAIL;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
@@ -40,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
                 }
             }
         }
+
         if ($CLIENT_ID != '') {
             Option::set($module_id, 'CLIENT_ID', $CLIENT_ID);
         }
@@ -52,6 +54,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
                 }
             }
         }
+
+        if (isset($_POST['E_VISION_KEY'])) {
+            if ($_POST['E_VISION_KEY'] != $E_VISION_KEY) {
+                $E_VISION_KEY = (string)$_POST['E_VISION_KEY'];
+                Option::set($module_id, 'E_VISION_KEY', $E_VISION_KEY);
+            }
+        }
+
         if ($CLIENT_SECRET != '') {
             Option::set($module_id, 'CLIENT_SECRET', $CLIENT_SECRET);
         }
@@ -242,6 +252,14 @@ if (Option::get('main', 'new_user_email_uniq_check') !== 'Y') {
                 <?echo BeginNote();?>
                 <?echo GetMessage('TR_ID_USER_INFO_TEMPLATE_ID_NOTE')?><br>
                 <?echo EndNote();?>
+            </td>
+        </tr>
+        <tr>
+            <td class="adm-detail-content-cell-l">
+                <?= GetMessage('TR_ID_E_VISION_KEY') ?>
+            </td>
+            <td>
+                <input id="E_VISION_KEY" name="E_VISION_KEY" style="width: 300px;" value="<?= $E_VISION_KEY ?>" type="text"/>
             </td>
         </tr>
 

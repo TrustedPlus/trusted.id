@@ -1,6 +1,7 @@
 <?php
 
 namespace Trusted\Id;
+use Bitrix\Main\Config\Option;
 
 require_once __DIR__ . '/../config.php';
 require_once TR_ID_MODULE_PATH . '/classes/Utils.php';
@@ -312,7 +313,11 @@ class TAuthCommand {
         );
 
         if ($searchField === "photo") {
-            $postFields = array_merge($postFields, array('minAccuracy' => 50, "key" => ""));
+            $E_VISION_KEY = Option::get(TR_ID_MODULE_ID, 'E_VISION_KEY', '');
+            if ($E_VISION_KEY == "" ) {
+                return false;
+            }
+            $postFields = array_merge($postFields, array('minAccuracy' => 50, "key" => $E_VISION_KEY));
         }
 
         $curl = curl_init();

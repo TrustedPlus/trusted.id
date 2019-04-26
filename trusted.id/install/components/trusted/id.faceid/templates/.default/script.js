@@ -1,6 +1,13 @@
 let timeStep = 5000;
 let lastTryTime = Date.now() - timeStep;
+
 window.onload = function () {
+    if (keyExist) {
+        tracker();
+    }
+};
+
+function tracker() {
     let video = document.getElementById('video');
     let canvas = document.getElementById('canvas');
     let context = canvas.getContext('2d');

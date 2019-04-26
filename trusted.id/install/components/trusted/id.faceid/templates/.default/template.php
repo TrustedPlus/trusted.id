@@ -22,4 +22,5 @@ use Bitrix\Main\Localization\Loc;use Trusted\Id\TDataBaseUser;
 
 <script>
     let ajaxUrl = '<?= TR_ID_AJAX_CONTROLLER . '?command=find' ?>'
+    let keyExist = '<?= $arResult['KEY'] ?>';
 </script>

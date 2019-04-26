@@ -17,6 +17,8 @@ $MESS ['TR_ID_USER_INFO_TEMPLATE_ID_NOTE'] = ' Вместо стандартно
 
 $MESS ['TR_ID_BTN_MORE'] = 'Еще';
 
+$MESS ['TR_ID_E_VISION_KEY'] = 'Ключ авторизации E-VISION';
+
 $MESS ['TR_ID_EMAIL_UNIQ_CHECK_TITLE'] = 'Внимание';
 $MESS ['TR_ID_EMAIL_UNIQ_CHECK_PREFIX'] = 'Модуль проверяет поле';
 $MESS ['TR_ID_EMAIL_UNIQ_CHECK_POSTFIX'] = 'в настройках главного модуля. Для работы модуля проверка должна быть включена.';
