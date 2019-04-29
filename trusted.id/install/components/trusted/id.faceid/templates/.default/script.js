@@ -1,8 +1,10 @@
-let timeStep = 5000;
-let lastTryTime = Date.now() - timeStep;
+let lastTryTime;
+let currentlyTime;
 
 window.onload = function () {
     if (keyExist) {
+        currentlyTime = Date.now();
+        lastTryTime = currentlyTime - timeStep;
         tracker();
     }
 };
@@ -26,7 +28,7 @@ function tracker() {
             checkFace();
         });
     });
-};
+}
 
 function checkFace() {
     canvas.getContext('2d').drawImage(document.getElementById('video'), 0, 0, this.canvas.width, this.canvas.height);
@@ -35,7 +37,7 @@ function checkFace() {
 }
 
 function checkCurrentlyTime(imgFace) {
-    let currentlyTime = Date.now();
+    currentlyTime = Date.now();
     if ((currentlyTime - lastTryTime) >= timeStep) {
         lastTryTime = currentlyTime;
         findUserByPhoto(imgFace);

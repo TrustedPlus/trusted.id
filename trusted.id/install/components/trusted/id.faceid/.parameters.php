@@ -7,5 +7,12 @@ $arComponentParameters = array(
             'NAME' => Loc::getMessage("TR_ID_COMP_SETTINGS"),
         ),
     ),
-    'PARAMETERS' => array()
+    'PARAMETERS' => array(
+        'TIME_STEP' => array(
+            'PARENT' => 'SETTINGS',
+            'NAME' => Loc::getMessage("TR_ID_COMP_TIME_STEP"),
+            'TYPE' => 'STRING',
+            'DEFAULT' => '5',
+        ),
+    )
 );
