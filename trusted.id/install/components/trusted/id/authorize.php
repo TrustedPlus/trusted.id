@@ -89,9 +89,11 @@ try {
 
             $redirectUrl = getParam('state');
             Id\Utils::debug('State get param (redirectUrl)', $redirectUrl);
-
+            $onceAction = getParam('onceAction');
+            Id\Utils::debug('State get param (onceAction)', $onceAction);
+            $redirectUrl .= $onceAction ? true : "";
             Id\Utils::debug('Event onUserAuthorized');
-            Id\Custom::onUserAuthorized($user, $redirectUrl);
+            Id\Custom::onUserAuthorized($user, $redirectUrl, $onceAction);
         } else {
             include_once __DIR__ . '/widget.tpl';
         }

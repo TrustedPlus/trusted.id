@@ -36,7 +36,13 @@
             try {
                 var code = $_GET('code');
                 var state = $_GET('state');
+                let onceAction = $_GET('onceAction');
+                console.log('onceAction = ' + onceAction);
                 var link = '<?php echo TR_ID_REDIRECT_URI?>?final=true&code=' + code + '&state=' + encodeURIComponent(state);
+                if (onceAction == true) {
+                    console.log('onceAction2 = ' + onceAction);
+                    link += '&onceAction' + onceAction;
+                }
                 console.log(window.opener);
                 if (window.opener) {
                     // window.opener is undefined in Microsoft Edge

@@ -100,8 +100,9 @@ class Custom
      * @param \TUser $user
      * @param string $redirectUrl
      */
-    function onUserAuthorized($user, $redirectUrl) {
+    function onUserAuthorized($user, $redirectUrl, $onceAction = "") {
         Utils::debug('onUserAuthorize');
+        Utils::debug('onceAction', $onceAction);
         global $USER;
         if (!($USER && $USER->IsAuthorized())) {
             $bxUser = new \CUser();
@@ -116,7 +117,7 @@ class Custom
             $redirectUrl = TR_ID_URI_HOST;
         }
         if (!TR_ID_DEBUG) {
-            header('Location: ' . $redirectUrl);
+            header('Location: ' . $redirectUrl . "&" .$onceAction);
         }
     }
 
