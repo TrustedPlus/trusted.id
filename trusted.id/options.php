@@ -26,7 +26,7 @@ $tabControl = new CAdminTabControl('trustedTabControl', $aTabs, true, true);
 $CLIENT_ID = Option::get($module_id, 'CLIENT_ID', '');
 $CLIENT_SECRET = Option::get($module_id, 'CLIENT_SECRET', '');
 $REGISTER_ENABLED = Option::get($module_id, 'REGISTER_ENABLED', '');
-$USER_INFO_TEMPLATE_ID = unserialize(Option::get($module_id, 'USER_INFO_TEMPLATE_ID', '2'));
+$USER_INFO_TEMPLATE_ID = unserialize(Option::get($module_id, 'USER_INFO_TEMPLATE_ID', "a:1:{i:0;i:2;}"));
 $E_VISION_KEY = Option::get($module_id, 'E_VISION_KEY', '');
 $SEND_MAIL_ENABLED = TR_ID_DEFAULT_SHOULD_SEND_MAIL;
 
@@ -178,7 +178,7 @@ if (Option::get('main', 'new_user_email_uniq_check') !== 'Y') {
                        type="number"
                        min="1"
                        max="999"
-                       value="<?= $USER_INFO_TEMPLATE_ID[0] ?>"/></td>
+                       value="<?= $USER_INFO_TEMPLATE_ID[0] ?>"/>
             </td>
         </tr>
 
