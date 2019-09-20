@@ -162,11 +162,11 @@ class TDataBaseUser {
             }
             $familyName = 'NULL';
             if ($user->getFamilyName()) {
-                $familyName = "'" . $user->getFamilyName() . "'";
+                $familyName = "'" . $DB->ForSql($user->getFamilyName()) . "'";
             }
             $givenName = 'NULL';
             if ($user->getGivenName()) {
-                $givenName = "'" . $user->getGivenName() . "'";
+                $givenName = "'" . $DB->ForSql($user->getGivenName()) . "'";
             }
             $email = 'NULL';
             if ($user->getEmail()) {
@@ -174,7 +174,7 @@ class TDataBaseUser {
             }
             $username = 'NULL';
             if ($user->getUsername()) {
-                $username = "'" . $user->getUsername() . "'";
+                $username = "'" . $DB->ForSql($user->getUsername()) . "'";
             }
             $sql = "UPDATE " . TR_ID_DB_TABLE_USER . " SET "
                     . "BX_ID = " . $userId . ", "
@@ -204,11 +204,11 @@ class TDataBaseUser {
         }
         $familyName = 'NULL';
         if ($user->getFamilyName()) {
-            $familyName = "'" . $user->getFamilyName() . "'";
+            $familyName = "'" . $DB->ForSql($user->getFamilyName()) . "'";
         }
         $givenName = 'NULL';
         if ($user->getGivenName()) {
-            $givenName = "'" . $user->getGivenName() . "'";
+            $givenName = "'" . $DB->ForSql($user->getGivenName()) . "'";
         }
         $email = 'NULL';
         if ($user->getEmail()) {
@@ -216,7 +216,7 @@ class TDataBaseUser {
         }
         $username = 'NULL';
         if ($user->getUsername()) {
-            $username = "'" . $user->getUsername() . "'";
+            $username = "'" . $DB->ForSql($user->getUsername()) . "'";
         }
         $sql = "INSERT INTO " .
                     TR_ID_DB_TABLE_USER . " (TR_ID, BX_ID, FAMILY_NAME, GIVEN_NAME, EMAIL, USERNAME)
