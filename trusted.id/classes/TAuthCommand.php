@@ -354,4 +354,49 @@ class TAuthCommand {
         }
         return $res;
     }
+
+    static function killToken($token) {
+        $response = false;
+        if ($token) {
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, TR_ID_COMMAND_REVOKE_TOKEN);
+            curl_setopt($curl, CURLOPT_USERPWD, TR_ID_OPT_CLIENT_ID . ":" . TR_ID_OPT_CLIENT_SECRET);
+            curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, array('access_token' => $token));
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+            $result = curl_exec($curl);
+            if (!curl_errno($curl)) {
+                $info = curl_getinfo($curl);
+                if ($info['http_code'] == 200) {
+                    $res = json_decode($response, true);
+                    Utils::dump($res);
+                } else {
+                    $message = 'Wrong HTTP response status ' . $info['http_code'];
+                    if ($response) {
+                        $error = json_decode($response, true);
+                        if ($error) {
+                            $message .= PHP_EOL . $error['error'] . ' - ' . $error['error_description'];
+                        }
+                    }
+                    Utils::debug('OAuth request error', $message);
+                    throw new OAuth2Exception($message, 0, null);
+                }
+            } else {
+                $error = curl_error($curl);
+                curl_close($curl);
+                Utils::debug('CURL error', $error);
+                throw new OAuth2Exception(TR_ID_ERROR_MSG_CURL, TR_ID_ERROR_CODE_CURL, null);
+            }
+            curl_close($curl);
+            // TODO: wrong $result
+            $response = json_decode($result, true);
+        }
+        $res = null;
+        if ($response['success']) {
+            $res = $response['user'];
+        }
+        return $res;
+    }
 }

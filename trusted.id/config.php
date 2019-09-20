@@ -50,6 +50,7 @@ define('TR_ID_COMMAND_URI_LOGOUT', TR_ID_COMMAND_URI_OAUTH . '/authorize/logout'
 define('TR_ID_COMMAND_URI_USERPROFILE', TR_ID_COMMAND_URI_HOST . '/trustedapp/rest/user/profile/get');
 define('TR_ID_COMMAND_AUTHORIZE_PROFILE', TR_ID_COMMAND_URI_HOST . '/idp/sso/user/authorize/profile');
 define('TR_ID_COMMAND_AUTHORIZE_IDENTITY', TR_ID_COMMAND_URI_HOST . '/idp/sso/user/authorize/identity');
+define('TR_ID_COMMAND_REVOKE_TOKEN', TR_ID_COMMAND_URI_HOST . '/idp/sso/oauth/revoke');
 
 //Module URI
 define('TR_ID_URI_HOST', 'https://' . preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST'])); // remove port from host
