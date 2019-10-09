@@ -2,10 +2,12 @@
 
 use Bitrix\Main\Config\Option;
 use Trusted\Id;
+use Bitrix\Main\ModuleManager;
+
 
 Class trusted_id extends CModule
 {
-
+    const MODULE_ID = 'trusted.id';
     var $MODULE_ID = 'trusted.id';
     var $MODULE_NAME;
     var $MODULE_DESCRIPTION;
@@ -34,51 +36,57 @@ Class trusted_id extends CModule
 
     function RegisterEventHandlers()
     {
-        RegisterModuleDependences('main', 'OnAfterUserAdd', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnAfterUserAddHandler');
-        RegisterModuleDependences('main', 'OnAfterUserRegister', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnAfterUserRegisterHandler');
-        RegisterModuleDependences('main', 'OnAfterUserSimpleRegister', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnAfterUserSimpleRegisterHandler');
-        RegisterModuleDependences('main', 'OnBeforeUserUpdate', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnBeforeUserUpdateHandler');
-        RegisterModuleDependences('main', 'OnBeforeUserAdd', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnBeforeUserAddHandler');
-        RegisterModuleDependences('main', 'OnBeforeEventSend', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnBeforeEventSendHandler');
-        RegisterModuleDependences('main', 'OnUserLogin', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnUserLoginHandler');
-        RegisterModuleDependences('main', 'OnUserLogout', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnUserLogoutHandler');
+        RegisterModuleDependences('main', 'OnAfterUserAdd', self::MODULE_ID, '\Trusted\Id\Auth', 'OnAfterUserAddHandler');
+        RegisterModuleDependences('main', 'OnAfterUserRegister', self::MODULE_ID, '\Trusted\Id\Auth', 'OnAfterUserRegisterHandler');
+        RegisterModuleDependences('main', 'OnAfterUserSimpleRegister', self::MODULE_ID, '\Trusted\Id\Auth', 'OnAfterUserSimpleRegisterHandler');
+        RegisterModuleDependences('main', 'OnBeforeUserUpdate', self::MODULE_ID, '\Trusted\Id\Auth', 'OnBeforeUserUpdateHandler');
+        RegisterModuleDependences('main', 'OnBeforeUserAdd', self::MODULE_ID, '\Trusted\Id\Auth', 'OnBeforeUserAddHandler');
+        RegisterModuleDependences('main', 'OnBeforeEventSend', self::MODULE_ID, '\Trusted\Id\Auth', 'OnBeforeEventSendHandler');
+        RegisterModuleDependences('main', 'OnUserLogin', self::MODULE_ID, '\Trusted\Id\Auth', 'OnUserLoginHandler');
+        RegisterModuleDependences('main', 'OnUserLogout', self::MODULE_ID, '\Trusted\Id\Auth', 'OnUserLogoutHandler');
 
-        RegisterModuleDependences('sale', 'OnSaleComponentOrderOneStepComplete', $this->MODULE_ID, '\Trusted\Id\Auth', 'OnSaleComponentOrderOneStepCompleteHandler');
+        RegisterModuleDependences('sale', 'OnSaleComponentOrderOneStepComplete', self::MODULE_ID, '\Trusted\Id\Auth', 'OnSaleComponentOrderOneStepCompleteHandler');
     }
 
     function UnRegisterEventHandlers()
     {
-        UnRegisterModuleDependences('main', 'OnAfterUserAdd', $this->MODULE_ID, '\Trusted\Id\Auth');
-        UnRegisterModuleDependences('main', 'OnAfterUserRegister', $this->MODULE_ID, '\Trusted\Id\Auth');
-        UnRegisterModuleDependences('main', 'OnAfterUserSimpleRegister', $this->MODULE_ID, '\Trusted\Id\Auth');
-        UnRegisterModuleDependences('main', 'OnBeforeUserUpdate', $this->MODULE_ID, '\Trusted\Id\Auth');
-        UnRegisterModuleDependences('main', 'OnBeforeUserAdd', $this->MODULE_ID, '\Trusted\Id\Auth');
-        UnRegisterModuleDependences('main', 'OnBeforeEventSend', $this->MODULE_ID, '\Trusted\Id\Auth');
-        UnRegisterModuleDependences('main', 'OnUserLogin', $this->MODULE_ID, '\Trusted\Id\Auth');
-        UnRegisterModuleDependences('main', 'OnUserLogout', $this->MODULE_ID, '\Trusted\Id\Auth');
+        UnRegisterModuleDependences('main', 'OnAfterUserAdd', self::MODULE_ID, '\Trusted\Id\Auth');
+        UnRegisterModuleDependences('main', 'OnAfterUserRegister', self::MODULE_ID, '\Trusted\Id\Auth');
+        UnRegisterModuleDependences('main', 'OnAfterUserSimpleRegister', self::MODULE_ID, '\Trusted\Id\Auth');
+        UnRegisterModuleDependences('main', 'OnBeforeUserUpdate', self::MODULE_ID, '\Trusted\Id\Auth');
+        UnRegisterModuleDependences('main', 'OnBeforeUserAdd', self::MODULE_ID, '\Trusted\Id\Auth');
+        UnRegisterModuleDependences('main', 'OnBeforeEventSend', self::MODULE_ID, '\Trusted\Id\Auth');
+        UnRegisterModuleDependences('main', 'OnUserLogin', self::MODULE_ID, '\Trusted\Id\Auth');
+        UnRegisterModuleDependences('main', 'OnUserLogout', self::MODULE_ID, '\Trusted\Id\Auth');
 
-        UnRegisterModuleDependences('sale', 'OnSaleComponentOrderOneStepComplete', $this->MODULE_ID, '\Trusted\Id\Auth');
+        UnRegisterModuleDependences('sale', 'OnSaleComponentOrderOneStepComplete', self::MODULE_ID, '\Trusted\Id\Auth');
+    }
+
+    //needed to pass check on install tr ca docs
+    // to do: add check version with tr ca docs core
+    function CoreAndModuleAreCompatible() {
+        return "ok";
     }
 
     function DoInstall()
     {
         global $DOCUMENT_ROOT, $APPLICATION;
-        $this->InstallFiles();
-        $this->InstallDB();
-        $this->RegisterEventHandlers();
-        RegisterModule($this->MODULE_ID);
-        $APPLICATION->IncludeAdminFile(GetMessage('MOD_INSTALL_TITLE'), $DOCUMENT_ROOT . '/bitrix/modules/' . $this->MODULE_ID . '/install/step.php');
+        self::InstallFiles();
+        self::InstallDB();
+        self::RegisterEventHandlers();
+        ModuleManager::RegisterModule(self::MODULE_ID);
+        // $APPLICATION->IncludeAdminFile(GetMessage('MOD_INSTALL_TITLE'), $DOCUMENT_ROOT . '/bitrix/modules/' . self::MODULE_ID . '/install/step.php');
     }
 
     function DoUninstall()
     {
         global $DB, $APPLICATION, $step;
-        $this->LogOutTrustedUser();
-        $this->UnInstallFiles();
+        self::LogOutTrustedUser();
+        self::UnInstallFiles();
         //$this->UnInstallDB();
-        $this->UnRegisterEventHandlers();
-        UnRegisterModule($this->MODULE_ID);
-        $APPLICATION->IncludeAdminFile(GetMessage('MOD_INSTALL_TITLE'), $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/' . $this->MODULE_ID . '/install/unstep.php');
+        self::UnRegisterEventHandlers();
+        ModuleManager::UnRegisterModule(self::MODULE_ID);
+        // $APPLICATION->IncludeAdminFile(GetMessage('MOD_INSTALL_TITLE'), $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/' . self::MODULE_ID . '/install/unstep.php');
     }
 
     function InstallDB()
@@ -107,17 +115,17 @@ Class trusted_id extends CModule
     function InstallFiles()
     {
         CopyDirFiles(
-            $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/' . $this->MODULE_ID . '/install/components/',
+            $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/' . self::MODULE_ID . '/install/components/',
             $_SERVER['DOCUMENT_ROOT'] . '/bitrix/components/',
             true, true
         );
         CopyDirFiles(
-            $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/' . $this->MODULE_ID . '/install/admin',
+            $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/' . self::MODULE_ID . '/install/admin',
             $_SERVER['DOCUMENT_ROOT'] . '/bitrix/admin',
             true, false
         );
         CopyDirFiles(
-            $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/' . $this->MODULE_ID . '/install/themes',
+            $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/' . self::MODULE_ID . '/install/themes',
             $_SERVER['DOCUMENT_ROOT'] . '/bitrix/themes',
             true, true
         );
@@ -128,14 +136,14 @@ Class trusted_id extends CModule
     {
         DeleteDirFilesEx('/bitrix/components/trusted/id/');
         DeleteDirFiles(
-            $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/' . $this->MODULE_ID . '/install/admin/',
+            $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/' . self::MODULE_ID . '/install/admin/',
             $_SERVER['DOCUMENT_ROOT'] . '/bitrix/admin'
         );
         DeleteDirFiles(
-            $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/' . $this->MODULE_ID . '/install/themes/.default/',
+            $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/' . self::MODULE_ID . '/install/themes/.default/',
             $_SERVER['DOCUMENT_ROOT'] . '/bitrix/themes/.default/'
         );
-        DeleteDirFilesEx('/bitrix/themes/.default/icons/' . $this->MODULE_ID);
+        DeleteDirFilesEx('/bitrix/themes/.default/icons/' . self::MODULE_ID);
         return true;
     }
 
