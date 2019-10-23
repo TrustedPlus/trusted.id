@@ -411,7 +411,10 @@ class Auth
         $t_auth->log('OnBeforeEventSendHandler', LOG_LEVEL_INFO);
         $shouldSendMail = $t_auth->shouldSendMail();
         // Template ID handler
-        if ((in_array($arTemplate['ID'], $t_auth->USER_INFO_TEMPLATE_ID)) && !$shouldSendMail) {
+        // check on null to avoid warnings
+        if ($t_auth->USER_INFO_TEMPLATE_ID === null) {
+            return $arFields;
+        } elseif ((in_array($arTemplate['ID'], $t_auth->USER_INFO_TEMPLATE_ID)) && !$shouldSendMail) {
             return false;
         } else {
             return $arFields;
