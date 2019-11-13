@@ -430,7 +430,10 @@ class Auth
             $t_auth = new Auth();
         }
         $t_auth->log('OnSaleComponentOrderOneStepCompleteHandler', LOG_LEVEL_INFO);
-        $t_auth->saveOrderIdAndLogout($orderId);
+        $token = OAuth2::getFromSession();
+        if (!$token) {
+            $t_auth->saveOrderIdAndLogout($orderId);
+        }
     }
 
 }
