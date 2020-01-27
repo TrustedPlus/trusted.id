@@ -316,22 +316,19 @@ $tabControl->End();
     }
 
     function sendCommand(command, params, cb) {
-        BX.ajax.({
-                url: '<?= TR_ID_AJAX_CONTROLLER . '?command='?>' + command,
-                data: params,
-                method: 'POST',
-                function(data, err) {
-                    if (err) {
+        BX.ajax.get(
+            "trusted_id_ajax.php",
+            Object.assign({command: command}, params),
+            function (data, err) {
+                if (err) {
+                    cb(data, err);
+                } else {
+                    try {
+                        var jsonData = JSON.parse(data);
+                        cb(jsonData, err);
+                    } catch (e) {
                         cb(data, err);
-                    } else {
-                        try {
-                            var jsonData = JSON.parse(data);
-                            cb(jsonData, err);
-                        } catch (e) {
-                            cb(data, err);
-                        }
                     }
-
                 }
             }
         );
