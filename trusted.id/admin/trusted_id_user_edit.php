@@ -43,6 +43,8 @@ $tabControl = new CAdminTabControl("tabControl", $aTabs);
 $bxUser = CUser::GetById($bxId);
 $bxUser = $bxUser->Fetch();
 
+$isClientIdAndSecret = TR_ID_OPT_CLIENT_ID && TR_ID_OPT_CLIENT_SECRET;
+
 if ($bxId >= 1) {
     $trUserInfo = Id\TDataBaseUser::getUserByUserId($bxId);
     $personalData = array(
@@ -150,29 +152,47 @@ if (!Id\Utils::isSecure()) {
     <tr class="heading">
         <td colspan="2"><?= GetMessage("TR_ID_PERSONAL_FIND_DATA_BY_IND") ?></td>
     </tr>
+
+    <? if (!$isClientIdAndSecret) { ?>
+        <tr class="search-field-error" align="center">
+            <td colspan="2">
+                <? echo BeginNote(), GetMessage("TR_ID_CLIENT_ID_AND_CLIENT_SECRET_WARNING"), EndNote(); ?>
+            </td>
+        </tr>
+    <? } ?>
+
     <tr>
         <td><?= GetMessage("TR_ID_PERSONAL_IND") ?></td>
         <td>
             <?
-            $searchType = array(
-                "REFERENCE" => array(
+            $customElem = "id=\"SelectBoxValue\"";
+            if (!$isClientIdAndSecret) $customElem .= "disabled=\"disabled\"";
+            $searchType = [
+                "REFERENCE" => [
                     GetMessage("TR_ID_PERSONAL_SELECTOR_UID"),
                     GetMessage("TR_ID_PERSONAL_SELECTOR_EMAIL"),
                     GetMessage("TR_ID_PERSONAL_SELECTOR_PHONE"),
-                ),
-                "REFERENCE_ID" => array(
+                ],
+                "REFERENCE_ID" => [
                     "uid",
                     "email",
                     "phone",
-                ),
-            );
-            echo SelectBoxFromArray("", $searchType, "", "", "id=\"SelectBoxValue\"", false, "post_form");
+                ],
+            ];
+            echo SelectBoxFromArray("", $searchType, "", "", $customElem, false, "post_form");
             ?>
         </td>
     </tr>
     <tr>
-        <td><?= GetMessage("TR_ID_PERSONAL_FIND_DATA_VALUE") ?></td>
-        <td><input id="findUserValue" type="text" size="30" maxlength="100"></td>
+        <td>
+            <?= GetMessage("TR_ID_PERSONAL_FIND_DATA_VALUE") ?>
+        </td>
+        <td><input id="findUserValue"
+                   type="text"
+                   size="30"
+                <? if (!$isClientIdAndSecret) echo("disabled=\"disabled\""); ?>
+                   maxlength="100">
+        </td>
     </tr>
     <tr>
         <td colspan="2">
@@ -180,6 +200,7 @@ if (!Id\Utils::isSecure()) {
                 <input type="button"
                        class="adm-workarea adm-btn"
                        onclick="findValue()"
+                    <? if (!$isClientIdAndSecret) echo("disabled=\"disabled\""); ?>
                        value="<?= GetMessage("TR_ID_PERSONAL_BTN_FIND_DATA_BY_IND") ?>"/>
             </div>
         </td>

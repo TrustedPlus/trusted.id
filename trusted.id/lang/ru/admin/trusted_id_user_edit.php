@@ -42,3 +42,5 @@ $MESS ['TR_ID_PERSONAL_PERSONAL_DATA_IN_NOT_GIVEN'] = 'Пользователь 
 $MESS ['TR_ID_PERSONAL_PERSONAL_DATA_IN_NOT_GIVEN2'] = ' не дал разрешение на использование персональных данных!';
 
 $MESS ['TR_ID_HTTP_WARNING'] = '<span class="required">Внимание!</span><br>Работа модуля невозможна на незащищенном соединении (протокол "HTTP").';
+
+$MESS ['TR_ID_CLIENT_ID_AND_CLIENT_SECRET_WARNING'] = '<span class="required">Внимание!</span> Не заполнены поля "Id приложения" и "Пароль приложения" в <a href="/bitrix/admin/settings.php?lang=ru&mid=trusted.id">настройках модуля</a> авторизации';
