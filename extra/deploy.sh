@@ -36,6 +36,6 @@ sudo chmod 2775 $path_to_module/trusted.id
 sudo find $path_to_module/trusted.id -type f -exec chmod 0664 {} \;
 sudo find $path_to_module/trusted.id -type d -exec chmod 2775 {} \;
 
-if [[ alredyExist ]]; then
+if [[ $alredyExist ]]; then
 	echo 'WARNING: THE MODULE WAS EXIST ON HDD BEFORE DEPLOY! MAY BE OLD DATABASE ENTRY OR SOME EXTRA FILES IS PRESENT!'
 fi
