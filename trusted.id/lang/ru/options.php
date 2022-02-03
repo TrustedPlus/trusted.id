@@ -8,6 +8,7 @@ $MESS ['TR_ID_OPTIONS_TAB_SETTINGS_TITLE'] = 'Настройки модуля Tr
 $MESS ['TR_ID_OPTIONS_TAB_INFO_TITLE'] = 'Подробная информация об аккаунте Id.Trusted.Plus';
 
 // Messages
+$MESS ['TR_ID_LABEL_SERVICE_HOST'] = 'Имя хоста сервиса авторизации';
 $MESS ['TR_ID_CLIENT_ID'] = 'ID приложения авторизации';
 $MESS ['TR_ID_CLIENT_SECRET'] = 'Пароль приложения авторизации';
 $MESS ['TR_ID_ENABLE_AUTO_REGISTRATION'] = 'Регистрировать пользователей в сервисе автоматически';
