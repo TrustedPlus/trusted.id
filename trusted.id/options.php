@@ -24,6 +24,7 @@ $aTabs = array(
 $tabControl = new CAdminTabControl('trustedTabControl', $aTabs, true, true);
 
 $SERVICE_HOST = Option::get($module_id, 'SERVICE_HOST', 'id.trusted.plus');
+$SERVICE_VERSION = Option::get($module_id, 'SERVICE_VERSION', '1.3');
 $CLIENT_ID = Option::get($module_id, 'CLIENT_ID', '');
 $CLIENT_SECRET = Option::get($module_id, 'CLIENT_SECRET', '');
 $REGISTER_ENABLED = Option::get($module_id, 'REGISTER_ENABLED', '');
@@ -150,6 +151,16 @@ if (Option::get('main', 'new_user_email_uniq_check') !== 'Y') {
         <tr>
             <td width="40%" class="adm-detail-content-cell-l"><?= GetMessage('TR_ID_LABEL_SERVICE_HOST') ?></td>
             <td width="60%"><input id="SERVICE_HOST" name="SERVICE_HOST" style="width: 300px;" value="<?= $SERVICE_HOST ?>" type="text"/></td>
+        </tr>
+        <tr>
+            <td width="40%" class="adm-detail-content-cell-l"><?= GetMessage('TR_ID_SERVICE_VERSION') ?></td>
+            <td width="60%">
+                <select name="SERVICE_VERSION" id="SERVICE_VERSION">
+                    <option value="1.3" <?= strcmp($SERVICE_VERSION, "1.3") == 0 ? "" : "selected" ?>>1.3</option>
+                    <option value="1.4" <?= strcmp($SERVICE_VERSION, "1.4") == 0 ? "" : "selected" ?>>1.4</option>
+                    <option value="1.5" <?= strcmp($SERVICE_VERSION, "1.5") == 0 ? "" : "selected" ?>>1.5</option>
+                </select>
+            </td>
         </tr>
         <tr>
             <td width="40%" class="adm-detail-content-cell-l"><?= GetMessage('TR_ID_CLIENT_ID') ?></td>

@@ -8,7 +8,7 @@ use Bitrix\Main\Loader;
 Loader::includeModule('trusted.id');
 ?>
 
-<script src="https://<?= TR_ID_SERVICE_HOST ?>/static/js/tlogin-3.0.1.js"></script>
+<script src="<?= TR_ID_SCRIPT_JS ?>"></script>
 
 <?
 $token = Id\OAuth2::getFromSession();
