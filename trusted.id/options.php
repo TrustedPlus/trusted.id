@@ -47,6 +47,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && check_bitrix_sessid()) {
         if ($SERVICE_HOST != '') {
             Option::set($module_id, 'SERVICE_HOST', $SERVICE_HOST);
         }
+
+        if (isset($_POST['SERVICE_VERSION'])) {
+            if ($_POST['SERVICE_VERSION'] != $SERVICE_VERSION) {
+                $SERVICE_VERSION = (string)$_POST['SERVICE_VERSION'];
+                if (isset($_SESSION['TRUSTEDNET']['OAUTH'])) {
+                    unset($_SESSION['TRUSTEDNET']['OAUTH']);
+                }
+            }
+        }
+
+        if ($SERVICE_VERSION != '') {
+            Option::set($module_id, 'SERVICE_VERSION', $SERVICE_VERSION);
+        }
         
         if (isset($_POST['CLIENT_ID'])) {
             if ($_POST['CLIENT_ID'] != $CLIENT_ID) {
@@ -156,9 +169,9 @@ if (Option::get('main', 'new_user_email_uniq_check') !== 'Y') {
             <td width="40%" class="adm-detail-content-cell-l"><?= GetMessage('TR_ID_SERVICE_VERSION') ?></td>
             <td width="60%">
                 <select name="SERVICE_VERSION" id="SERVICE_VERSION">
-                    <option value="1.3" <?= strcmp($SERVICE_VERSION, "1.3") == 0 ? "" : "selected" ?>>1.3</option>
-                    <option value="1.4" <?= strcmp($SERVICE_VERSION, "1.4") == 0 ? "" : "selected" ?>>1.4</option>
-                    <option value="1.5" <?= strcmp($SERVICE_VERSION, "1.5") == 0 ? "" : "selected" ?>>1.5</option>
+                    <option value="1.3" <?= strcmp($SERVICE_VERSION, "1.3") == 0 ? "selected" : "" ?>>1.3</option>
+                    <option value="1.4" <?= strcmp($SERVICE_VERSION, "1.4") == 0 ? "selected" : "" ?>>1.4</option>
+                    <option value="1.5" <?= strcmp($SERVICE_VERSION, "1.5") == 0 ? "selected" : "" ?>>1.5</option>
                 </select>
             </td>
         </tr>
