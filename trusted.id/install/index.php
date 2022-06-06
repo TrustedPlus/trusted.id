@@ -100,9 +100,16 @@ Class trusted_id extends CModule
                     `EMAIL` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
                     `USERNAME` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
                     `TIMESTAMP_X` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-                    PRIMARY KEY (`TR_ID`)
+                    PRIMARY KEY (`TR_ID`),
+                    KEY `tr_id_users_bx_id_idx` (`BX_ID`)
                     ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
         $DB->Query($sql);
+
+	    // Add index to field BX_ID in existing table tr_id_users created in far past
+	    if (!$DB->IndexExists("tr_id_users", array("BX_ID"))) {
+		    $sql = "CREATE INDEX tr_id_users_bx_id_idx ON tr_id_users(BX_ID)";
+		    $DB->Query($sql);
+	    }
     }
 
     function UnInstallDB()
