@@ -134,12 +134,14 @@ class TAuthCommand {
     static function checkTokenExpiration($accessToken) {
         Utils::debug('access token', $accessToken);
         $res = false;
+        $version = TR_ID_OPT_SERVICE_VERSION;
+        $requestType = strcmp($version, "1.3") == 0 ? 'GET' : 'POST';
         if ($accessToken) {
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
             curl_setopt($curl, CURLOPT_USERPWD, TR_ID_OPT_CLIENT_ID . ':' . TR_ID_OPT_CLIENT_SECRET);
             curl_setopt($curl, CURLOPT_URL, TR_ID_COMMAND_URI_CHECK_TOKEN . '?token=' . $accessToken);
-            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $requestType);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_SSLVERSION, TR_ID_SSL_VERSION);
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);

@@ -35,8 +35,18 @@ define('TR_ID_DB', true);
 define('TR_ID_DB_TABLE_USER', 'tr_id_users');
 
 //Trusted URI
-define('TR_ID_SERVICE_HOST', 'id.trusted.plus');
+define('TR_ID_OPT_SERVICE_HOST', Option::get(TR_ID_MODULE_ID, 'SERVICE_HOST', 'id.trusted.plus'));
+define('TR_ID_OPT_SERVICE_VERSION', Option::get(TR_ID_MODULE_ID, 'SERVICE_VERSION', '1.3'));
+define('TR_ID_SERVICE_HOST', TR_ID_OPT_SERVICE_HOST);
 define('TR_ID_COMMAND_URI_HOST', 'https://' . TR_ID_SERVICE_HOST);
+
+$version = TR_ID_OPT_SERVICE_VERSION;
+if(strcmp($version, "1.3") == 0) {
+    define('TR_ID_SCRIPT_JS', TR_ID_COMMAND_URI_HOST . '/static/js/tlogin-3.0.1.js');
+} else {
+    define('TR_ID_SCRIPT_JS', TR_ID_COMMAND_URI_HOST . '/static/js/tlogin-3.0.2.js');
+}
+
 define('TR_ID_COMMAND_REST', TR_ID_COMMAND_URI_HOST . '/trustedapp/rest');
 define('TR_ID_COMMAND_APP', TR_ID_COMMAND_URI_HOST . '/trustedapp/app');
 define('TR_ID_COMMAND_REST_APP_LIST', TR_ID_COMMAND_REST . '/application/list');

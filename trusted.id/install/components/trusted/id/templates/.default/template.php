@@ -8,7 +8,7 @@ use Bitrix\Main\Loader;
 Loader::includeModule('trusted.id');
 ?>
 
-<script src="https://<?= TR_ID_SERVICE_HOST ?>/static/js/tlogin-3.0.1.js"></script>
+<script src="<?= TR_ID_SCRIPT_JS ?>"></script>
 
 <?
 $token = Id\OAuth2::getFromSession();
@@ -22,6 +22,9 @@ $defaultOut = $arParams['LOG_OUT'] ?: GetMessage('LOG_OUT');
 $personalLinkEnable = $arParams['PERSONAL_LINK_ENABLE'] == 'Y';
 $personalLinkUrl = $arParams['PERSONAL_LINK_URL'] ?: '/personal/';
 $personalLinkText = $arParams['PERSONAL_LINK_TEXT'] ?: GetMessage('PERSONAL_LINK_TEXT');
+
+$version = TR_ID_OPT_SERVICE_VERSION;
+$requestType = strcmp($version, "1.3") == 0 ? 'GET' : 'POST';
 
 if ($token) {
     ?>
@@ -46,7 +49,17 @@ if ($token) {
     <?
 } else {
     ?>
+    <?
+    if(strcmp($version, "1.3") == 0) {
+    ?>
     <div class='trusted-btn'
          onClick='TrustedID.login("<?= TR_ID_OPT_CLIENT_ID ?>", "<?= TR_ID_URI_HOST ?>/bitrix/components/trusted/id/authorize.php")'><?= $defaultIn ?></div>
+         <?
+            } else { ?>
+    <div class='trusted-btn'
+         onClick='TrustedID.login("<?= TR_ID_COMMAND_URI_HOST ?>", "<?= TR_ID_OPT_CLIENT_ID ?>", "<?= TR_ID_URI_HOST ?>/bitrix/components/trusted/id/authorize.php")'><?= $defaultIn ?></div>
+         <?
+         } 
+        ?>
     <?
 }

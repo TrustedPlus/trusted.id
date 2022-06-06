@@ -6,11 +6,9 @@ deploy_green:
   only:
     - web
   script:
-    - sudo rm -rf /var/www/green/bitrix/modules/trusted.id/
-    - sudo cp -R trusted.id /var/www/green/bitrix/modules/
-    - sudo chown -R alr:www-data /var/www/green/bitrix/modules/trusted.id/
-    - sudo find /var/www/green/bitrix/modules/trusted.id/ -type f -exec chmod 0664 {} \;
-    - sudo find /var/www/green/bitrix/modules/trusted.id/ -type d -exec chmod 2775 {} \;
+   - chmod 755 extra/deploy.sh; extra/deploy.sh green
+  tags:
+   - prod236
   when: manual
 
 deploy_yellow:
@@ -18,21 +16,17 @@ deploy_yellow:
   only:
     - web
   script:
-    - sudo rm -rf /var/www/yellow/bitrix/modules/trusted.id/
-    - sudo cp -R trusted.id /var/www/yellow/bitrix/modules/
-    - sudo chown -R alr:www-data /var/www/yellow/bitrix/modules/trusted.id/
-    - sudo find /var/www/yellow/bitrix/modules/trusted.id/ -type f -exec chmod 0664 {} \;
-    - sudo find /var/www/yellow/bitrix/modules/trusted.id/ -type d -exec chmod 2775 {} \;
+   - chmod 755 extra/deploy.sh; extra/deploy.sh yellow
+  tags:
+   - prod236
   when: manual
 
-deploy_red:
+deploy_magenta:
   stage: deploy
   only:
     - web
   script:
-    - sudo rm -rf /var/www/red/bitrix/modules/trusted.id/
-    - sudo cp -R trusted.id /var/www/red/bitrix/modules/
-    - sudo chown -R alr:www-data /var/www/red/bitrix/modules/trusted.id/
-    - sudo find /var/www/red/bitrix/modules/trusted.id/ -type f -exec chmod 0664 {} \;
-    - sudo find /var/www/red/bitrix/modules/trusted.id/ -type d -exec chmod 2775 {} \;
+   - chmod 755 extra/deploy.sh; extra/deploy.sh magenta
+  tags:
+   - prod236
   when: manual
