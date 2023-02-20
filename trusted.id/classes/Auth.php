@@ -295,7 +295,7 @@ class Auth
         }
     }
 
-    public function onAfterUserAddHandler($arFields)
+    public static function onAfterUserAddHandler($arFields)
     {
         $t_auth = null;
         if (isset($this)) {
@@ -308,7 +308,7 @@ class Auth
         return $arFields;
     }
 
-    public function OnAfterUserRegisterHandler($arFields)
+    public static function OnAfterUserRegisterHandler($arFields)
     {
         $t_auth = null;
         if (isset($this)) {
@@ -321,7 +321,7 @@ class Auth
         return $arFields;
     }
 
-    public function OnAfterUserSimpleRegisterHandler($arFields)
+    public static function OnAfterUserSimpleRegisterHandler($arFields)
     {
         $t_auth = null;
         if (isset($this)) {
@@ -334,12 +334,12 @@ class Auth
         return $arFields;
     }
 
-    public function OnBeforeUserAddHandler($arFields)
+    public static function OnBeforeUserAddHandler($arFields)
     {
         return $arFields;
     }
 
-    public function OnBeforeUserUpdateHandler($arParams)
+    public static function OnBeforeUserUpdateHandler($arParams)
     {
         $t_auth = null;
         if (isset($this)) {
@@ -373,7 +373,7 @@ class Auth
         return $arParams;
     }
 
-    public function OnUserLoginHandler($bxUserId)
+    public static function OnUserLoginHandler($bxUserId)
     {
         $session = OAuth2::getFromSession();
         if ($session) {
@@ -394,13 +394,13 @@ class Auth
         return true;
     }
 
-    public function OnUserLogoutHandler($bxUserId)
+    public static function OnUserLogoutHandler($bxUserId)
     {
         OAuth2::remove();
         return true;
     }
 
-    public function OnBeforeEventSendHandler($arFields, $arTemplate)
+    public static function OnBeforeEventSendHandler($arFields, $arTemplate)
     {
         $t_auth = null;
         if (isset($this)) {
@@ -421,7 +421,7 @@ class Auth
         }
     }
 
-    public function OnSaleComponentOrderOneStepCompleteHandler($orderId)
+    public static function OnSaleComponentOrderOneStepCompleteHandler($orderId)
     {
         $t_auth = null;
         if (isset($this)) {
