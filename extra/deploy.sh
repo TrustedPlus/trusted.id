@@ -31,7 +31,7 @@ checkPathUnExist $path_to_module/trusted.id
 
 sudo rm -rf $path_to_module/trusted.id
 sudo cp -r trusted.id $path_to_module
-sudo chown -R alex:www-data $path_to_module/trusted.id
+sudo chown -R www-data:www-data $path_to_module/trusted.id
 sudo chmod 2775 $path_to_module/trusted.id
 sudo find $path_to_module/trusted.id -type f -exec chmod 0664 {} \;
 sudo find $path_to_module/trusted.id -type d -exec chmod 2775 {} \;
