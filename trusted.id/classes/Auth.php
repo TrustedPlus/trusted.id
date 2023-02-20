@@ -373,7 +373,7 @@ class Auth
         return $arParams;
     }
 
-    public function OnUserLoginHandler($bxUserId)
+    public static function OnUserLoginHandler($bxUserId)
     {
         $session = OAuth2::getFromSession();
         if ($session) {
