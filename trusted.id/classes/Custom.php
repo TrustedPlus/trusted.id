@@ -11,7 +11,7 @@ class Custom
      * @global type $USER
      * @param \TUser $user
      */
-    function onRegUserFound($user) {
+    static function onRegUserFound($user) {
         global $USER;
         if ($USER->IsAuthorized()) {
             $USER->Logout();
@@ -22,7 +22,7 @@ class Custom
      *
      * @param \OAuth2Exception $e
      */
-    function onOAuth2Exception($e) {
+    static function onOAuth2Exception($e) {
         global $USER;
         ShowMessage($e->getMessage());
         OAuth2::remove();
@@ -38,7 +38,7 @@ class Custom
      *
      * @param \Exception $e
      */
-    function onException($e) {
+    static function onException($e) {
         ShowMessage($e->getMessage());
     }
 
@@ -56,7 +56,7 @@ class Custom
      * @param \TUser $user
      * @throws OAuth2Exception
      */
-    function onBeforeUserInsert(&$user) {
+    static function onBeforeUserInsert(&$user) {
         global $USER;
         $email = $user->getServiceUser()->getEmail();
         if (!$email) {
@@ -100,7 +100,7 @@ class Custom
      * @param \TUser $user
      * @param string $redirectUrl
      */
-    function onUserAuthorized($user, $redirectUrl) {
+    static function onUserAuthorized($user, $redirectUrl) {
         Utils::debug('onUserAuthorize');
         global $USER;
         if (!($USER && $USER->IsAuthorized())) {
