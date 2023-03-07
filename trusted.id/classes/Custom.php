@@ -42,7 +42,7 @@ class Custom
         ShowMessage($e->getMessage());
     }
 
-    function bitrixGetUserByEmail($email) {
+    static function bitrixGetUserByEmail($email) {
         $by = 'id';
         $order = 'desc';
         $loginUsers = \CUser::GetList($by, $order, array('EMAIL' => $email, 'ACTIVE' => 'Y'));
