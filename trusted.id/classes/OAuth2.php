@@ -127,7 +127,7 @@ class OAuth2 {
     function hasExpired() {
         $expires = $this->expires_in;
         if (empty($expires)) {
-            throw new RuntimeException('"expires" is not set on the token');
+            throw new \RuntimeException('"expires" is not set on the token');
         }
         return $expires < time();
     }

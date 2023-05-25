@@ -67,7 +67,7 @@ class TAuthCommand {
         $params = array(
             'grant_type' => 'refresh_token',
             'refresh_token' => $refresh_token, //Refresh token from the approval step.
-            'format' => json //Expected return format. This parameter is optional. The default is json. Values are: [urlencoded, json, xml]
+            'format' => 'json' //Expected return format. This parameter is optional. The default is json. Values are: [urlencoded, json, xml]
         );
         $url = TR_ID_COMMAND_URI_TOKEN;
         $curl = curl_init();
@@ -102,11 +102,11 @@ class TAuthCommand {
             if (!curl_errno($curl)) {
                 $info = curl_getinfo($curl);
                 if ($info['http_code'] == 200) {
-                    $res = json_decode($response, true);
+                    $res = json_decode($result, true);
                 } else {
                     $message = 'Wrong HTTP response status ' . $info['http_code'];
-                    if ($response) {
-                        $error = json_decode($response, true);
+                    if ($result) {
+                        $error = json_decode($result, true);
                         if ($error) {
                             $message .= PHP_EOL . $error['error'] . ' - ' . $error['error_description'];
                         }
