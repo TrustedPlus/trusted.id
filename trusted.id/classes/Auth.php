@@ -289,7 +289,7 @@ class Auth
 
             $_SESSION['SALE_ORDER_ID'][] = $orderId;
             try {
-                $CUser = new \CUser;
+                $CUser = new \CUser();
                 $CUser->Logout();
             } catch (Exception $exception) {
                 $this->log($exception->getMessage());
@@ -359,7 +359,7 @@ class Auth
     {
         $session = OAuth2::getFromSession();
         if ($session) {
-            $TDataBaseUser = new TDataBaseUser;
+            $TDataBaseUser = new TDataBaseUser();
             $tnUser = $TDataBaseUser->getUserByUserId($bxUserId);
             if ($tnUser) {
                 $tnUserId = $tnUser->getId();

@@ -18,7 +18,7 @@ $sTableID = 'bindingTable';
 $oSort = new CAdminSorting($sTableID, 'ID', 'asc');
 $lAdmin = new CAdminList($sTableID, $oSort);
 
-$Auth = new Id\Auth;
+$Auth = new Id\Auth();
 
 // Filter elements ids
 $FilterArr = array(
@@ -151,7 +151,7 @@ if (($arID = $lAdmin->GroupAction()) && $POST_RIGHT == 'W') {
 }
 
 // Get list of users with filter applied
-$TDataBaseUser = new Id\TDataBaseUser;
+$TDataBaseUser = new Id\TDataBaseUser();
 $users = $TDataBaseUser->getBitrixAndTnUsers($by, $order, $arFilter);
 $rsData = new CAdminResult($users, $sTableID);
 
