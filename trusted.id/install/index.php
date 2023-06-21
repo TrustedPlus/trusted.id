@@ -71,9 +71,9 @@ Class trusted_id extends CModule
     function DoInstall()
     {
         global $DOCUMENT_ROOT, $APPLICATION;
-        self::InstallFiles();
-        self::InstallDB();
-        self::RegisterEventHandlers();
+        $this->InstallFiles();
+        $this->InstallDB();
+        $this->RegisterEventHandlers();
         ModuleManager::RegisterModule(self::MODULE_ID);
         // $APPLICATION->IncludeAdminFile(GetMessage('MOD_INSTALL_TITLE'), $DOCUMENT_ROOT . '/bitrix/modules/' . self::MODULE_ID . '/install/step.php');
     }
@@ -81,10 +81,10 @@ Class trusted_id extends CModule
     function DoUninstall()
     {
         global $DB, $APPLICATION, $step;
-        self::LogOutTrustedUser();
-        self::UnInstallFiles();
+        $this->LogOutTrustedUser();
+        $this->UnInstallFiles();
         //$this->UnInstallDB();
-        self::UnRegisterEventHandlers();
+        $this->UnRegisterEventHandlers();
         ModuleManager::UnRegisterModule(self::MODULE_ID);
         // $APPLICATION->IncludeAdminFile(GetMessage('MOD_INSTALL_TITLE'), $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/' . self::MODULE_ID . '/install/unstep.php');
     }

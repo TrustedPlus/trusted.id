@@ -2,6 +2,8 @@
 
 namespace Trusted\Id;
 use Bitrix\Main\Config\Option;
+use Exception;
+use ErrorException;
 
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/OAuth2.php';
@@ -287,7 +289,7 @@ class Auth
 
             $_SESSION['SALE_ORDER_ID'][] = $orderId;
             try {
-                $CUser = new \CUser;
+                $CUser = new \CUser();
                 $CUser->Logout();
             } catch (Exception $exception) {
                 $this->log($exception->getMessage());
@@ -297,12 +299,7 @@ class Auth
 
     public static function onAfterUserAddHandler($arFields)
     {
-        $t_auth = null;
-        if (isset($this)) {
-            $t_auth = $this;
-        } else {
-            $t_auth = new Auth();
-        }
+        $t_auth = new Auth();
         $t_auth->log('onAfterUserAddHandler', LOG_LEVEL_INFO);
         $t_auth->registerUser($arFields);
         return $arFields;
@@ -310,12 +307,7 @@ class Auth
 
     public static function OnAfterUserRegisterHandler($arFields)
     {
-        $t_auth = null;
-        if (isset($this)) {
-            $t_auth = $this;
-        } else {
-            $t_auth = new Auth();
-        }
+        $t_auth = new Auth();
         $t_auth->log('OnAfterUserRegisterHandler', LOG_LEVEL_INFO);
         $t_auth->registerUser($arFields);
         return $arFields;
@@ -323,12 +315,7 @@ class Auth
 
     public static function OnAfterUserSimpleRegisterHandler($arFields)
     {
-        $t_auth = null;
-        if (isset($this)) {
-            $t_auth = $this;
-        } else {
-            $t_auth = new Auth();
-        }
+        $t_auth = new Auth();
         $t_auth->log('OnAfterUserSimpleRegisterHandler', LOG_LEVEL_INFO);
         $t_auth->registerUser($arFields);
         return $arFields;
@@ -341,12 +328,7 @@ class Auth
 
     public static function OnBeforeUserUpdateHandler($arParams)
     {
-        $t_auth = null;
-        if (isset($this)) {
-            $t_auth = $this;
-        } else {
-            $t_auth = new Auth();
-        }
+        $t_auth = new Auth();
         $t_auth->log('OnBeforeUserUpdateHandler', LOG_LEVEL_INFO);
         $userId = $arParams['ID'];
         $newEmail = $arParams['EMAIL'];
@@ -377,7 +359,7 @@ class Auth
     {
         $session = OAuth2::getFromSession();
         if ($session) {
-            $TDataBaseUser = new TDataBaseUser;
+            $TDataBaseUser = new TDataBaseUser();
             $tnUser = $TDataBaseUser->getUserByUserId($bxUserId);
             if ($tnUser) {
                 $tnUserId = $tnUser->getId();
@@ -402,12 +384,7 @@ class Auth
 
     public static function OnBeforeEventSendHandler($arFields, $arTemplate)
     {
-        $t_auth = null;
-        if (isset($this)) {
-            $t_auth = $this;
-        } else {
-            $t_auth = new Auth();
-        }
+        $t_auth = new Auth();
         $t_auth->log('OnBeforeEventSendHandler', LOG_LEVEL_INFO);
         $shouldSendMail = $t_auth->shouldSendMail();
         // Template ID handler
@@ -423,12 +400,7 @@ class Auth
 
     public static function OnSaleComponentOrderOneStepCompleteHandler($orderId)
     {
-        $t_auth = null;
-        if (isset($this)) {
-            $t_auth = $this;
-        } else {
-            $t_auth = new Auth();
-        }
+        $t_auth = new Auth();
         $t_auth->log('OnSaleComponentOrderOneStepCompleteHandler', LOG_LEVEL_INFO);
         $token = OAuth2::getFromSession();
         if (!$token) {
