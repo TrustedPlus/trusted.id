@@ -42,7 +42,7 @@ if ($token) {
             <?
             }
             ?>
-            <a class="trn-profile_exit" href="/?logout=yes"><?= $defaultOut ?></a>
+            <a class="trn-profile_exit" href="/?logout=yes&<?= bitrix_sessid_get(); ?>"><?= $defaultOut ?></a>
         </div>
         <img class="trn-profile_icon" src="<?=$token->getUser()->getServiceUser()->getAvatarUrl($token->getAccessToken()) ?>"/>
     </div>

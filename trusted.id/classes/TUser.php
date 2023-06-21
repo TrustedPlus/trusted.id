@@ -82,10 +82,10 @@ class TUser {
                 if ($arUser['id'] == $this->id) {
                     $res = ServiceUser::fromArray($arUser);
                 } else {
-                    throw new OAuth2Exception(TR_ID_ERROR_MSG_DIFFERENT_USER_ID, TRUSTEDNET_ERROR_CODE_DIFFERENT_USER_ID, null);
+                    throw new OAuth2Exception(TR_ID_ERROR_MSG_DIFFERENT_USER_ID, TR_ID_ERROR_CODE_DIFFERENT_USER_ID, null);
                 }
             } else {
-                throw new OAuth2Exception(TR_ID_ERROR_MSG_TOKEN_NOT_FOUND, TRUSTEDNET_ERROR_CODE_TOKEN_NOT_FOUND, null);
+                throw new OAuth2Exception(TR_ID_ERROR_MSG_TOKEN_NOT_FOUND, TR_ID_ERROR_CODE_TOKEN_NOT_FOUND, null);
             }
         }
         return $res;

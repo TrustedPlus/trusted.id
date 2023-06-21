@@ -313,7 +313,7 @@ if (Option::get('main', 'new_user_email_uniq_check') !== 'Y') {
 
     <? $tabControl->BeginNextTab(); ?>
         <?
-        $APPLICATION->IncludeComponent('trusted:id', '');
+        $APPLICATION->IncludeComponent('trusted:id', '', [], null, [], false);
         ?>
         <?
         $auth = Id\OAuth2::getFromSession();

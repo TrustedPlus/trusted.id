@@ -11,6 +11,7 @@ class ServiceUser {
 
     protected $_data;
     protected $id;
+	protected $userId;
     protected $username;
     protected $email;
     protected $displayName;
